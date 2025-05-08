@@ -1,0 +1,127 @@
+:host {
+  --zanit-menubar-bg-color: ;
+  --zanit-menubar-fg-color: ;
+  --zanit-menubarbar-secondary-color: ;
+  --zanit-menubarbar-max-width: ;
+
+  z-index: 2;
+  display: block;
+  width: 100%;
+  max-width: var(--zanit-menubarbar-max-width, 1366px);
+  background-color: var(--zanit-menubar-bg-color, #fff);
+  color: var(--zanit-menubar-fg-color, #292929);
+  font-family: var(--font-family-sans);
+}
+
+:host,
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+.icon {
+  width: 1.1428rem;
+  height: 1.1428rem;
+  fill: var(--zanit-menubar-fg-color, #292929);
+}
+
+ul {
+  --zanit-menubar-shadow: 0 1px 2px rgb(66 69 72 / 35%);
+
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--zanit-menubar-fg-color, #292929);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+nav > ul {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--grid-margin);
+  box-shadow: var(--zanit-menubar-shadow);
+  gap: 44px;
+}
+
+.menubar > ul {
+  z-index: 2;
+}
+
+.menubar > ul > li {
+  position: relative;
+}
+
+/* separator bar */
+.menubar > ul > li:not(:last-child)::after {
+  position: absolute;
+  top: 50%;
+  right: -21px;
+  width: 1px;
+  height: 1rem;
+  background-color: black;
+  content: '';
+  transform: translateY(-50%);
+}
+
+a.menubar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  gap: 8px;
+}
+
+.menubar > ul a.menubar-item {
+  text-transform: uppercase;
+}
+
+.menubar > ul a.menubar-item [data-text] {
+  display: flex;
+  flex-direction: column;
+}
+
+.menubar > ul a.menubar-item.active > [data-text],
+.menubar > ul a.menubar-item:hover > [data-text],
+.menubar > ul a.menubar-item:focus:focus-visible > [data-text] {
+  font-weight: var(--font-bd);
+}
+
+/* To avoid size changes in the element, when it is hovered and becomes bold,
+we put the same text already bold with height 0, so as to always occupy the maximum necessary width. */
+.menubar > ul a.menubar-item > [data-text]::after {
+  height: 0;
+  content: attr(data-text) / '';
+  font-weight: var(--font-bd);
+  letter-spacing: normal;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+}
+
+.sub-menubar {
+  z-index: 1;
+}
+
+.sub-menubar:not(.visible) {
+  display: none;
+}
+
+.menubar .sub-menubar > ul {
+  gap: 22px;
+}
+
+.sub-menubar .menubar-item.active::after {
+  position: absolute;
+  bottom: 0;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: 4px;
+  background-color: var(--zanit-primary-color);
+  content: '';
+}

@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import url('./style/typography.css');
 
 :root {
@@ -8,8 +8,8 @@
   --grid-desktop-margin: 24px;
   --grid-wide-margin: 32px;
   --grid-margin: var(--grid-mobile-margin);
-  --zanit-color-secondary: #e4011c;
-	--zanit-color-accent: #ffe74c;
+  --zanit-primary-color: #e4011c;
+  --zanit-accent-color: #ffe74c;
 }
 
 .zanit-link {

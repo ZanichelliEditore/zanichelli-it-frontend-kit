@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "EditorConfig.EditorConfig", // EditorConfig official extension
+    "dbaeumer.vscode-eslint", // ESLint official extension
+    "esbenp.prettier-vscode", // Prettier official extension
+    "stylelint.vscode-stylelint" // Stylelint official extension
+  ]
+}

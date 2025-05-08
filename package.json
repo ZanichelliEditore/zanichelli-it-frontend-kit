@@ -13,6 +13,10 @@
       "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
       "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.cjs.js"
     },
+    "./menubar": {
+      "import": "./dist/components/menubar.js",
+      "types": "./dist/components/menubar.d.ts"
+    },
     "./loader": {
       "import": "./loader/index.js",
       "require": "./loader/index.cjs",
@@ -34,7 +38,7 @@
   ],
   "scripts": {
     "build": "stencil build",
-    "start": "stencil build --dev --watch --serve",
+    "start": "stencil build --dev --watch --no-cache --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",

@@ -1,0 +1,41 @@
+.floating-menu {
+  position: absolute;
+  z-index: -1; /* let it go behind the menubar's shadow */
+  top: 100%;
+  left: 0;
+  display: grid;
+  width: 100%;
+  padding: 16px var(--grid-margin);
+  background-color: var(--zanit-menubar-bg-color, #fff);
+  box-shadow: var(--zanit-menubar-shadow);
+  column-gap: 24px;
+  grid-auto-columns: max-content;
+  grid-auto-flow: column;
+  grid-template-rows: minmax(0, max-content) max-content;
+}
+
+.floating-menu .group {
+  display: grid;
+  color: var(--zanit-primary-color);
+  grid-row: 1 / -1;
+  grid-template-columns: 1fr;
+  grid-template-rows: subgrid;
+
+  @supports not (grid-template-rows: subgrid) {
+    grid-template-rows: repeat(auto-fit, minmax(0, max-content));
+  }
+}
+
+.floating-menu .group .group-name {
+  margin-bottom: 16px;
+  color: var(--zanit-primary-color);
+}
+
+.floating-menu .menu-list > li > a {
+  border-bottom: 2px solid transparent;
+}
+
+.floating-menu .menu-list > li > a.active,
+.floating-menu .menu-list > li > a:hover {
+  border-bottom-color: var(--zanit-primary-color);
+}
