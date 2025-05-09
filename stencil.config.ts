@@ -3,9 +3,11 @@ import { Config } from '@stencil/core';
 export const config: Config = {
   namespace: 'zanichelli-it-frontend-kit',
   globalStyle: 'src/style.css',
+  validatePrimaryPackageOutputTarget: true,
   outputTargets: [
     {
       type: 'dist',
+      isPrimaryPackageOutputTarget: true,
       esmLoaderPath: '../loader',
     },
     {

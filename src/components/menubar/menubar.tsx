@@ -57,28 +57,6 @@ export class ZanitMenubar {
     }
   }
 
-  private renderChevronDown() {
-    return (
-      <svg
-        class="icon"
-        viewBox="0 0 1000 1000"
-      >
-        <path d="M500 662L880 280 935 335 501 770 66 336 121 280Z" />
-      </svg>
-    );
-  }
-
-  private renderChevronUp() {
-    return (
-      <svg
-        class="icon"
-        viewBox="0 0 1000 1000"
-      >
-        <path d="M66 674L501 240 935 675 880 730 500 348 121 730Z" />
-      </svg>
-    );
-  }
-
   /** Check validity of passed data and retrieve/parse items. */
   @Watch('data')
   async parseData(data: typeof this.data) {
@@ -177,7 +155,7 @@ export class ZanitMenubar {
                 >
                   <span data-text={item.label}>{item.label}</span>
                   {item.menuItems?.length > 0 &&
-                    (this.openMenu === item.id ? this.renderChevronUp() : this.renderChevronDown())}
+                    (this.openMenu === item.id ? <z-icon name="chevron-up" /> : <z-icon name="chevron-down" />)}
                 </a>
               </li>
               <Menu
@@ -207,7 +185,11 @@ export class ZanitMenubar {
                         >
                           <span>{subitem.label}</span>
                           {subitem.menuItems?.length > 0 &&
-                            (this.openMenu === subitem.id ? this.renderChevronUp() : this.renderChevronDown())}
+                            (this.openMenu === subitem.id ? (
+                              <z-icon name="chevron-up" />
+                            ) : (
+                              <z-icon name="chevron-down" />
+                            ))}
                         </a>
                       </li>
                       <Menu

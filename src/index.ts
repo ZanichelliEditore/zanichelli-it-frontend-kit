@@ -9,3 +9,5 @@
  */
 
 export type * from './components.d.ts';
+
+import '@zanichelli/albe-web-components/dist/web-components-library/web-components-library.esm.js';

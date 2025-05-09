@@ -1,0 +1,17 @@
+z-button.zanit-button {
+  --color-primary01: var(--red500);
+  --color-hover-primary: var(--red800);
+  --color-pressed-primary: var(--red400);
+  --color-button-secondary: transparent;
+  --color-primary02: transparent;
+  --color-primary03: transparent;
+}
+
+z-button.zanit-button-dark {
+  --color-primary01: var(--gray950);
+  --color-hover-primary: #000;
+  --color-pressed-primary: var(--gray950);
+  --color-button-secondary: transparent;
+  --color-primary02: transparent;
+  --color-primary03: transparent;
+}

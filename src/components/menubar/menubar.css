@@ -4,12 +4,13 @@
   --zanit-menubarbar-secondary-color: ;
   --zanit-menubarbar-max-width: ;
 
+  position: relative;
   z-index: 2;
   display: block;
   width: 100%;
   max-width: var(--zanit-menubarbar-max-width, 1366px);
   background-color: var(--zanit-menubar-bg-color, #fff);
-  color: var(--zanit-menubar-fg-color, #292929);
+  color: var(--zanit-menubar-fg-color, var(--gray900));
   font-family: var(--font-family-sans);
 }
 
@@ -21,21 +22,19 @@
 }
 
 .icon {
-  width: 1.1428rem;
-  height: 1.1428rem;
-  fill: var(--zanit-menubar-fg-color, #292929);
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: var(--zanit-menubar-fg-color, var(--gray900));
 }
 
 ul {
-  --zanit-menubar-shadow: 0 1px 2px rgb(66 69 72 / 35%);
-
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
 a {
-  color: var(--zanit-menubar-fg-color, #292929);
+  color: var(--zanit-menubar-fg-color, var(--gray900));
   cursor: pointer;
   text-decoration: none;
 }
@@ -45,7 +44,7 @@ nav > ul {
   display: flex;
   align-items: center;
   padding: 0 var(--grid-margin);
-  box-shadow: var(--zanit-menubar-shadow);
+  box-shadow: var(--shadow-1);
   gap: 44px;
 }
 
@@ -122,6 +121,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   left: -8px;
   width: calc(100% + 16px);
   height: 4px;
-  background-color: var(--zanit-primary-color);
+  background-color: var(--red500);
   content: '';
 }

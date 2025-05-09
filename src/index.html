@@ -143,10 +143,134 @@
           });
         </script>
       </header>
+
+      <section class="buttons font-serif">
+        <div class="heading-1-bd">Buttons <span class="body-3">(z-button.zanit-button)</span></div>
+        <section>
+          <div class="heading-3-sb">Default color</div>
+          <div class="buttons-container">
+            <z-button
+              class="zanit-button"
+              icon="plus"
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button"
+              variant="secondary"
+              icon="plus"
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button"
+              variant="tertiary"
+              icon="plus"
+              >button</z-button
+            >
+          </div>
+        </section>
+        <section>
+          <div class="heading-4-sb">Disabled</div>
+          <div class="buttons-container">
+            <z-button
+              class="zanit-button"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button"
+              variant="secondary"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button"
+              variant="tertiary"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+          </div>
+        </section>
+        <section>
+          <div class="heading-3-sb">Dark</div>
+          <div class="buttons-container">
+            <z-button
+              class="zanit-button-dark"
+              icon="plus"
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button-dark"
+              variant="secondary"
+              icon="plus"
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button-dark"
+              variant="tertiary"
+              icon="plus"
+              >button</z-button
+            >
+          </div>
+        </section>
+        <section>
+          <div class="heading-4-sb">Disabled</div>
+          <div class="buttons-container">
+            <z-button
+              class="zanit-button-dark"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button-dark"
+              variant="secondary"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+            <z-button
+              class="zanit-button-dark"
+              variant="tertiary"
+              icon="plus"
+              disabled
+              >button</z-button
+            >
+          </div>
+        </section>
+      </section>
+
+      <section class="links font-serif">
+        <div class="heading-1-bd">Links</div>
+        <section>
+          <div class="heading-3-sb">Link default <span class="body-3">(.zanit-link)</span></div>
+          <a
+            class="zanit-link body-2 font-sans"
+            href="#"
+            >Questo è un link</a
+          >
+        </section>
+        <section>
+          <div class="heading-3-sb">Link inverse <span class="body-3">(.zanit-link-inverse)</span></div>
+          <div class="inverse-link-container">
+            <a
+              class="zanit-link-inverse body-2 font-sans"
+              href="#"
+              >Questo è un link</a
+            >
+          </div>
+        </section>
+      </section>
     </main>
   </body>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 0;
@@ -159,10 +283,36 @@
       height: 100%;
     }
 
-    header {
-      width: 100%;
+    main > * {
       max-width: 1366px;
       margin: 0 auto;
+      width: 100%;
+    }
+
+    .buttons,
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 2rem var(--grid-margin);
+    }
+
+    .buttons section,
+    .links section {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 1rem;
+    }
+
+    .buttons .buttons-container {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .inverse-link-container {
+      background-color: var(--gray950);
+      padding: 1rem 0.5rem;
     }
   </style>
 </html>

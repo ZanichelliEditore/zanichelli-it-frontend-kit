@@ -1,37 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('~@zanichelli/albe-web-components/dist/web-components-library/web-components-library.css');
 @import url('./style/typography.css');
+@import url('./style/buttons.css');
 
 :root {
-  --grid-mobile-margin: 16px;
-  --grid-tablet-margin: 24px;
-  --grid-desktop-margin: 24px;
-  --grid-wide-margin: 32px;
-  --grid-margin: var(--grid-mobile-margin);
-  --zanit-primary-color: #e4011c;
   --zanit-accent-color: #ffe74c;
+
+  /* albe overrides */
+  --shadow-focus-primary: 0 0 0 2px #fff, 0 0 2px 5px var(--gray950);
 }
 
-.zanit-link {
-  cursor: pointer;
-  text-decoration: underline;
-  text-decoration-color: var(--color-secondary);
+.zanit-link,
+.zanit-link-inverse {
+  color: currentcolor;
+  font-family: inherit;
+  text-decoration: underline solid 12% var(--red500);
+  text-underline-offset: 28%;
 }
 
-@media (width >= 768px) and (width <= 1151px) {
-  :root {
-    --grid-margin: var(--grid-tablet-margin);
-  }
-}
-
-@media (width >= 1152px) and (width <= 1365px) {
-  :root {
-    --grid-margin: var(--grid-desktop-margin);
-  }
-}
-
-@media (width >= 1366px) {
-  :root {
-    --grid-margin: var(--grid-wide-margin);
-  }
+.zanit-link-inverse {
+  color: var(--color-text-inverse);
+  text-decoration-color: var(--color-text-inverse);
 }

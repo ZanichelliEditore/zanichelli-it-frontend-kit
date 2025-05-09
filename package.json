@@ -2,6 +2,11 @@
   "name": "@zanichelli/zanichelli-it-frontend-kit",
   "version": "0.0.1",
   "description": "Zanichelli.it frontend kit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZanichelliEditore/zanichelli-it-frontend-kit.git"
+  },
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -27,10 +32,6 @@
       "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ZanichelliEditore/zanichelli-it-frontend-kit.git"
-  },
   "files": [
     "dist/",
     "loader/",
@@ -45,6 +46,9 @@
     "lint": "stylelint \"src/**/*.css\" && prettier --check .",
     "lint-fix": "stylelint \"src/**/*.css\" --fix && prettier --write ."
   },
+  "peerDependencies": {
+    "@zanichelli/albe-web-components": "^18.3.2"
+  },
   "devDependencies": {
     "@stencil/core": "^4.27.1",
     "@types/node": "^22.13.5",
@@ -53,5 +57,5 @@
     "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard": "^38.0.0"
   },
-  "license": "MIT"
+  "packageManager": "pnpm@10.10.0+sha256.fa0f513aa8191764d2b6b432420788c270f07b4f999099b65bb2010eec702a30"
 }
