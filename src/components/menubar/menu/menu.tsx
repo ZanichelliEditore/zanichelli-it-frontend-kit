@@ -1,7 +1,15 @@
 import { FunctionalComponent, h } from '@stencil/core';
 import { MenuItem } from '../menubar';
 
-interface MenuProps {
+/**
+ * Props of the menu component.
+ * @mebmer {string} controlledBy - The HTML id of the element that controls the menu.
+ * @member {boolean} open - Whether the menu is open or not.
+ * @member {MenuItem[]} items - The items to show in the menu.
+ * @member {string} current - The id of the current active item.
+ */
+export interface MenuProps {
+  controlledBy: string;
   open?: boolean;
   items?: MenuItem[];
   current?: string;
@@ -35,24 +43,43 @@ const groupItems = (items: MenuItem[]) => {
   );
 };
 
-export const Menu: FunctionalComponent<MenuProps> = ({ open, items, current }) => {
-  if (!items?.length || !open) {
+/**
+ * Floating menu component. It shows a list of items that can be grouped.
+ * The menu is shown when the `open` prop is true.
+ */
+export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, open, items, current }) => {
+  if (!items?.length) {
     return null;
   }
 
   const groupedItems = groupItems(items);
   return (
-    <div class="floating-menu">
+    <div
+      class={{ 'floating-menu': true, open }}
+      aria-labelledby={controlledBy}
+      role="menu"
+    >
       {groupedItems.map(({ group, items }) => (
-        <div class="group">
+        <div
+          class="group"
+          role="none"
+        >
           {groupedItems.length > 1 && <div class="group-name body-5-md">{group !== DEFAULT_GROUP_KEY && group}</div>}
-          <ul class="menu-list">
+          <ul
+            class="menu-list"
+            role="none"
+          >
             {items.map((item) => (
-              <li class="menu-item">
+              <li
+                class="menu-item"
+                role="none"
+              >
                 {item.href && (
                   <a
                     class={{ 'interactive-1-md': true, 'active': current === item.id }}
                     href={item.href}
+                    role="menuitem"
+                    aria-current={current === item.id ? 'page' : 'false'}
                   >
                     {item.label}
                   </a>

@@ -9,7 +9,8 @@ import { MenubarItem } from "./components/menubar/menubar";
 export { MenubarItem } from "./components/menubar/menubar";
 export namespace Components {
     /**
-     * Menubar component. Each item can have a menu with subitems or a sub-menubar.
+     * Main menubar component. Each item can have a menu with subitems
+     * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
      * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
      * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
@@ -28,7 +29,8 @@ export namespace Components {
 }
 declare global {
     /**
-     * Menubar component. Each item can have a menu with subitems or a sub-menubar.
+     * Main menubar component. Each item can have a menu with subitems
+     * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
      * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
      * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
@@ -46,7 +48,8 @@ declare global {
 }
 declare namespace LocalJSX {
     /**
-     * Menubar component. Each item can have a menu with subitems or a sub-menubar.
+     * Main menubar component. Each item can have a menu with subitems
+     * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
      * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
      * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
@@ -71,7 +74,8 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             /**
-             * Menubar component. Each item can have a menu with subitems or a sub-menubar.
+             * Main menubar component. Each item can have a menu with subitems
+             * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
              * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
              * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
              * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.

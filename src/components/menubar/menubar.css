@@ -12,6 +12,7 @@
   background-color: var(--zanit-menubar-bg-color, #fff);
   color: var(--zanit-menubar-fg-color, var(--gray900));
   font-family: var(--font-family-sans);
+  overflow-x: clip;
 }
 
 :host,
@@ -19,12 +20,6 @@
 ::before,
 ::after {
   box-sizing: border-box;
-}
-
-.icon {
-  width: 0.875rem;
-  height: 0.875rem;
-  fill: var(--zanit-menubar-fg-color, var(--gray900));
 }
 
 ul {
@@ -44,18 +39,8 @@ nav > ul {
   display: flex;
   align-items: center;
   padding: 0 var(--grid-margin);
-  gap: 44px;
-}
-
-/* bottom shadow */
-nav > ul::after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  box-shadow: var(--shadow-1);
-  content: '';
+  box-shadow: 0 3px 2px -2px var(--shadow-color-base);
+  gap: 41px; /* 1px is for the separator */
 }
 
 .menubar > ul {
@@ -72,8 +57,8 @@ nav > ul::after {
   top: 50%;
   right: -21px;
   width: 1px;
-  height: 1rem;
-  background-color: black;
+  height: 1.25rem;
+  background-color: #000;
   content: '';
   transform: translateY(-50%);
 }
@@ -88,6 +73,11 @@ a.menubar-item {
 
 .menubar > ul a.menubar-item {
   text-transform: uppercase;
+}
+
+a[role='menuitem']:focus:focus-visible {
+  box-shadow: var(--shadow-focus-primary);
+  outline: none;
 }
 
 .menubar > ul a.menubar-item [data-text] {
@@ -122,14 +112,15 @@ we put the same text already bold with height 0, so as to always occupy the maxi
 }
 
 .menubar .sub-menubar > ul {
-  gap: 22px;
+  gap: 28px;
 }
 
 .sub-menubar .menubar-item.active::after {
   position: absolute;
+  z-index: -1;
   bottom: 0;
-  left: -8px;
-  width: calc(100% + 16px);
+  left: -4px;
+  width: calc(100% + 8px); /* the border is 4px per side larger than its container */
   height: 4px;
   background-color: var(--red500);
   content: '';

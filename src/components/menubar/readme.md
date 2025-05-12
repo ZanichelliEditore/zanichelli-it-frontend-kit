@@ -5,7 +5,8 @@
 
 ## Overview
 
-Menubar component. Each item can have a menu with subitems or a sub-menubar.
+Main menubar component. Each item can have a menu with subitems
+When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
 
 ## Properties
 

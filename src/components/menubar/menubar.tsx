@@ -1,4 +1,4 @@
-import { Component, Fragment, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { Menu } from './menu/menu';
 
 export type MenuItem = {
@@ -13,7 +13,8 @@ export type MenubarItem = Omit<MenuItem, 'group'> & {
 };
 
 /**
- * Menubar component. Each item can have a menu with subitems or a sub-menubar.
+ * Main menubar component. Each item can have a menu with subitems
+ * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
  * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
  * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
  * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
@@ -25,6 +26,7 @@ export type MenubarItem = Omit<MenuItem, 'group'> & {
   shadow: true,
 })
 export class ZanitMenubar {
+  @Element() host: HTMLZanitMenubarElement;
   /** The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. */
   @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
@@ -114,7 +116,7 @@ export class ZanitMenubar {
     return false;
   }
 
-  private onMenuHolderFocus(item: MenubarItem) {
+  private openFloatingMenu(item: MenubarItem) {
     if (!item.menuItems?.length) {
       return;
     }
@@ -122,10 +124,13 @@ export class ZanitMenubar {
     this.openMenu = item.id;
   }
 
-  private onMenuHolderLeave(item: MenubarItem) {
-    if (this.openMenu !== item.id) {
+  /** Close any open menu when clicking outside this component. */
+  @Listen('pointerdown', { target: 'document' })
+  handleOutsideClick(event: MouseEvent) {
+    if (this.host.contains(event.target as Node)) {
       return;
     }
+
     this.openMenu = undefined;
   }
 
@@ -139,19 +144,23 @@ export class ZanitMenubar {
     }
 
     return (
-      <nav class="menubar">
-        <ul>
+      <nav
+        class="menubar"
+        aria-label="Zanichelli.it"
+      >
+        <ul role="menubar">
           {this.items.map((item) => (
             <Fragment>
-              <li>
+              <li role="none">
                 <a
+                  class={{ 'menubar-item': true, 'body-4': true, 'active': this.isActive(item) }}
                   href={item.href}
                   id={item.id}
-                  class={{ 'menubar-item': true, 'body-4': true, 'active': this.isActive(item) }}
-                  onMouseEnter={() => this.onMenuHolderFocus(item)}
-                  onFocusin={() => this.onMenuHolderFocus(item)}
-                  onFocusout={() => this.onMenuHolderLeave(item)}
-                  onMouseLeave={() => this.onMenuHolderLeave(item)}
+                  role="menuitem"
+                  aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
+                  aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
+                  aria-current={this.current === item.id ? 'page' : 'false'}
+                  onPointerOver={() => this.openFloatingMenu(item)}
                 >
                   <span data-text={item.label}>{item.label}</span>
                   {item.menuItems?.length > 0 &&
@@ -159,6 +168,7 @@ export class ZanitMenubar {
                 </a>
               </li>
               <Menu
+                controlledBy={item.id}
                 open={this.openMenu === item.id}
                 items={item.menuItems}
                 current={this.current}
@@ -171,17 +181,19 @@ export class ZanitMenubar {
           (item) =>
             item.navbarItems?.length && (
               <nav class={{ 'sub-menubar': true, 'visible': this.isActive(item) }}>
-                <ul>
+                <ul role="menubar">
                   {item.navbarItems.map((subitem) => (
                     <Fragment>
-                      <li>
+                      <li role="none">
                         <a
                           class={{ 'menubar-item': true, 'body-4': true, 'active': this.isActive(subitem) }}
                           href={subitem.href}
-                          onMouseEnter={() => this.onMenuHolderFocus(subitem)}
-                          onFocusin={() => this.onMenuHolderFocus(subitem)}
-                          onFocusout={() => this.onMenuHolderLeave(subitem)}
-                          onMouseLeave={() => this.onMenuHolderLeave(subitem)}
+                          id={subitem.id}
+                          role="menuitem"
+                          aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
+                          aria-expanded={this.openMenu === subitem.id ? 'true' : 'false'}
+                          aria-current={this.current === item.id ? 'page' : 'false'}
+                          onPointerOver={() => this.openFloatingMenu(subitem)}
                         >
                           <span>{subitem.label}</span>
                           {subitem.menuItems?.length > 0 &&
@@ -193,6 +205,7 @@ export class ZanitMenubar {
                         </a>
                       </li>
                       <Menu
+                        controlledBy={subitem.id}
                         open={this.openMenu === subitem.id}
                         items={subitem.menuItems}
                         current={this.current}
