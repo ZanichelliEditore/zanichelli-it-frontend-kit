@@ -18,9 +18,9 @@
       "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
       "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.cjs.js"
     },
-    "./menubar": {
-      "import": "./dist/components/menubar.js",
-      "types": "./dist/components/menubar.d.ts"
+    "./zanit-menubar": {
+      "import": "./dist/components/zanit-menubar.js",
+      "types": "./dist/components/zanit-menubar.d.ts"
     },
     "./loader": {
       "import": "./loader/index.js",
