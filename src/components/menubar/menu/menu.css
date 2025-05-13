@@ -1,6 +1,5 @@
 .floating-menu {
   position: absolute;
-  z-index: -1; /* let it go behind the menubar's shadow */
   top: 100%;
   left: 0;
   display: none;

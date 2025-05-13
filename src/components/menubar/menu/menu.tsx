@@ -62,7 +62,7 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, open, items
       {groupedItems.map(({ group, items }) => (
         <div
           class="group"
-          role="none"
+          role="group"
         >
           {groupedItems.length > 1 && <div class="group-name body-5-md">{group !== DEFAULT_GROUP_KEY && group}</div>}
           <ul
