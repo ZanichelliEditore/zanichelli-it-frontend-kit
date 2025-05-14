@@ -5,7 +5,7 @@
   display: none;
   width: 100%;
   padding: 16px var(--grid-margin);
-  background-color: var(--zanit-menubar-bg-color, #fff);
+  background-color: #fff;
   box-shadow: 0 3px 2px -2px var(--shadow-color-base);
   column-gap: 24px;
   grid-auto-columns: minmax(0, max-content);

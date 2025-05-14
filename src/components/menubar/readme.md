@@ -10,10 +10,11 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 
 ## Properties
 
-| Property  | Attribute | Description                                                                                                | Type                                                       | Default     |
-| --------- | --------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| `current` | `current` | ID of the current active item.                                                                             | `string`                                                   | `undefined` |
-| `data`    | `data`    | The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined` |
+| Property      | Attribute      | Description                                                                                                | Type                                                       | Default     |
+| ------------- | -------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| `current`     | `current`      | ID of the current active item.                                                                             | `string`                                                   | `undefined` |
+| `data`        | `data`         | The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined` |
+| `searchQuery` | `search-query` | Search query currently applied.                                                                            | `string`                                                   | `undefined` |
 
 
 ## Dependencies

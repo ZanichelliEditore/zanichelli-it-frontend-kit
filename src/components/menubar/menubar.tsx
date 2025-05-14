@@ -13,11 +13,19 @@ export type MenubarItem = Omit<MenuItem, 'group'> & {
 };
 
 /**
+ * Check if an element contains an event target by checking its composedPath.
+ * Useful when an event target may come from a component's shadow DOM.
+ */
+const containsTarget = (ancestor: HTMLElement, event: Event) => {
+  return event
+    .composedPath()
+    .filter((el) => el !== document && el !== window.window)
+    .some((el) => ancestor.contains(el as HTMLElement));
+};
+
+/**
  * Main menubar component. Each item can have a menu with subitems
  * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
- * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
- * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
- * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
  * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
  */
 @Component({
@@ -26,6 +34,8 @@ export type MenubarItem = Omit<MenuItem, 'group'> & {
   shadow: true,
 })
 export class ZanitMenubar {
+  private formElement: HTMLFormElement;
+
   @Element() host: HTMLZanitMenubarElement;
 
   /** Menubar items extracted from `data`. */
@@ -37,13 +47,20 @@ export class ZanitMenubar {
   /** ID of the item to show the subitems navbar for. */
   @State() openNavbar: string | undefined = undefined;
 
-  @State() activeItem: MenubarItem | MenuItem | undefined = undefined;
+  /** Indicates whether the searchbar is visible and usable. */
+  @State() showSearchbar: boolean = false;
+
+  /** Search query to apply. */
+  @State() _searchQuery: string | undefined = undefined;
 
   /** The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. */
   @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
   /** ID of the current active item. */
   @Prop() current: string | undefined = undefined;
+
+  /** Search query currently applied. */
+  @Prop() searchQuery: string | undefined = undefined;
 
   /** Check validity of passed data and retrieve/parse items. */
   @Watch('data')
@@ -93,15 +110,33 @@ export class ZanitMenubar {
     }, 100);
   }
 
+  @Watch('showSearchbar')
+  handleSearchbarChange() {
+    if (!this.showSearchbar) {
+      return;
+    }
+
+    setTimeout(() => {
+      const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
+      if (this.showSearchbar) {
+        searchbarInput.focus();
+      }
+    }, 10);
+  }
+
   async connectedCallback() {
     await this.parseData(this.data);
     this.initTabindex();
   }
 
-  /** Close any open menu when clicking outside this component. */
+  /** Close open searchbar or any open menu when clicking outside. */
   @Listen('pointerdown', { target: 'document' })
   handleOutsideClick(event: MouseEvent) {
-    if (this.host.contains(event.target as Node)) {
+    if (this.showSearchbar && !containsTarget(this.formElement, event)) {
+      this.showSearchbar = false;
+    }
+
+    if (containsTarget(this.host, event)) {
       return;
     }
 
@@ -117,18 +152,6 @@ export class ZanitMenubar {
         this.openMenu = undefined;
         break;
     }
-  }
-
-  /**
-   * Get all elements with `menuitem` role of the `itemID`'s parent `menubar`.
-   * @param itemID The id of the menu item.
-   * */
-  private getParentMenubarElements(itemID: string) {
-    const itemElement = this.host.shadowRoot.querySelector(`[role="menuitem"]#${itemID}`) as HTMLElement;
-
-    return Array.from(
-      itemElement?.closest('[role="menubar"]')?.querySelectorAll(':scope > li [role="menuitem"]')
-    ) as HTMLElement[];
   }
 
   /** Fetch data from passed URL */
@@ -175,6 +198,18 @@ export class ZanitMenubar {
     this.openMenu = item.id;
   }
 
+  /**
+   * Get all elements with `menuitem` role of the `itemID`'s parent `menubar`.
+   * @param itemID The id of the menu item.
+   * */
+  private getParentMenubarElements(itemID: string) {
+    const itemElement = this.host.shadowRoot.querySelector(`[role="menuitem"]#${itemID}`) as HTMLElement;
+
+    return Array.from(
+      itemElement?.closest('[role="menubar"]')?.querySelectorAll(':scope > li [role="menuitem"]')
+    ) as HTMLElement[];
+  }
+
   /** Move the focus to the previous menubar item, or the last one. Then open its menu if any other menu was open. */
   private focusPreviousItem(itemID: string) {
     const menubarElements = this.getParentMenubarElements(itemID);
@@ -202,28 +237,6 @@ export class ZanitMenubar {
     // open the item's menu if any other menu was open
     if (nextItem.ariaHasPopup === 'true' && this.openMenu) {
       this.openMenu = nextItem.id;
-    }
-  }
-
-  /** Handles keyboard navigation events from Menu. */
-  private handleMenuKeydown(event: KeyboardEvent) {
-    switch (event.key) {
-      case 'ArrowRight': {
-        event.preventDefault();
-        event.stopPropagation();
-        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
-        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
-        this.focusNextItem(focusedItem.id);
-        break;
-      }
-      case 'ArrowLeft': {
-        event.preventDefault();
-        event.stopPropagation();
-        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
-        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
-        this.focusPreviousItem(focusedItem.id);
-        break;
-      }
     }
   }
 
@@ -296,26 +309,59 @@ export class ZanitMenubar {
     }
   }
 
+  /** Handles keyboard navigation events from Menu. */
+  private handleMenuKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowRight': {
+        event.preventDefault();
+        event.stopPropagation();
+        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
+        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
+        this.focusNextItem(focusedItem.id);
+        break;
+      }
+      case 'ArrowLeft': {
+        event.preventDefault();
+        event.stopPropagation();
+        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
+        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
+        this.focusPreviousItem(focusedItem.id);
+        break;
+      }
+    }
+  }
+
+  private handleInputChange(event: Event) {
+    this._searchQuery = (event.target as HTMLInputElement).value;
+  }
+
+  private onSearchSubmit(event: Event) {
+    event.preventDefault();
+    if (!this._searchQuery) {
+      return;
+    }
+
+    this.formElement.submit();
+  }
+
   render() {
     if (!this.items?.length) {
       return;
     }
 
     return (
-      <nav
-        class="menubar"
-        aria-label="Zanichelli.it"
-      >
+      <nav aria-label="Zanichelli.it">
         <ul
+          class="menubar"
           role="menubar"
           aria-label="Zanichelli.it"
           onKeyDown={(event) => this.handleMenuKeydown(event)}
         >
-          {this.items.map((item) => (
+          {this.items.map((item, index) => (
             <Fragment>
               <li role="none">
                 <a
-                  class={{ 'menubar-item': true, 'body-4': true, 'active': this.isActive(item) }}
+                  class={{ 'menubar-item': true, 'active': this.isActive(item) }}
                   href={item.href}
                   id={item.id}
                   role="menuitem"
@@ -339,8 +385,46 @@ export class ZanitMenubar {
                 current={this.current}
                 onFocusout={() => (this.openMenu = undefined)}
               />
+              {index < this.items.length - 1 && <li role="separator"></li>}
             </Fragment>
           ))}
+          <li
+            class="searchbar-container"
+            role="none"
+          >
+            <form
+              class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
+              role="search"
+              aria-label="Cerca"
+              method="get"
+              action="/ricerca"
+              onSubmit={(event) => this.onSearchSubmit(event)}
+              ref={(el) => (this.formElement = el)}
+            >
+              {this.showSearchbar && (
+                <input
+                  id="searchbar-input"
+                  name="q"
+                  type="search"
+                  placeholder="Cerca per parola chiave o ISBN"
+                  onInput={(event) => this.handleInputChange(event)}
+                ></input>
+              )}
+              <button
+                class="searchbar-button"
+                aria-controls="searchbar-input"
+                type={this.showSearchbar ? 'submit' : 'button'}
+                onClick={() => (this.showSearchbar = true)}
+              >
+                {this.showSearchbar ? null : <span>Cerca</span>}
+                <z-icon
+                  name="search"
+                  width="32"
+                  height="32"
+                ></z-icon>
+              </button>
+            </form>
+          </li>
         </ul>
 
         {this.items.map(
@@ -355,7 +439,7 @@ export class ZanitMenubar {
                     <Fragment>
                       <li role="none">
                         <a
-                          class={{ 'menubar-item': true, 'body-4': true, 'active': this.isActive(subitem) }}
+                          class={{ 'menubar-item': true, 'active': this.isActive(subitem) }}
                           href={subitem.href}
                           id={subitem.id}
                           role="menuitem"

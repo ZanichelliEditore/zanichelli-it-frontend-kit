@@ -11,9 +11,6 @@ export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
-     * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
-     * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
-     * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitMenubar {
@@ -25,15 +22,16 @@ export namespace Components {
           * The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it.
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
+        /**
+          * Search query currently applied.
+         */
+        "searchQuery": string | undefined;
     }
 }
 declare global {
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
-     * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
-     * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
-     * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface HTMLZanitMenubarElement extends Components.ZanitMenubar, HTMLStencilElement {
@@ -50,9 +48,6 @@ declare namespace LocalJSX {
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
-     * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
-     * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
-     * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitMenubar {
@@ -64,6 +59,10 @@ declare namespace LocalJSX {
           * The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it.
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
+        /**
+          * Search query currently applied.
+         */
+        "searchQuery"?: string | undefined;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;
@@ -76,9 +75,6 @@ declare module "@stencil/core" {
             /**
              * Main menubar component. Each item can have a menu with subitems
              * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
-             * @cssprop {--zanit-menubar-bg-color} Background color of the menubar.
-             * @cssprop {--zanit-menubar-fg-color} Text color of the menubar.
-             * @cssprop {--zanit-menubar-secondary-color} Secondary color of the menubar. Used for decorations and texts of different color.
              * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
              */
             "zanit-menubar": LocalJSX.ZanitMenubar & JSXBase.HTMLAttributes<HTMLZanitMenubarElement>;

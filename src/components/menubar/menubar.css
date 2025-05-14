@@ -1,16 +1,13 @@
 :host {
-  --zanit-menubar-bg-color: ;
-  --zanit-menubar-fg-color: ;
-  --zanit-menubarbar-secondary-color: ;
-  --zanit-menubarbar-max-width: ;
+  --zanit-menubar-max-width: ;
 
   position: relative;
   z-index: 2;
   display: block;
   width: 100%;
-  max-width: var(--zanit-menubarbar-max-width, 1366px);
-  background-color: var(--zanit-menubar-bg-color, #fff);
-  color: var(--zanit-menubar-fg-color, var(--gray900));
+  max-width: var(--zanit-menubar-max-width, 1366px);
+  background-color: #fff;
+  color: var(--gray900);
   font-family: var(--font-family-sans);
   overflow-x: clip;
 }
@@ -22,6 +19,11 @@
   box-sizing: border-box;
 }
 
+*:focus:focus-visible {
+  box-shadow: var(--shadow-focus-primary);
+  outline: none;
+}
+
 ul {
   padding: 0;
   margin: 0;
@@ -29,17 +31,36 @@ ul {
 }
 
 a {
-  color: var(--zanit-menubar-fg-color, var(--gray900));
+  color: var(--gray900);
   cursor: pointer;
   text-decoration: none;
+}
+
+button {
+  all: unset;
+}
+
+:host > nav {
+  position: relative;
+}
+
+.main-menubar-container {
+  display: flex;
+  gap: 40px;
 }
 
 nav > ul {
   position: relative;
   display: flex;
+  width: 100%;
   align-items: center;
   padding: 0 var(--grid-margin);
-  gap: 41px; /* 1px is for the separator */
+  gap: 20px;
+}
+
+.menubar {
+  z-index: 2;
+  padding-right: 0;
 }
 
 nav > ul::after {
@@ -54,57 +75,41 @@ nav > ul::after {
   pointer-events: none;
 }
 
-.menubar > ul {
-  z-index: 2;
-}
-
-.menubar > ul > li {
-  position: relative;
-}
-
 /* separator bar */
-.menubar > ul > li:not(:last-child)::after {
-  position: absolute;
-  top: 50%;
-  right: -21px;
+.menubar > li[role='separator'] {
   width: 1px;
   height: 1.25rem;
   background-color: #000;
-  content: '';
-  transform: translateY(-50%);
 }
 
-a.menubar-item {
+.menubar-item {
   position: relative;
   display: flex;
   align-items: center;
   padding: 14px 0;
+  font-size: 1rem;
   gap: 8px;
+  line-height: 1;
 }
 
-.menubar > ul a.menubar-item {
+.menubar .menubar-item {
   text-transform: uppercase;
 }
 
-a[role='menuitem']:focus:focus-visible {
-  box-shadow: var(--shadow-focus-primary);
-  outline: none;
-}
-
-.menubar > ul a.menubar-item [data-text] {
+.menubar .menubar-item [data-text] {
   display: flex;
   flex-direction: column;
 }
 
-.menubar > ul a.menubar-item.active > [data-text],
-.menubar > ul a.menubar-item:hover > [data-text],
-.menubar > ul a.menubar-item:focus:focus-visible > [data-text] {
+.menubar .menubar-item.active > [data-text],
+.menubar .menubar-item:hover > [data-text],
+.menubar .menubar-item:focus:focus-visible > [data-text] {
   font-weight: var(--font-bd);
 }
 
 /* To avoid size changes in the element, when it is hovered and becomes bold,
 we put the same text already bold with height 0, so as to always occupy the maximum necessary width. */
-.menubar > ul a.menubar-item > [data-text]::after {
+.menubar .menubar-item > [data-text]::after {
   height: 0;
   content: attr(data-text) / '';
   font-weight: var(--font-bd);
@@ -122,7 +127,7 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   display: none;
 }
 
-.menubar .sub-menubar > ul {
+.sub-menubar > ul {
   gap: 28px;
 }
 
@@ -135,4 +140,54 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   height: 4px;
   background-color: var(--red500);
   content: '';
+}
+
+.searchbar-container {
+  margin-left: auto;
+}
+
+.searchbar {
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.searchbar.searchbar-open {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+
+.searchbar input {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 8px var(--grid-margin);
+  border: none;
+  background-color: #fff;
+  font-family: var(--font-family-sans);
+  font-size: inherit;
+  outline: none;
+}
+
+.searchbar input::placeholder {
+  color: var(--gray500);
+}
+
+.searchbar .searchbar-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-left: 1px solid #000;
+  background: var(--zanit-accent-color);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  gap: 64px;
+  line-height: 1;
+}
+
+.searchbar input:focus:focus-visible,
+.searchbar .searchbar-button:focus:focus-visible {
+  z-index: 1;
 }
