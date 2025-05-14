@@ -5,7 +5,7 @@ export type MenuItem = {
   label: string;
   href?: string;
   id?: string;
-  group?: string;
+  group?: { id: string; label: string };
 };
 export type MenubarItem = Omit<MenuItem, 'group'> & {
   navbarItems?: MenubarItem[];
@@ -27,11 +27,6 @@ export type MenubarItem = Omit<MenuItem, 'group'> & {
 })
 export class ZanitMenubar {
   @Element() host: HTMLZanitMenubarElement;
-  /** The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. */
-  @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
-
-  /** ID of the current active item. */
-  @Prop() current: string | undefined = undefined;
 
   /** Menubar items extracted from `data`. */
   @State() items: MenubarItem[] = [];
@@ -44,20 +39,11 @@ export class ZanitMenubar {
 
   @State() activeItem: MenubarItem | MenuItem | undefined = undefined;
 
-  /** Fetch data from passed URL */
-  private async fetchData(url: URL) {
-    try {
-      const data = await (await fetch(url)).json();
-      if (!Array.isArray(data) || !data.every((item) => item satisfies MenubarItem)) {
-        throw new Error('Invalid data structure. Expected an array of MenuItem objects.');
-      }
+  /** The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. */
+  @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
-      return data as MenubarItem[];
-    } catch (error) {
-      console.error('Error fetching menubar data:', error);
-      throw new Error('Failed to fetch menubar data from the provided URL.', { cause: error });
-    }
-  }
+  /** ID of the current active item. */
+  @Prop() current: string | undefined = undefined;
 
   /** Check validity of passed data and retrieve/parse items. */
   @Watch('data')
@@ -76,8 +62,6 @@ export class ZanitMenubar {
         if (!Array.isArray(this.items) || !this.items.every((item) => item satisfies MenubarItem)) {
           throw new Error('Expected an array of MenuItem objects.');
         }
-
-        return;
       } catch {
         let url: URL;
         try {
@@ -97,6 +81,72 @@ export class ZanitMenubar {
     }
   }
 
+  /** Initialize tabindex on menuitems of menubars, setting -1 to all but the first one. */
+  @Watch('items')
+  initTabindex() {
+    setTimeout(() => {
+      this.host.shadowRoot.querySelectorAll('[role="menubar"]')?.forEach((menubar) => {
+        menubar
+          .querySelectorAll('[role="menuitem"]')
+          ?.forEach((item, index) => item.setAttribute('tabindex', index === 0 ? '0' : '-1'));
+      });
+    }, 100);
+  }
+
+  async connectedCallback() {
+    await this.parseData(this.data);
+    this.initTabindex();
+  }
+
+  /** Close any open menu when clicking outside this component. */
+  @Listen('pointerdown', { target: 'document' })
+  handleOutsideClick(event: MouseEvent) {
+    if (this.host.contains(event.target as Node)) {
+      return;
+    }
+
+    this.openMenu = undefined;
+  }
+
+  /** Close any open menu when pressing Escape or Tab. */
+  @Listen('keydown')
+  handleKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'Escape':
+      case 'Tab':
+        this.openMenu = undefined;
+        break;
+    }
+  }
+
+  /**
+   * Get all elements with `menuitem` role of the `itemID`'s parent `menubar`.
+   * @param itemID The id of the menu item.
+   * */
+  private getParentMenubarElements(itemID: string) {
+    const itemElement = this.host.shadowRoot.querySelector(`[role="menuitem"]#${itemID}`) as HTMLElement;
+
+    return Array.from(
+      itemElement?.closest('[role="menubar"]')?.querySelectorAll(':scope > li [role="menuitem"]')
+    ) as HTMLElement[];
+  }
+
+  /** Fetch data from passed URL */
+  private async fetchData(url: URL) {
+    try {
+      const data = await (await fetch(url)).json();
+      if (!Array.isArray(data) || !data.every((item) => item satisfies MenubarItem)) {
+        throw new Error('Invalid data structure. Expected an array of MenuItem objects.');
+      }
+
+      return data as MenubarItem[];
+    } catch (error) {
+      console.error('Error fetching menubar data:', error);
+      throw new Error('Failed to fetch menubar data from the provided URL.', { cause: error });
+    }
+  }
+
+  /** Indicates whether the element has to be highlighted by checking whether it is set as current or one of its descendants is. */
   private isActive(item: MenubarItem) {
     if (item.id === this.current) {
       return true;
@@ -116,6 +166,7 @@ export class ZanitMenubar {
     return false;
   }
 
+  /** Opens the floating menu, if any, associated with the `item`. */
   private openFloatingMenu(item: MenubarItem) {
     if (!item.menuItems?.length) {
       return;
@@ -124,18 +175,125 @@ export class ZanitMenubar {
     this.openMenu = item.id;
   }
 
-  /** Close any open menu when clicking outside this component. */
-  @Listen('pointerdown', { target: 'document' })
-  handleOutsideClick(event: MouseEvent) {
-    if (this.host.contains(event.target as Node)) {
-      return;
+  /** Move the focus to the previous menubar item, or the last one. Then open its menu if any other menu was open. */
+  private focusPreviousItem(itemID: string) {
+    const menubarElements = this.getParentMenubarElements(itemID);
+    const itemElement = menubarElements.find((el) => el.id === itemID) as HTMLElement;
+    itemElement.tabIndex = -1;
+    const currentIndex = menubarElements.indexOf(itemElement);
+    const prevItem = menubarElements[(currentIndex - 1 + menubarElements.length) % menubarElements.length]; // get previous item or last one
+    prevItem.tabIndex = 0;
+    prevItem.focus();
+    // open the item's menu if any other menu was open
+    if (prevItem.ariaHasPopup === 'true' && this.openMenu) {
+      this.openMenu = prevItem.id;
     }
-
-    this.openMenu = undefined;
   }
 
-  connectedCallback() {
-    this.parseData(this.data);
+  /** Move the focus to the next menubar item, or the first one. Then open its menu if any other menu was open. */
+  private focusNextItem(itemID: string) {
+    const menubarElements = this.getParentMenubarElements(itemID);
+    const itemElement = menubarElements.find((el) => el.id === itemID) as HTMLElement;
+    itemElement.tabIndex = -1;
+    const currentIndex = menubarElements.indexOf(itemElement);
+    const nextItem = menubarElements[(currentIndex + 1) % menubarElements.length]; // get next item or first one
+    nextItem.tabIndex = 0;
+    nextItem.focus();
+    // open the item's menu if any other menu was open
+    if (nextItem.ariaHasPopup === 'true' && this.openMenu) {
+      this.openMenu = nextItem.id;
+    }
+  }
+
+  /** Handles keyboard navigation events from Menu. */
+  private handleMenuKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'ArrowRight': {
+        event.preventDefault();
+        event.stopPropagation();
+        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
+        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
+        this.focusNextItem(focusedItem.id);
+        break;
+      }
+      case 'ArrowLeft': {
+        event.preventDefault();
+        event.stopPropagation();
+        const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
+        const focusedItem = parentMenubar?.querySelector('[role="menuitem"][aria-expanded="true"][tabindex="0"]');
+        this.focusPreviousItem(focusedItem.id);
+        break;
+      }
+    }
+  }
+
+  /** Handles keyboard navigation on menubar items. */
+  private handleItemKeydown(event: KeyboardEvent, item: MenubarItem) {
+    switch (event.key) {
+      case 'Home':
+      case 'PageUp': {
+        event.preventDefault();
+        event.stopPropagation();
+        const firstItem = this.getParentMenubarElements(item.id)[0];
+        firstItem.tabIndex = 0;
+        firstItem.focus();
+        break;
+      }
+      case 'End':
+      case 'PageDown': {
+        event.preventDefault();
+        event.stopPropagation();
+        const menubarElements = this.getParentMenubarElements(item.id);
+        const lastItem = menubarElements[menubarElements.length - 1];
+        lastItem.tabIndex = 0;
+        lastItem.focus();
+        break;
+      }
+      case 'ArrowUp': {
+        if (!item.menuItems?.length) {
+          break;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        this.openMenu = item.id;
+        const menuItems = Array.from(
+          this.host.shadowRoot.querySelectorAll(`[aria-labelledby=${item.id}] [role="menuitem"]`)
+        ) as HTMLElement[];
+        // focus last item of the floating menu
+        setTimeout(() => {
+          menuItems[menuItems.length - 1].tabIndex = 0;
+          menuItems[menuItems.length - 1].focus();
+        }, 10);
+        break;
+      }
+      case 'ArrowRight': {
+        event.preventDefault();
+        event.stopPropagation();
+        this.focusNextItem(item.id);
+        break;
+      }
+      case 'ArrowDown': {
+        if (!item.menuItems?.length) {
+          break;
+        }
+        const menuItems = Array.from(
+          this.host.shadowRoot.querySelectorAll(`[aria-labelledby=${item.id}] [role="menuitem"]`)
+        ) as HTMLElement[];
+        this.openMenu = item.id;
+        setTimeout(() => {
+          // focus first item of the floating menu
+          menuItems[0].tabIndex = 0;
+          menuItems[0].focus();
+        }, 10);
+        break;
+      }
+      case 'ArrowLeft': {
+        event.preventDefault();
+        event.stopPropagation();
+        this.focusPreviousItem(item.id);
+        break;
+      }
+    }
   }
 
   render() {
@@ -148,7 +306,11 @@ export class ZanitMenubar {
         class="menubar"
         aria-label="Zanichelli.it"
       >
-        <ul role="menubar">
+        <ul
+          role="menubar"
+          aria-label="Zanichelli.it"
+          onKeyDown={(event) => this.handleMenuKeydown(event)}
+        >
           {this.items.map((item) => (
             <Fragment>
               <li role="none">
@@ -157,14 +319,17 @@ export class ZanitMenubar {
                   href={item.href}
                   id={item.id}
                   role="menuitem"
+                  tabIndex={-1}
                   aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
                   aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
                   aria-current={this.current === item.id ? 'page' : 'false'}
                   onPointerOver={() => this.openFloatingMenu(item)}
+                  onKeyDown={(event) => this.handleItemKeydown(event, item)}
                 >
                   <span data-text={item.label}>{item.label}</span>
-                  {item.menuItems?.length > 0 &&
-                    (this.openMenu === item.id ? <z-icon name="chevron-up" /> : <z-icon name="chevron-down" />)}
+                  {item.menuItems?.length > 0 && (
+                    <z-icon name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'} />
+                  )}
                 </a>
               </li>
               <Menu
@@ -172,6 +337,7 @@ export class ZanitMenubar {
                 open={this.openMenu === item.id}
                 items={item.menuItems}
                 current={this.current}
+                onFocusout={() => (this.openMenu = undefined)}
               />
             </Fragment>
           ))}
@@ -181,7 +347,10 @@ export class ZanitMenubar {
           (item) =>
             item.navbarItems?.length && (
               <nav class={{ 'sub-menubar': true, 'visible': this.isActive(item) }}>
-                <ul role="menubar">
+                <ul
+                  role="menubar"
+                  onKeyDown={(event) => this.handleMenuKeydown(event)}
+                >
                   {item.navbarItems.map((subitem) => (
                     <Fragment>
                       <li role="none">
@@ -190,18 +359,17 @@ export class ZanitMenubar {
                           href={subitem.href}
                           id={subitem.id}
                           role="menuitem"
+                          tabIndex={-1}
                           aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
                           aria-expanded={this.openMenu === subitem.id ? 'true' : 'false'}
                           aria-current={this.current === item.id ? 'page' : 'false'}
                           onPointerOver={() => this.openFloatingMenu(subitem)}
+                          onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
                         >
                           <span>{subitem.label}</span>
-                          {subitem.menuItems?.length > 0 &&
-                            (this.openMenu === subitem.id ? (
-                              <z-icon name="chevron-up" />
-                            ) : (
-                              <z-icon name="chevron-down" />
-                            ))}
+                          {subitem.menuItems?.length > 0 && (
+                            <z-icon name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'} />
+                          )}
                         </a>
                       </li>
                       <Menu
@@ -209,6 +377,7 @@ export class ZanitMenubar {
                         open={this.openMenu === subitem.id}
                         items={subitem.menuItems}
                         current={this.current}
+                        onFocusout={() => (this.openMenu = undefined)}
                       />
                     </Fragment>
                   ))}

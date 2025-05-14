@@ -36,6 +36,12 @@
   color: var(--red500);
 }
 
+.floating-menu .menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .floating-menu .menu-list > li > a {
   border-bottom: 2px solid transparent;
 }
