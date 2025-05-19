@@ -7,7 +7,7 @@ A set of styles and components to be used for the development of the Zanichelli.
 To install the package, run:
 
 ```bash
-yarn install @zanichelli/zanichelli-it-frontend-kit
+yarn add @zanichelli/zanichelli-it-frontend-kit
 ```
 
 In your project import the library by adding the following line to your `index.tsx` or `index.js` file:
@@ -21,3 +21,10 @@ Import the styles in your main stylesheet:
 ```css
 @import '@zanichelli/zanichelli-it-frontend-kit/src/styles';
 ```
+
+## Components
+
+The components are built using Stencil.js and are available as web components. You can use them in any framework or even in plain HTML.
+Their documentation is available in the `src/components` folder, where you can find a `readme.md` file for each component.
+
+The available components are those exported in the package.json file.
