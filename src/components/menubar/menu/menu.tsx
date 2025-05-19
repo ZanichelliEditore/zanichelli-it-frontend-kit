@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from '@stencil/core';
-import { MenuItem } from '../menubar';
+import { MenuItem } from '../../../utils/types';
 
 /**
  * Menu of items that can be grouped.

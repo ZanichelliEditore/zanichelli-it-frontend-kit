@@ -33,11 +33,13 @@ Mobile menubar component.
 
 ### Depends on
 
+- z-logo
 - z-icon
 
 ### Graph
 ```mermaid
 graph TD;
+  zanit-mobile-menubar --> z-logo
   zanit-mobile-menubar --> z-icon
   zanit-menubar --> zanit-mobile-menubar
   style zanit-mobile-menubar fill:#f9f,stroke:#333,stroke-width:4px

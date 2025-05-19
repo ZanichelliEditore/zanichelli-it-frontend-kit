@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { containsTarget, moveFocus } from '../../../utils/utils';
-import { MenubarItem, MenuItem } from '../menubar';
 import { Menu } from '../menu/menu';
+import { MenubarItem, MenuItem } from '../../../utils/types';
 
 /** Mobile menubar component. */
 @Component({
@@ -188,8 +188,8 @@ export class ZanitMobileMenubar {
       <nav aria-label="Zanichelli.it">
         <z-logo
           link="/"
-          height="32"
-          width="126"
+          height={32}
+          width={126}
         ></z-logo>
         <button
           class="burger-button"

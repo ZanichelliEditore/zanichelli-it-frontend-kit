@@ -5,10 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenubarItem } from "./components/menubar/menubar";
-import { MenubarItem as MenubarItem1 } from "./components/menubar/menubar";
-export { MenubarItem } from "./components/menubar/menubar";
-export { MenubarItem as MenubarItem1 } from "./components/menubar/menubar";
+import { MenubarItem } from "./utils/types";
+export { MenubarItem } from "./utils/types";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -21,7 +19,7 @@ export namespace Components {
          */
         "current": string | undefined;
         /**
-          * The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it.
+          * The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it.
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
@@ -40,7 +38,7 @@ export namespace Components {
         /**
           * Menubar items.
          */
-        "items": MenubarItem1[];
+        "items": MenubarItem[];
         /**
           * Initial search query.
          */
@@ -115,7 +113,7 @@ declare namespace LocalJSX {
          */
         "current"?: string | undefined;
         /**
-          * The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it.
+          * The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it.
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
@@ -138,7 +136,7 @@ declare namespace LocalJSX {
         /**
           * Menubar items.
          */
-        "items"?: MenubarItem1[];
+        "items"?: MenubarItem[];
         /**
           * Emitted on search form submission.
          */

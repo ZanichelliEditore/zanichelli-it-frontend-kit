@@ -1,18 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { Menu } from './menu/menu';
 import { containsTarget, moveFocus } from '../../utils/utils';
-
-export type MenuItem = {
-  label: string;
-  href?: string;
-  highlight?: boolean;
-  id?: string;
-  group?: { id: string; label: string };
-};
-export type MenubarItem = Omit<MenuItem, 'group'> & {
-  navbarItems?: MenubarItem[];
-  menuItems?: MenuItem[];
-};
+import { MenubarItem } from '../../utils/types';
 
 /**
  * Main menubar component. Each item can have a menu with subitems
@@ -46,7 +35,7 @@ export class ZanitMenubar {
 
   @State() isMobile: boolean = false;
 
-  /** The data to build the menu (as an array of `MenuItem` or a JSON array) or the url to fetch to retrieve it. */
+  /** The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. */
   @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
   /** ID of the current active item. */
@@ -70,7 +59,7 @@ export class ZanitMenubar {
       try {
         this.items = JSON.parse(data);
         if (!Array.isArray(this.items) || !this.items.every((item) => item satisfies MenubarItem)) {
-          throw new Error('Expected an array of MenuItem objects.');
+          throw new Error('Expected an array of MenubarItem objects.');
         }
       } catch {
         let url: URL;
@@ -86,7 +75,7 @@ export class ZanitMenubar {
       this.items = data;
     } else {
       throw new Error(
-        'Invalid `data` property value. Expected an url, a JSON or an array/promise of MenuItem objects.'
+        'Invalid `data` property value. Expected an url, a JSON or an array/promise of MenubarItem objects.'
       );
     }
   }

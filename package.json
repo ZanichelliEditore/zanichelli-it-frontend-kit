@@ -7,6 +7,7 @@
     "type": "git",
     "url": "https://github.com/ZanichelliEditore/zanichelli-it-frontend-kit.git"
   },
+  "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -15,6 +16,7 @@
   "unpkg": "dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
       "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.cjs.js"
     },
