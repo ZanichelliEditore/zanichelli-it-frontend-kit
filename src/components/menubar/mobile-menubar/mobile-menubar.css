@@ -44,7 +44,7 @@ nav {
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 8px var(--grid-margin) 8px 8px;
+  padding: 8px var(--grid-margin);
 }
 
 nav::after {
@@ -74,10 +74,6 @@ nav::after {
   background-color: #fff;
   box-shadow: var(--shadow-2);
   gap: 8px;
-}
-
-.mobile-menu li {
-  width: 100%;
 }
 
 .searchbar {
@@ -118,17 +114,26 @@ nav::after {
   z-index: 1;
 }
 
-.items-container {
-  min-height: 256px;
+.mobile-menu li {
+  width: 100%;
 }
 
-.mobile-menu > li .menubar-item {
+.mobile-menu .items-container {
+  display: flex;
+  min-height: 256px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-menu .items-container .menubar-item {
+  display: block;
+  width: 100%;
   padding: 8px 0;
   font-size: 1rem;
   text-align: left;
 }
 
-.mobile-menu > li:not(:last-child) .menubar-item {
+.mobile-menu .items-container li:not(:last-child) .menubar-item {
   border-bottom: 1px solid #000;
 }
 

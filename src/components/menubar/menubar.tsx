@@ -58,7 +58,7 @@ export class ZanitMenubar {
     } else if (typeof data === 'string') {
       try {
         this.items = JSON.parse(data);
-        if (!Array.isArray(this.items) || !this.items.every((item) => item satisfies MenubarItem)) {
+        if (!Array.isArray(this.items) || !this.items?.every((item) => item satisfies MenubarItem)) {
           throw new Error('Expected an array of MenubarItem objects.');
         }
       } catch {
@@ -417,10 +417,6 @@ export class ZanitMenubar {
   }
 
   render() {
-    if (!this.items?.length) {
-      return;
-    }
-
     if (this.isMobile) {
       return (
         <zanit-mobile-menubar
@@ -438,7 +434,7 @@ export class ZanitMenubar {
           role="menubar"
           aria-label="Zanichelli.it"
         >
-          {this.items.map((item, index) => (
+          {this.items?.map((item, index) => (
             <Fragment>
               <li role="none">
                 <a
@@ -467,7 +463,7 @@ export class ZanitMenubar {
                   onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                 />
               )}
-              {index < this.items.length - 1 && <li role="separator"></li>}
+              {index < this.items?.length - 1 && <li role="separator"></li>}
             </Fragment>
           ))}
           <li
@@ -510,7 +506,7 @@ export class ZanitMenubar {
           </li>
         </ul>
 
-        {this.items.map(
+        {this.items?.map(
           (item) =>
             item.navbarItems?.length && (
               <nav class={{ 'sub-menubar': true, 'visible': this.isActive(item) }}>

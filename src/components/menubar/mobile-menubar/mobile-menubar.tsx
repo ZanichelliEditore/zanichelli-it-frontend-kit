@@ -33,6 +33,7 @@ export class ZanitMobileMenubar {
   @State() _searchQuery: string | undefined = undefined;
 
   @Watch('items')
+  @Watch('current')
   onItemsChange() {
     this.setupData(this.items);
   }
@@ -63,8 +64,6 @@ export class ZanitMobileMenubar {
       }
     }
 
-    this.parentItem = parent;
-
     return false;
   }
 
@@ -84,7 +83,7 @@ export class ZanitMobileMenubar {
       this.open = true;
       setTimeout(() => {
         this.initTabindex();
-        this.menuItemsElement[0].focus();
+        this.menuItemsElement[0]?.focus();
       }, 200);
     }
   }
