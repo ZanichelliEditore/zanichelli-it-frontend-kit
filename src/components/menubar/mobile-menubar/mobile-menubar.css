@@ -1,0 +1,143 @@
+:host {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  background-color: #fff;
+  color: var(--gray900);
+  fill: var(--gray900);
+  font-family: var(--font-family-sans);
+  overflow-x: clip;
+}
+
+:host,
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+*:focus:focus-visible {
+  box-shadow: var(--shadow-focus-primary);
+  outline: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--gray900);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+nav {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 8px var(--grid-margin) 8px 8px;
+}
+
+nav::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: var(--shadow-1);
+  content: '';
+  pointer-events: none;
+}
+
+.burger-button {
+  margin-left: auto;
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 16px var(--grid-margin) 32px;
+  background-color: #fff;
+  box-shadow: var(--shadow-2);
+  gap: 8px;
+}
+
+.mobile-menu li {
+  width: 100%;
+}
+
+.searchbar {
+  display: flex;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
+.searchbar input {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  border: none;
+  background-color: #fff;
+
+  /* To have a seamless appearance of the border radius of an internal child element nested within a parent element with rounded borders, we need to subtract the parent's border thickness from the child's border radius. Inner Radius = Outer Radius - Border Thickness */
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+  font-family: var(--font-family-sans);
+  font-size: 1rem;
+}
+
+.searchbar input::placeholder {
+  color: var(--gray500);
+}
+
+.searchbar .searchbar-button {
+  padding: 4px 8px;
+  border-left: 1px solid #000;
+  background: var(--zanit-accent-color);
+  border-bottom-right-radius: 3px;
+  border-top-right-radius: 3px;
+  line-height: 1;
+}
+
+.searchbar input:focus:focus-visible,
+.searchbar .searchbar-button:focus:focus-visible {
+  z-index: 1;
+}
+
+.items-container {
+  min-height: 256px;
+}
+
+.mobile-menu > li .menubar-item {
+  padding: 8px 0;
+  font-size: 1rem;
+  text-align: left;
+}
+
+.mobile-menu > li:not(:last-child) .menubar-item {
+  border-bottom: 1px solid #000;
+}
+
+[role='menuitem'].parent {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  padding: 0;
+  border: none;
+  font-size: 0.875rem;
+  gap: 8px;
+}

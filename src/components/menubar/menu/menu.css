@@ -1,23 +1,19 @@
-.floating-menu {
+.menu {
   position: absolute;
   top: 100%;
   left: 0;
-  display: none;
+  display: grid;
   width: 100%;
   padding: 16px var(--grid-margin);
   background-color: #fff;
-  box-shadow: 0 3px 2px -2px var(--shadow-color-base);
+  box-shadow: var(--shadow-1);
   column-gap: 24px;
   grid-auto-columns: minmax(0, max-content);
   grid-auto-flow: column;
   grid-template-rows: minmax(0, max-content) max-content;
 }
 
-.floating-menu.open {
-  display: grid;
-}
-
-.floating-menu .group {
+.menu .group {
   display: grid;
   color: var(--red500);
   grid-row: 1 / -1;
@@ -26,27 +22,66 @@
 }
 
 @supports not (grid-template-rows: subgrid) {
-  .floating-menu .group {
+  .menu .group {
     grid-template-rows: repeat(auto-fit, minmax(0, max-content));
   }
 }
 
-.floating-menu .group .group-name {
+.menu .group .group-name {
   margin-bottom: 16px;
   color: var(--red500);
+  font-size: 1rem;
+  font-weight: var(--font-md);
+  line-height: 1.5;
 }
 
-.floating-menu .menu-list {
+.menu .menu-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.floating-menu .menu-list > li > a {
+.menu .menu-list > li > .menu-item {
   border-bottom: 2px solid transparent;
+  font-size: 1rem;
 }
 
-.floating-menu .menu-list > li > a.active,
-.floating-menu .menu-list > li > a:hover {
+.menu .menu-list > li > .menu-item.active,
+.menu .menu-list > li > .menu-item:hover {
   border-bottom-color: var(--red500);
+}
+
+.menu .group .menu-list .menu-item.highlight {
+  font-size: 1.5rem;
+}
+
+@media (width < 768px) {
+  .menu {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    padding: 0;
+    box-shadow: none;
+    row-gap: 32px;
+  }
+
+  .menu .group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu .group .group-name {
+    border-bottom: 1px solid currentcolor;
+    margin-bottom: 4px;
+    font-size: 0.875rem;
+  }
+
+  .menu .group .menu-list .menu-item {
+    font-size: 0.875rem;
+    font-weight: var(--font-md);
+  }
+
+  .menu .group .menu-list .menu-item.highlight {
+    font-size: 1rem;
+  }
 }

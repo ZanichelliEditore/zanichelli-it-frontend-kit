@@ -6,7 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { MenubarItem } from "./components/menubar/menubar";
+import { MenubarItem as MenubarItem1 } from "./components/menubar/menubar";
 export { MenubarItem } from "./components/menubar/menubar";
+export { MenubarItem as MenubarItem1 } from "./components/menubar/menubar";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -23,25 +25,82 @@ export namespace Components {
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * Search query currently applied.
+          * Initial search query.
+         */
+        "searchQuery": string | undefined;
+    }
+    /**
+     * Mobile menubar component.
+     */
+    interface ZanitMobileMenubar {
+        /**
+          * ID of the current active item.
+         */
+        "current": string | undefined;
+        /**
+          * Menubar items.
+         */
+        "items": MenubarItem1[];
+        /**
+          * Initial search query.
          */
         "searchQuery": string | undefined;
     }
 }
+export interface ZanitMenubarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLZanitMenubarElement;
+}
+export interface ZanitMobileMenubarCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLZanitMobileMenubarElement;
+}
 declare global {
+    interface HTMLZanitMenubarElementEventMap {
+        "search": { query: string };
+    }
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface HTMLZanitMenubarElement extends Components.ZanitMenubar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLZanitMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMenubarElement, ev: ZanitMenubarCustomEvent<HTMLZanitMenubarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLZanitMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMenubarElement, ev: ZanitMenubarCustomEvent<HTMLZanitMenubarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLZanitMenubarElement: {
         prototype: HTMLZanitMenubarElement;
         new (): HTMLZanitMenubarElement;
     };
+    interface HTMLZanitMobileMenubarElementEventMap {
+        "search": { query: string };
+    }
+    /**
+     * Mobile menubar component.
+     */
+    interface HTMLZanitMobileMenubarElement extends Components.ZanitMobileMenubar, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLZanitMobileMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMobileMenubarElement, ev: ZanitMobileMenubarCustomEvent<HTMLZanitMobileMenubarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLZanitMobileMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMobileMenubarElement, ev: ZanitMobileMenubarCustomEvent<HTMLZanitMobileMenubarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLZanitMobileMenubarElement: {
+        prototype: HTMLZanitMobileMenubarElement;
+        new (): HTMLZanitMobileMenubarElement;
+    };
     interface HTMLElementTagNameMap {
         "zanit-menubar": HTMLZanitMenubarElement;
+        "zanit-mobile-menubar": HTMLZanitMobileMenubarElement;
     }
 }
 declare namespace LocalJSX {
@@ -60,12 +119,38 @@ declare namespace LocalJSX {
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * Search query currently applied.
+          * Emitted on search form submission.
+         */
+        "onSearch"?: (event: ZanitMenubarCustomEvent<{ query: string }>) => void;
+        /**
+          * Initial search query.
+         */
+        "searchQuery"?: string | undefined;
+    }
+    /**
+     * Mobile menubar component.
+     */
+    interface ZanitMobileMenubar {
+        /**
+          * ID of the current active item.
+         */
+        "current"?: string | undefined;
+        /**
+          * Menubar items.
+         */
+        "items"?: MenubarItem1[];
+        /**
+          * Emitted on search form submission.
+         */
+        "onSearch"?: (event: ZanitMobileMenubarCustomEvent<{ query: string }>) => void;
+        /**
+          * Initial search query.
          */
         "searchQuery"?: string | undefined;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;
+        "zanit-mobile-menubar": ZanitMobileMenubar;
     }
 }
 export { LocalJSX as JSX };
@@ -78,6 +163,10 @@ declare module "@stencil/core" {
              * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
              */
             "zanit-menubar": LocalJSX.ZanitMenubar & JSXBase.HTMLAttributes<HTMLZanitMenubarElement>;
+            /**
+             * Mobile menubar component.
+             */
+            "zanit-mobile-menubar": LocalJSX.ZanitMobileMenubar & JSXBase.HTMLAttributes<HTMLZanitMobileMenubarElement>;
         }
     }
 }
