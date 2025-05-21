@@ -174,7 +174,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   display: flex;
   height: 100%;
   align-items: center;
-  padding: 0 8px;
   border-radius: 4px;
   cursor: pointer;
 }

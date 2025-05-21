@@ -205,8 +205,8 @@ export class ZanitMobileMenubar {
         >
           <z-icon
             name={this.open ? 'multiply' : 'burger-menu'}
-            width="24"
-            height="24"
+            width="1.5rem"
+            height="1.5rem"
           ></z-icon>
         </button>
         {this.open && (
@@ -232,8 +232,8 @@ export class ZanitMobileMenubar {
                   >
                     <z-icon
                       name="multiply-circled"
-                      width="20"
-                      height="20"
+                      width="1rem"
+                      height="1rem"
                     />
                   </button>
                 )}
@@ -254,8 +254,8 @@ export class ZanitMobileMenubar {
                 >
                   <z-icon
                     name="search"
-                    width="20"
-                    height="20"
+                    width="1.25rem"
+                    height="1.25rem"
                   ></z-icon>
                 </button>
               </form>
@@ -272,8 +272,8 @@ export class ZanitMobileMenubar {
               >
                 <z-icon
                   name="arrow-left"
-                  width="8"
-                  height="8"
+                  width="0.5rem"
+                  height="0.5rem"
                 ></z-icon>
                 <span>
                   {/* Show the 'Home' label if the current item is a root child. */}

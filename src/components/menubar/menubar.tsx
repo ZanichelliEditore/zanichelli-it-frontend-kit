@@ -457,7 +457,11 @@ export class ZanitMenubar {
                   >
                     <span data-text={item.label}>{item.label}</span>
                     {item.menuItems?.length > 0 && (
-                      <z-icon name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'} />
+                      <z-icon
+                        name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'}
+                        width="0.875rem"
+                        height="0.875rem"
+                      />
                     )}
                   </a>
                 </li>
@@ -490,8 +494,8 @@ export class ZanitMenubar {
                       >
                         <z-icon
                           name="multiply-circled"
-                          width="24"
-                          height="24"
+                          width="1.5rem"
+                          height="1.5rem"
                         />
                       </button>
                     )}
@@ -516,8 +520,8 @@ export class ZanitMenubar {
                   {this.showSearchbar ? null : <span>Cerca</span>}
                   <z-icon
                     name="search"
-                    width="32"
-                    height="32"
+                    width="2rem"
+                    height="2rem"
                   ></z-icon>
                 </button>
               </form>
@@ -558,7 +562,11 @@ export class ZanitMenubar {
                         >
                           <span>{subitem.label}</span>
                           {subitem.menuItems?.length > 0 && (
-                            <z-icon name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'} />
+                            <z-icon
+                              name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'}
+                              width="0.75rem"
+                              height="0.75rem"
+                            />
                           )}
                         </a>
                       </li>
