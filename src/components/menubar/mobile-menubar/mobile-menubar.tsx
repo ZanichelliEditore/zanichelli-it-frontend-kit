@@ -21,7 +21,7 @@ export class ZanitMobileMenubar {
   @Prop() items: MenubarItem[] = [];
 
   /** Initial search query. */
-  @Prop() searchQuery: string | undefined = undefined;
+  @Prop({ mutable: true }) searchQuery: string | undefined = undefined;
 
   @State() parentItem: MenubarItem | undefined = undefined;
   @State() menuItems: MenubarItem[] | MenuItem[] | undefined = undefined;
@@ -217,19 +217,34 @@ export class ZanitMobileMenubar {
             <li role="none">
               <form
                 class="searchbar"
+                ref={(el) => (this.formElement = el as HTMLFormElement)}
                 role="search"
                 aria-label="Cerca"
                 method="get"
                 action="/ricerca"
                 onSubmit={(event) => this.onSearchSubmit(event)}
-                ref={(el) => (this.formElement = el as HTMLFormElement)}
+                onReset={() => (this.searchQuery = undefined)}
               >
+                {this.searchQuery && (
+                  <button
+                    type="reset"
+                    aria-label="Svuota campo di ricerca"
+                  >
+                    <z-icon
+                      name="multiply-circled"
+                      width="20"
+                      height="20"
+                    />
+                  </button>
+                )}
                 <input
                   id="searchbar-input"
                   name="q"
                   type="search"
                   placeholder="Cerca per parola chiave o ISBN"
                   onInput={(event) => this.handleInputChange(event)}
+                  value={this.searchQuery}
+                  required
                 ></input>
                 <button
                   class="searchbar-button"
@@ -261,8 +276,6 @@ export class ZanitMobileMenubar {
                   height="8"
                 ></z-icon>
                 <span>
-                  {console.log(this.parentItem?.id)}
-
                   {/* Show the 'Home' label if the current item is a root child. */}
                   {this.parentItem?.label ?? 'Home'}
                 </span>

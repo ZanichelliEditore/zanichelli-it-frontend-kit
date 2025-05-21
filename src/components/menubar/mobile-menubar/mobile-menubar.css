@@ -78,22 +78,36 @@ nav::after {
 
 .searchbar {
   display: flex;
+  align-items: center;
   border: 1px solid #000;
   border-radius: 4px;
+}
+
+.searchbar > *:first-child {
+  /* To have a seamless appearance of the border radius of an internal child element nested within a parent element with rounded borders, we need to subtract the parent's border thickness from the child's border radius. Inner Radius = Outer Radius - Border Thickness */
+  border-bottom-left-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.searchbar button[type='reset'] {
+  display: flex;
+  padding: 0 0 0 8px;
+  cursor: pointer;
 }
 
 .searchbar input {
   width: 100%;
   height: 100%;
-  padding: 8px;
+  padding: 4px 8px;
   border: none;
   background-color: #fff;
-
-  /* To have a seamless appearance of the border radius of an internal child element nested within a parent element with rounded borders, we need to subtract the parent's border thickness from the child's border radius. Inner Radius = Outer Radius - Border Thickness */
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
   font-family: var(--font-family-sans);
   font-size: 1rem;
+}
+
+.searchbar input[type='search']::-webkit-search-cancel-button,
+.searchbar input[type='search']::-webkit-search-decoration {
+  appearance: none;
 }
 
 .searchbar input::placeholder {
@@ -106,7 +120,6 @@ nav::after {
   background: var(--zanit-accent-color);
   border-bottom-right-radius: 3px;
   border-top-right-radius: 3px;
-  line-height: 1;
 }
 
 .searchbar input:focus:focus-visible,

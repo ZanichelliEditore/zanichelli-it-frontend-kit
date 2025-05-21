@@ -42,7 +42,7 @@ export class ZanitMenubar {
   @Prop() current: string | undefined = undefined;
 
   /** Initial search query. */
-  @Prop() searchQuery: string | undefined = undefined;
+  @Prop({ mutable: true }) searchQuery: string | undefined = undefined;
 
   /** Setup the list of items. */
   @Watch('data')
@@ -94,10 +94,10 @@ export class ZanitMenubar {
 
     setTimeout(() => {
       const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-      if (this.showSearchbar) {
+      if (this.showSearchbar && !this.searchQuery) {
         searchbarInput.focus();
       }
-    }, 10);
+    }, 100);
   }
 
   /** Emitted on search form submission. */
@@ -106,6 +106,7 @@ export class ZanitMenubar {
   async connectedCallback() {
     await this.parseData(this.data);
     this.initTabindex();
+    this.showSearchbar = !!this.searchQuery;
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
     mobileMediaQuery.onchange = (mql) => {
@@ -119,11 +120,11 @@ export class ZanitMenubar {
   /** Close open searchbar or any open menu when clicking outside. */
   @Listen('click', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
-    if (this.showSearchbar && !containsTarget(this.formElement, event)) {
+    if (this.showSearchbar && this.formElement && !containsTarget(this.formElement, event)) {
       this.showSearchbar = false;
     }
 
-    if (containsTarget(this.host, event)) {
+    if (!this.openMenu || containsTarget(this.host, event)) {
       return;
     }
 
@@ -145,7 +146,7 @@ export class ZanitMenubar {
   @Listen('focusout', { passive: true })
   handleFocusout(event: FocusEvent) {
     const relatedTarget = event.relatedTarget as HTMLElement;
-    if (this.host.shadowRoot.querySelector('.menu')?.contains(relatedTarget)) {
+    if (!this.openMenu || this.host.shadowRoot.querySelector('.menu')?.contains(relatedTarget)) {
       return;
     }
 
@@ -469,25 +470,45 @@ export class ZanitMenubar {
             >
               <form
                 class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
+                ref={(el) => (this.formElement = el)}
                 role="search"
                 aria-label="Cerca"
                 method="get"
                 action="/ricerca"
                 onSubmit={(event) => this.onSearchSubmit(event)}
-                ref={(el) => (this.formElement = el)}
+                onReset={() => (this.searchQuery = undefined)}
               >
                 {this.showSearchbar && (
-                  <input
-                    id="searchbar-input"
-                    name="q"
-                    type="search"
-                    placeholder="Cerca per parola chiave o ISBN"
-                    onInput={(event) => this.handleInputChange(event)}
-                    required
-                  ></input>
+                  <div
+                    class="input-wrapper"
+                    role="none"
+                  >
+                    {this.searchQuery && (
+                      <button
+                        type="reset"
+                        aria-label="Svuota campo di ricerca"
+                      >
+                        <z-icon
+                          name="multiply-circled"
+                          width="24"
+                          height="24"
+                        />
+                      </button>
+                    )}
+                    <input
+                      id="searchbar-input"
+                      name="q"
+                      type="search"
+                      placeholder="Cerca per parola chiave o ISBN"
+                      onInput={(event) => this.handleInputChange(event)}
+                      value={this.searchQuery}
+                      required
+                    ></input>
+                  </div>
                 )}
                 <button
                   class="searchbar-button"
+                  aria-label="Cerca"
                   aria-controls="searchbar-input"
                   type={this.showSearchbar ? 'submit' : 'button'}
                   onClick={() => (this.showSearchbar = true)}

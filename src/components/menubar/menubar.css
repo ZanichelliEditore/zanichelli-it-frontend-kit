@@ -161,15 +161,38 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   inset: 0;
 }
 
+.searchbar .input-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0 var(--grid-margin);
+  background-color: #fff;
+  gap: 14px;
+}
+
+.searchbar button[type='reset'] {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .searchbar input {
   z-index: 1;
   width: 100%;
   height: 100%;
-  padding: 8px var(--grid-margin);
+  padding: 8px 0;
   border: none;
   background-color: #fff;
   font-family: var(--font-family-sans);
   font-size: inherit;
+}
+
+.searchbar input[type='search']::-webkit-search-cancel-button,
+.searchbar input[type='search']::-webkit-search-decoration {
+  appearance: none;
 }
 
 .searchbar input::placeholder {
