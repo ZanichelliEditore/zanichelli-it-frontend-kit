@@ -101,7 +101,7 @@ export class ZanitMenubar {
   }
 
   /** Emitted on search form submission. */
-  @Event() search: EventEmitter<{ query: string }>;
+  @Event({ cancelable: true }) search: EventEmitter<{ query: string }>;
 
   async connectedCallback() {
     await this.parseData(this.data);
@@ -117,7 +117,7 @@ export class ZanitMenubar {
   }
 
   /** Close open searchbar or any open menu when clicking outside. */
-  @Listen('pointerdown', { target: 'document', passive: true })
+  @Listen('click', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
     if (this.showSearchbar && !containsTarget(this.formElement, event)) {
       this.showSearchbar = false;
@@ -328,76 +328,72 @@ export class ZanitMenubar {
 
   /** Handles keyboard navigation events from `Menu` component. */
   private handleMenuKeydown(event: KeyboardEvent) {
-    const menuItem = event.target as HTMLElement;
+    const itemElement = event.target as HTMLElement;
     const items = Array.from(
-      menuItem.closest('[role="menu"]')?.querySelectorAll('[role="menuitem"]') ?? []
+      itemElement.closest('[role="menu"]')?.querySelectorAll('[role="menuitem"]') ?? []
     ) as HTMLElement[];
-    const currentIndex = items.indexOf(menuItem);
+    const currentIndex = items.indexOf(itemElement);
     switch (event.key) {
       case 'ArrowUp': {
         event.preventDefault();
         event.stopPropagation();
         const prevItem = items[currentIndex - 1] || items[items.length - 1];
-        moveFocus(menuItem, prevItem);
+        moveFocus(itemElement, prevItem);
         break;
       }
       // Move the focus to the first item of the next group if any, otherwise move it to the next menubar item
       case 'ArrowRight': {
         event.preventDefault();
         event.stopPropagation();
-        const currentGroup = menuItem.closest('[role=group]') as HTMLElement;
+        const currentGroup = itemElement.closest('[role=group]') as HTMLElement;
         const nextGroup = this.getNextGroup(currentGroup);
         if (!nextGroup) {
-          menuItem.tabIndex = -1;
-          const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
-          const focusedItem = parentMenubar?.querySelector<HTMLElement>(
-            '[role="menuitem"][aria-expanded="true"][tabindex="0"]'
-          );
+          itemElement.tabIndex = -1;
+          const menuTriggerId = itemElement.closest('[role="menu"][aria-labelledby]').getAttribute('aria-labelledby');
+          const focusedItem = this.host.shadowRoot.getElementById(menuTriggerId);
           this.focusNextItem(focusedItem);
           break;
         }
 
         const nextGroupItems = (nextGroup.querySelectorAll('[role="menuitem"]') ?? []) as HTMLElement[];
-        moveFocus(menuItem, nextGroupItems[0]);
+        moveFocus(itemElement, nextGroupItems[0]);
         break;
       }
       case 'ArrowDown': {
         event.preventDefault();
         event.stopPropagation();
         const nextItem = items[currentIndex + 1] || items[0];
-        moveFocus(menuItem, nextItem);
+        moveFocus(itemElement, nextItem);
         break;
       }
       // Move the focus to the first item of the previous group if any, otherwise move it to the previous menubar item
       case 'ArrowLeft':
         event.preventDefault();
         event.stopPropagation();
-        const currentGroup = menuItem.closest('[role=group]') as HTMLElement;
+        const currentGroup = itemElement.closest('[role=group]') as HTMLElement;
         const prevGroup = this.getPreviousGroup(currentGroup);
         if (!prevGroup) {
-          menuItem.tabIndex = -1;
-          const parentMenubar = (event.target as HTMLElement).closest('[role="menubar"]');
-          const focusedItem = parentMenubar?.querySelector<HTMLElement>(
-            '[role="menuitem"][aria-expanded="true"][tabindex="0"]'
-          );
+          itemElement.tabIndex = -1;
+          const menuTriggerId = itemElement.closest('[role="menu"][aria-labelledby]').getAttribute('aria-labelledby');
+          const focusedItem = this.host.shadowRoot.getElementById(menuTriggerId);
           this.focusPreviousItem(focusedItem);
           break;
         }
 
         const prevGroupItems = (prevGroup.querySelectorAll('[role="menuitem"]') ?? []) as HTMLElement[];
-        moveFocus(menuItem, prevGroupItems[0]);
+        moveFocus(itemElement, prevGroupItems[0]);
         break;
       case 'Home':
         // Move to the first menu item
         event.preventDefault();
         event.stopPropagation();
-        moveFocus(menuItem, items[0]);
+        moveFocus(itemElement, items[0]);
         break;
       case 'End':
         // Move to the last menu item
         event.preventDefault();
         event.stopPropagation();
-        moveFocus(menuItem, items[items.length - 1]);
+        moveFocus(itemElement, items[items.length - 1]);
         break;
     }
   }
@@ -412,7 +408,12 @@ export class ZanitMenubar {
       return;
     }
 
-    this.search.emit({ query: this._searchQuery });
+    const searchEv = this.search.emit({ query: this._searchQuery });
+    // do not submit the form if the event default behavior was prevented
+    if (searchEv.defaultPrevented) {
+      return;
+    }
+
     this.formElement.submit();
   }
 
@@ -429,87 +430,95 @@ export class ZanitMenubar {
 
     return (
       <nav aria-label="Zanichelli.it">
-        <ul
-          class="menubar"
-          role="menubar"
-          aria-label="Zanichelli.it"
+        <div
+          class="shadow-wrapper"
+          role="none"
         >
-          {this.items?.map((item, index) => (
-            <Fragment>
-              <li role="none">
-                <a
-                  class={{ 'menubar-item': true, 'active': this.isActive(item) }}
-                  href={item.href}
-                  id={item.id}
-                  role="menuitem"
-                  tabIndex={-1}
-                  aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
-                  aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
-                  aria-current={this.current === item.id ? 'page' : 'false'}
-                  onPointerOver={() => this.showMenu(item)}
-                  onKeyDown={(event) => this.handleItemKeydown(event, item)}
+          <ul
+            class="menubar"
+            role="menubar"
+            aria-label="Zanichelli.it"
+          >
+            {this.items?.map((item, index) => (
+              <Fragment>
+                <li role="none">
+                  <a
+                    class={{ 'menubar-item': true, 'active': this.isActive(item) }}
+                    href={item.href}
+                    id={item.id}
+                    role="menuitem"
+                    tabIndex={-1}
+                    aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
+                    aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
+                    aria-current={this.current === item.id ? 'page' : 'false'}
+                    onPointerOver={() => this.showMenu(item)}
+                    onKeyDown={(event) => this.handleItemKeydown(event, item)}
+                  >
+                    <span data-text={item.label}>{item.label}</span>
+                    {item.menuItems?.length > 0 && (
+                      <z-icon name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'} />
+                    )}
+                  </a>
+                </li>
+                {index < this.items?.length - 1 && <li role="separator"></li>}
+              </Fragment>
+            ))}
+            <li
+              class="searchbar-container"
+              role="none"
+            >
+              <form
+                class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
+                role="search"
+                aria-label="Cerca"
+                method="get"
+                action="/ricerca"
+                onSubmit={(event) => this.onSearchSubmit(event)}
+                ref={(el) => (this.formElement = el)}
+              >
+                {this.showSearchbar && (
+                  <input
+                    id="searchbar-input"
+                    name="q"
+                    type="search"
+                    placeholder="Cerca per parola chiave o ISBN"
+                    onInput={(event) => this.handleInputChange(event)}
+                    required
+                  ></input>
+                )}
+                <button
+                  class="searchbar-button"
+                  aria-controls="searchbar-input"
+                  type={this.showSearchbar ? 'submit' : 'button'}
+                  onClick={() => (this.showSearchbar = true)}
                 >
-                  <span data-text={item.label}>{item.label}</span>
-                  {item.menuItems?.length > 0 && (
-                    <z-icon name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'} />
-                  )}
-                </a>
-              </li>
-              {this.openMenu === item.id && (
+                  {this.showSearchbar ? null : <span>Cerca</span>}
+                  <z-icon
+                    name="search"
+                    width="32"
+                    height="32"
+                  ></z-icon>
+                </button>
+              </form>
+            </li>
+          </ul>
+          {this.items.map(
+            (item) =>
+              this.openMenu === item.id && (
                 <Menu
                   controlledBy={item.id}
                   items={item.menuItems}
                   current={this.current}
                   onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                 />
-              )}
-              {index < this.items?.length - 1 && <li role="separator"></li>}
-            </Fragment>
-          ))}
-          <li
-            class="searchbar-container"
-            role="none"
-          >
-            <form
-              class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
-              role="search"
-              aria-label="Cerca"
-              method="get"
-              action="/ricerca"
-              onSubmit={(event) => this.onSearchSubmit(event)}
-              ref={(el) => (this.formElement = el)}
-            >
-              {this.showSearchbar && (
-                <input
-                  id="searchbar-input"
-                  name="q"
-                  type="search"
-                  placeholder="Cerca per parola chiave o ISBN"
-                  onInput={(event) => this.handleInputChange(event)}
-                  required
-                ></input>
-              )}
-              <button
-                class="searchbar-button"
-                aria-controls="searchbar-input"
-                type={this.showSearchbar ? 'submit' : 'button'}
-                onClick={() => (this.showSearchbar = true)}
-              >
-                {this.showSearchbar ? null : <span>Cerca</span>}
-                <z-icon
-                  name="search"
-                  width="32"
-                  height="32"
-                ></z-icon>
-              </button>
-            </form>
-          </li>
-        </ul>
+              )
+          )}
+        </div>
 
         {this.items?.map(
           (item) =>
             item.navbarItems?.length && (
-              <nav class={{ 'sub-menubar': true, 'visible': this.isActive(item) }}>
+              <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true, 'visible': this.isActive(item) }}>
                 <ul role="menubar">
                   {item.navbarItems.map((subitem) => (
                     <Fragment>
@@ -532,17 +541,20 @@ export class ZanitMenubar {
                           )}
                         </a>
                       </li>
-                      {this.openMenu === subitem.id && (
-                        <Menu
-                          controlledBy={subitem.id}
-                          items={subitem.menuItems}
-                          current={this.current}
-                          onItemKeyDown={(event) => this.handleMenuKeydown(event)}
-                        />
-                      )}
                     </Fragment>
                   ))}
                 </ul>
+                {item.navbarItems.map(
+                  (subitem) =>
+                    this.openMenu === subitem.id && (
+                      <Menu
+                        controlledBy={subitem.id}
+                        items={subitem.menuItems}
+                        current={this.current}
+                        onItemKeyDown={(event) => this.handleMenuKeydown(event)}
+                      />
+                    )
+                )}
               </nav>
             )
         )}

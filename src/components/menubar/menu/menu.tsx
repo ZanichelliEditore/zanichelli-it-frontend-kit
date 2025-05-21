@@ -50,50 +50,55 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, curr
 
   return (
     <div
-      class="menu"
-      aria-labelledby={controlledBy ?? undefined}
-      role="menu"
+      class="menu-wrapper"
+      role="none"
     >
-      {groups.map(({ group, items }) => (
-        <div
-          class="group"
-          role="none"
-        >
-          {group.id !== DEFAULT_GROUP_KEY ? (
-            <div
-              class="group-name"
-              id={group.id}
-            >
-              {group.label}
-            </div>
-          ) : groups.length > 1 ? (
-            // empty div to keep the same height as the other groups
-            <div class="group-name" />
-          ) : null}
-          <ul
-            class="menu-list"
-            role="group"
-            aria-labelledby={group.id !== DEFAULT_GROUP_KEY ? group.id : undefined}
+      <div
+        class="menu"
+        aria-labelledby={controlledBy ?? undefined}
+        role="menu"
+      >
+        {groups.map(({ group, items }) => (
+          <div
+            class={{ group: true, highlight: items.some((item) => item.highlight) }}
+            role="none"
           >
-            {items.map((item) => (
-              <li role="none">
-                {item.href && (
-                  <a
-                    class={{ 'menu-item': true, 'active': current === item.id, 'highlight': item.highlight }}
-                    href={item.href}
-                    role="menuitem"
-                    tabIndex={-1}
-                    aria-current={current === item.id ? 'page' : 'false'}
-                    onKeyDown={(event) => onItemKeyDown(event)}
-                  >
-                    {item.label}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+            {group.id !== DEFAULT_GROUP_KEY ? (
+              <div
+                class="group-name"
+                id={group.id}
+              >
+                {group.label}
+              </div>
+            ) : groups.length > 1 ? (
+              // empty div to keep the same height as the other groups
+              <div class="group-name" />
+            ) : null}
+            <ul
+              class="menu-list"
+              role="group"
+              aria-labelledby={group.id !== DEFAULT_GROUP_KEY ? group.id : undefined}
+            >
+              {items.map((item) => (
+                <li role="none">
+                  {item.href && (
+                    <a
+                      class={{ 'menu-item': true, 'active': current === item.id }}
+                      href={item.href}
+                      role="menuitem"
+                      tabIndex={-1}
+                      aria-current={current === item.id ? 'page' : 'false'}
+                      onKeyDown={(event) => onItemKeyDown(event)}
+                    >
+                      {item.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

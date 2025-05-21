@@ -6,7 +6,7 @@ export type MenuItem = {
   group?: { id: string; label: string };
 };
 
-export type MenubarItem = Omit<MenuItem, 'group'> & {
+export type MenubarItem = Omit<MenuItem, 'group' | 'highlight'> & {
   navbarItems?: MenubarItem[];
   menuItems?: MenuItem[];
 };

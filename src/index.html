@@ -27,128 +27,128 @@
   </head>
 
   <body>
-    <main>
-      <header>
-        <zanit-menubar current="per-chi-insegna-fb74aa"></zanit-menubar>
-        <script>
-          document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector('zanit-menubar')?.setAttribute(
-              'data',
-              JSON.stringify([
-                {
-                  label: 'Scuola',
-                  href: 'https://localhost.zanichelli.it:3000/scuola',
-                  id: 'scuola',
-                  navbarItems: [
-                    {
-                      label: 'Per chi insegna',
-                      href: 'https://localhost.zanichelli.it:3000/per-chi-insegna-fb74aa',
-                      id: 'per-chi-insegna-fb74aa',
-                      menuItems: [
-                        {
-                          label: 'Perché è difficile riconoscere le fake news in Rete?',
-                          href: 'https://localhost.zanichelli.it:3000/perche-e-difficile-riconoscere-le-fake-news-in-rete',
-                          id: 'perche-e-difficile-riconoscere-le-fake-news-in-rete',
-                          highlight: true,
-                          group: { id: 'in-evidenza', label: 'In evidenza' },
+    <header>
+      <zanit-menubar current="per-chi-insegna-fb74aa"></zanit-menubar>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelector('zanit-menubar')?.setAttribute(
+            'data',
+            JSON.stringify([
+              {
+                label: 'Scuola',
+                href: 'https://localhost.zanichelli.it:3000/scuola',
+                id: 'scuola',
+                navbarItems: [
+                  {
+                    label: 'Per chi insegna',
+                    href: 'https://localhost.zanichelli.it:3000/per-chi-insegna-fb74aa',
+                    id: 'per-chi-insegna-fb74aa',
+                    menuItems: [
+                      {
+                        label: 'Perché è difficile riconoscere le fake news in Rete?',
+                        href: 'https://localhost.zanichelli.it:3000/perche-e-difficile-riconoscere-le-fake-news-in-rete',
+                        id: 'perche-e-difficile-riconoscere-le-fake-news-in-rete',
+                        highlight: true,
+                        group: { id: 'in-evidenza', label: 'In evidenza' },
+                      },
+                      {
+                        label: 'Dalla correlazione alla causalita applicazione al caso del global warming',
+                        href: 'https://localhost.zanichelli.it:3000/dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
+                        id: 'dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
+                        highlight: true,
+                        group: { id: 'in-evidenza', label: 'In evidenza' },
+                      },
+                      {
+                        label: 'esplora, crea, connetti con laZ',
+                        href: 'https://localhost.zanichelli.it:3000/laz',
+                        id: 'laz',
+                      },
+                      {
+                        label: 'Obiettivi formativi',
+                        href: 'https://localhost.zanichelli.it:3000/obiettivi-formativi',
+                        id: 'obiettivi-formativi',
+                      },
+                      {
+                        label: 'Cacciatori di bufale (si diventa)',
+                        href: 'https://localhost.zanichelli.it:3000/cacciatori-di-bufale-si-diventa',
+                        id: 'cacciatori-di-bufale-si-diventa',
+                        group: {
+                          id: '6-acqua-pulita-e-servizi-igienico-sanitari',
+                          label: '6 Acqua pulita e servizi igienico-sanitari',
                         },
-                        {
-                          label: 'Dalla correlazione alla causalita applicazione al caso del global warming',
-                          href: 'https://localhost.zanichelli.it:3000/dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
-                          id: 'dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
-                          highlight: true,
-                          group: { id: 'in-evidenza', label: 'In evidenza' },
-                        },
-                        {
-                          label: 'esplora, crea, connetti con laZ',
-                          href: 'https://localhost.zanichelli.it:3000/laz',
-                          id: 'laz',
-                        },
-                        {
-                          label: 'Obiettivi formativi',
-                          href: 'https://localhost.zanichelli.it:3000/obiettivi-formativi',
-                          id: 'obiettivi-formativi',
-                        },
-                        {
-                          label: 'Cacciatori di bufale (si diventa)',
-                          href: 'https://localhost.zanichelli.it:3000/cacciatori-di-bufale-si-diventa',
-                          id: 'cacciatori-di-bufale-si-diventa',
-                          group: {
-                            id: '6-acqua-pulita-e-servizi-igienico-sanitari',
-                            label: '6 Acqua pulita e servizi igienico-sanitari',
-                          },
-                        },
-                        {
-                          label: 'Documento con copertina',
-                          href: 'https://localhost.zanichelli.it:3000/documento-con-copertina',
-                          id: 'documento-con-copertina',
-                        },
-                      ],
-                    },
-                    {
-                      label: 'Per chi studia',
-                      href: 'https://localhost.zanichelli.it:3000/per-chi-studia-4457ef',
-                      id: 'per-chi-studia-4457ef',
-                      menuItems: [],
-                    },
-                    {
-                      label: 'Per le scuole',
-                      href: 'https://localhost.zanichelli.it:3000/per-le-scuole',
-                      id: 'per-le-scuole',
-                      menuItems: [
-                        {
-                          label: 'La nostra proposta per i Bisogni Educativi Speciali',
-                          href: 'https://localhost.zanichelli.it:3000/longformtestfrappa',
-                          id: 'longformtestfrappa',
-                        },
-                      ],
-                    },
-                    {
-                      label: 'Per le librerie',
-                      href: 'https://localhost.zanichelli.it:3000/per-le-librerie',
-                      id: 'per-le-librerie',
-                      menuItems: [],
-                    },
-                  ],
-                },
-                {
-                  label: 'Università',
-                  href: 'https://localhost.zanichelli.it:3000/universita',
-                  id: 'universita',
-                  menuItems: [],
-                },
-                {
-                  label: 'Giuridico',
-                  href: 'https://localhost.zanichelli.it:3000/giuridico',
-                  id: 'giuridico',
-                  menuItems: [
-                    {
-                      label: 'Manuali universitari',
-                      href: 'https://localhost.zanichelli.it:3000/manuali-universitari',
-                      id: 'manuali-universitari',
-                      group: { id: 'gruppo-1', label: 'gruppo 1' },
-                      navbarItems: [],
-                    },
-                    {
-                      label: 'Notiziario zanichelli',
-                      href: 'https://localhost.zanichelli.it:3000/notiziario-zanichelli-ea8873',
-                      id: 'notiziario-zanichelli-ea8873',
-                      navbarItems: [],
-                    },
-                  ],
-                },
-                {
-                  label: 'Saggistica',
-                  href: 'https://localhost.zanichelli.it:3000/saggistica',
-                  id: 'saggistica',
-                  menuItems: [],
-                },
-              ])
-            );
-          });
-        </script>
-      </header>
+                      },
+                      {
+                        label: 'Documento con copertina',
+                        href: 'https://localhost.zanichelli.it:3000/documento-con-copertina',
+                        id: 'documento-con-copertina',
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Per chi studia',
+                    href: 'https://localhost.zanichelli.it:3000/per-chi-studia-4457ef',
+                    id: 'per-chi-studia-4457ef',
+                    menuItems: [],
+                  },
+                  {
+                    label: 'Per le scuole',
+                    href: 'https://localhost.zanichelli.it:3000/per-le-scuole',
+                    id: 'per-le-scuole',
+                    menuItems: [
+                      {
+                        label: 'La nostra proposta per i Bisogni Educativi Speciali',
+                        href: 'https://localhost.zanichelli.it:3000/longformtestfrappa',
+                        id: 'longformtestfrappa',
+                      },
+                    ],
+                  },
+                  {
+                    label: 'Per le librerie',
+                    href: 'https://localhost.zanichelli.it:3000/per-le-librerie',
+                    id: 'per-le-librerie',
+                    menuItems: [],
+                  },
+                ],
+              },
+              {
+                label: 'Università',
+                href: 'https://localhost.zanichelli.it:3000/universita',
+                id: 'universita',
+                menuItems: [],
+              },
+              {
+                label: 'Giuridico',
+                href: 'https://localhost.zanichelli.it:3000/giuridico',
+                id: 'giuridico',
+                menuItems: [
+                  {
+                    label: 'Manuali universitari',
+                    href: 'https://localhost.zanichelli.it:3000/manuali-universitari',
+                    id: 'manuali-universitari',
+                    group: { id: 'gruppo-1', label: 'gruppo 1' },
+                    navbarItems: [],
+                  },
+                  {
+                    label: 'Notiziario zanichelli',
+                    href: 'https://localhost.zanichelli.it:3000/notiziario-zanichelli-ea8873',
+                    id: 'notiziario-zanichelli-ea8873',
+                    navbarItems: [],
+                  },
+                ],
+              },
+              {
+                label: 'Saggistica',
+                href: 'https://localhost.zanichelli.it:3000/saggistica',
+                id: 'saggistica',
+                menuItems: [],
+              },
+            ])
+          );
+        });
+      </script>
+    </header>
 
+    <main>
       <section class="buttons font-serif">
         <div class="heading-1-bd">Buttons <span class="body-3">(z-button.zanit-button)</span></div>
         <section>
@@ -279,6 +279,10 @@
     body {
       margin: 0;
       padding: 0;
+    }
+
+    header {
+      width: 100%;
     }
 
     main {

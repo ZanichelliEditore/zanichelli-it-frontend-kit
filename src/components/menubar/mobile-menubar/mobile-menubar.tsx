@@ -134,7 +134,12 @@ export class ZanitMobileMenubar {
       return;
     }
 
-    this.search.emit({ query: this._searchQuery });
+    const searchEv = this.search.emit({ query: this._searchQuery });
+    // do not submit the form if the event default behavior was prevented
+    if (searchEv.defaultPrevented) {
+      return;
+    }
+
     this.formElement.submit();
   }
 
@@ -146,7 +151,7 @@ export class ZanitMobileMenubar {
   }
 
   /** Close the menu when clicking outside. */
-  @Listen('pointerdown', { target: 'document', passive: true })
+  @Listen('click', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
     if (containsTarget(this.host, event)) {
       return;
@@ -172,13 +177,13 @@ export class ZanitMobileMenubar {
     }
   }
 
-  /** Close the menu when it loses focus. */
-  @Listen('focusout', { passive: true })
+  /** Close the menu when the focus goes out. */
+  @Listen('focusin', { target: 'document', passive: true })
   handleFocusout(event: FocusEvent) {
-    const relatedTarget = event.relatedTarget as HTMLElement;
-    if (this.host.contains(relatedTarget)) {
+    if (containsTarget(this.host, event)) {
       return;
     }
+
     this.open = false;
   }
 
@@ -241,28 +246,28 @@ export class ZanitMobileMenubar {
               </form>
             </li>
 
-            {this.parentItem && (
-              <li role="none">
-                <a
-                  class="parent"
-                  href={this.parentItem.href}
-                  id={this.parentItem.id}
-                  role="menuitem"
-                  tabIndex={-1}
-                  onKeyDown={(event) => this.handleItemKeydown(event)}
-                >
-                  <z-icon
-                    name="arrow-left"
-                    width="8"
-                    height="8"
-                  ></z-icon>
-                  <span>
-                    {/* Show the 'Home' label if the parent of the current list is a root child. */}
-                    {this.items.some(({ id }) => this.current === id) ? 'Home' : this.parentItem.label}
-                  </span>
-                </a>
-              </li>
-            )}
+            <li role="none">
+              <a
+                class="parent"
+                href={this.parentItem?.href ?? '/'}
+                id={this.parentItem?.id ?? undefined}
+                role="menuitem"
+                tabIndex={-1}
+                onKeyDown={(event) => this.handleItemKeydown(event)}
+              >
+                <z-icon
+                  name="arrow-left"
+                  width="8"
+                  height="8"
+                ></z-icon>
+                <span>
+                  {console.log(this.parentItem?.id)}
+
+                  {/* Show the 'Home' label if the current item is a root child. */}
+                  {this.parentItem?.label ?? 'Home'}
+                </span>
+              </a>
+            </li>
 
             {this.menuType === 'menu' ? (
               <Menu
