@@ -47,10 +47,8 @@
 .title-4-md,
 .title-5-md,
 .title-6-md {
-  padding: 0;
-  margin: 0;
   font-family: var(--font-family-serif);
-  font-weight: var(--font-rg); /* default value that will be overridden */
+  font-weight: var(--font-rg);
 }
 
 .title-1-lt,
@@ -194,8 +192,6 @@
   font-family: var(--font-family-sans);
 }
 
-/* TODO: ripristinare la media query quando saranno implementati i valori per il mobile
-@media (width >= 768px) { */
 .title-1,
 .title-1-sb,
 .title-1-bd,
@@ -386,4 +382,581 @@
   line-height: 1.125rem; /* 18px */
 }
 
-/* } */
+/* Mobile-prefixed rules. use them to set the styles only in mobile viewport */
+@media (width < 768px) {
+  .mobile-title-1,
+  .mobile-title-1-sb,
+  .mobile-title-1-bd,
+  .mobile-title-1-rg,
+  .mobile-title-1-lt,
+  .mobile-title-1-md {
+    font-size: 4.5rem; /* 72px */
+    line-height: 5rem; /* 80px */
+  }
+
+  .mobile-title-2,
+  .mobile-title-2-sb,
+  .mobile-title-2-bd,
+  .mobile-title-2-rg,
+  .mobile-title-2-lt,
+  .mobile-title-2-md {
+    font-size: 3rem; /* 48px */
+    line-height: 3.25rem; /* 52px */
+  }
+
+  .mobile-title-3,
+  .mobile-title-3-sb,
+  .mobile-title-3-bd,
+  .mobile-title-3-rg,
+  .mobile-title-3-lt,
+  .mobile-title-3-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .mobile-title-4,
+  .mobile-title-4-sb,
+  .mobile-title-4-bd,
+  .mobile-title-4-rg,
+  .mobile-title-4-lt,
+  .mobile-title-4-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .mobile-title-5,
+  .mobile-title-5-sb,
+  .mobile-title-5-bd,
+  .mobile-title-5-rg,
+  .mobile-title-5-lt,
+  .mobile-title-5-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .mobile-title-6,
+  .mobile-title-6-sb,
+  .mobile-title-6-bd,
+  .mobile-title-6-rg,
+  .mobile-title-6-lt,
+  .mobile-title-6-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .mobile-heading-1,
+  .mobile-heading-1-sb,
+  .mobile-heading-1-bd,
+  .mobile-heading-1-rg,
+  .mobile-heading-1-lt,
+  .mobile-heading-1-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .mobile-heading-2,
+  .mobile-heading-2-sb,
+  .mobile-heading-2-bd,
+  .mobile-heading-2-rg,
+  .mobile-heading-2-lt,
+  .mobile-heading-2-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .mobile-heading-3,
+  .mobile-heading-3-sb,
+  .mobile-heading-3-bd,
+  .mobile-heading-3-rg,
+  .mobile-heading-3-lt,
+  .mobile-heading-3-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .mobile-heading-4,
+  .mobile-heading-4-sb,
+  .mobile-heading-4-bd,
+  .mobile-heading-4-rg,
+  .mobile-heading-4-lt,
+  .mobile-heading-4-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.375rem; /* 22px */
+  }
+
+  .mobile-body-1,
+  .mobile-body-1-sb,
+  .mobile-body-1-bd,
+  .mobile-body-1-rg,
+  .mobile-body-1-lt,
+  .mobile-body-1-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .mobile-body-2,
+  .mobile-body-2-sb,
+  .mobile-body-2-bd,
+  .mobile-body-2-rg,
+  .mobile-body-2-lt,
+  .mobile-body-2-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .mobile-body-3,
+  .mobile-body-3-sb,
+  .mobile-body-3-bd,
+  .mobile-body-3-rg,
+  .mobile-body-3-lt,
+  .mobile-body-3-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .mobile-body-4,
+  .mobile-body-4-sb,
+  .mobile-body-4-bd,
+  .mobile-body-4-rg,
+  .mobile-body-4-lt,
+  .mobile-body-4-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .mobile-body-5,
+  .mobile-body-5-sb,
+  .mobile-body-5-bd,
+  .mobile-body-5-rg,
+  .mobile-body-5-lt,
+  .mobile-body-5-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+
+  .mobile-body-6,
+  .mobile-body-6-sb,
+  .mobile-body-6-bd,
+  .mobile-body-6-rg,
+  .mobile-body-6-lt,
+  .mobile-body-6-md {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+  }
+
+  .mobile-body-7,
+  .mobile-body-7-sb,
+  .mobile-body-7-bd,
+  .mobile-body-7-rg,
+  .mobile-body-7-lt,
+  .mobile-body-7-md {
+    font-size: 0.625rem; /* 10px */
+    line-height: 0.875rem; /* 14px */
+  }
+
+  .mobile-interactive-1,
+  .mobile-interactive-1-sb,
+  .mobile-interactive-1-bd,
+  .mobile-interactive-1-rg,
+  .mobile-interactive-1-lt,
+  .mobile-interactive-1-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .mobile-interactive-2,
+  .mobile-interactive-2-sb,
+  .mobile-interactive-2-bd,
+  .mobile-interactive-2-rg,
+  .mobile-interactive-2-lt,
+  .mobile-interactive-2-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+}
+
+/* Tablet-prefixed rules. use them to set the styles only in tablet viewport */
+@media (width >= 768px) and (width < 1152px) {
+  .tablet-title-1,
+  .tablet-title-1-sb,
+  .tablet-title-1-bd,
+  .tablet-title-1-rg,
+  .tablet-title-1-lt,
+  .tablet-title-1-md {
+    font-size: 4.5rem; /* 72px */
+    line-height: 5rem; /* 80px */
+  }
+
+  .tablet-title-2,
+  .tablet-title-2-sb,
+  .tablet-title-2-bd,
+  .tablet-title-2-rg,
+  .tablet-title-2-lt,
+  .tablet-title-2-md {
+    font-size: 3rem; /* 48px */
+    line-height: 3.25rem; /* 52px */
+  }
+
+  .tablet-title-3,
+  .tablet-title-3-sb,
+  .tablet-title-3-bd,
+  .tablet-title-3-rg,
+  .tablet-title-3-lt,
+  .tablet-title-3-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .tablet-title-4,
+  .tablet-title-4-sb,
+  .tablet-title-4-bd,
+  .tablet-title-4-rg,
+  .tablet-title-4-lt,
+  .tablet-title-4-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .tablet-title-5,
+  .tablet-title-5-sb,
+  .tablet-title-5-bd,
+  .tablet-title-5-rg,
+  .tablet-title-5-lt,
+  .tablet-title-5-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .tablet-title-6,
+  .tablet-title-6-sb,
+  .tablet-title-6-bd,
+  .tablet-title-6-rg,
+  .tablet-title-6-lt,
+  .tablet-title-6-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .tablet-heading-1,
+  .tablet-heading-1-sb,
+  .tablet-heading-1-bd,
+  .tablet-heading-1-rg,
+  .tablet-heading-1-lt,
+  .tablet-heading-1-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .tablet-heading-2,
+  .tablet-heading-2-sb,
+  .tablet-heading-2-bd,
+  .tablet-heading-2-rg,
+  .tablet-heading-2-lt,
+  .tablet-heading-2-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .tablet-heading-3,
+  .tablet-heading-3-sb,
+  .tablet-heading-3-bd,
+  .tablet-heading-3-rg,
+  .tablet-heading-3-lt,
+  .tablet-heading-3-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .tablet-heading-4,
+  .tablet-heading-4-sb,
+  .tablet-heading-4-bd,
+  .tablet-heading-4-rg,
+  .tablet-heading-4-lt,
+  .tablet-heading-4-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.375rem; /* 22px */
+  }
+
+  .tablet-body-1,
+  .tablet-body-1-sb,
+  .tablet-body-1-bd,
+  .tablet-body-1-rg,
+  .tablet-body-1-lt,
+  .tablet-body-1-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .tablet-body-2,
+  .tablet-body-2-sb,
+  .tablet-body-2-bd,
+  .tablet-body-2-rg,
+  .tablet-body-2-lt,
+  .tablet-body-2-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .tablet-body-3,
+  .tablet-body-3-sb,
+  .tablet-body-3-bd,
+  .tablet-body-3-rg,
+  .tablet-body-3-lt,
+  .tablet-body-3-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .tablet-body-4,
+  .tablet-body-4-sb,
+  .tablet-body-4-bd,
+  .tablet-body-4-rg,
+  .tablet-body-4-lt,
+  .tablet-body-4-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .tablet-body-5,
+  .tablet-body-5-sb,
+  .tablet-body-5-bd,
+  .tablet-body-5-rg,
+  .tablet-body-5-lt,
+  .tablet-body-5-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+
+  .tablet-body-6,
+  .tablet-body-6-sb,
+  .tablet-body-6-bd,
+  .tablet-body-6-rg,
+  .tablet-body-6-lt,
+  .tablet-body-6-md {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+  }
+
+  .tablet-body-7,
+  .tablet-body-7-sb,
+  .tablet-body-7-bd,
+  .tablet-body-7-rg,
+  .tablet-body-7-lt,
+  .tablet-body-7-md {
+    font-size: 0.625rem; /* 10px */
+    line-height: 0.875rem; /* 14px */
+  }
+
+  .tablet-interactive-1,
+  .tablet-interactive-1-sb,
+  .tablet-interactive-1-bd,
+  .tablet-interactive-1-rg,
+  .tablet-interactive-1-lt,
+  .tablet-interactive-1-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .tablet-interactive-2,
+  .tablet-interactive-2-sb,
+  .tablet-interactive-2-bd,
+  .tablet-interactive-2-rg,
+  .tablet-interactive-2-lt,
+  .tablet-interactive-2-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+}
+
+/* Desktop-prefixed rules. use them to set the styles only in desktop viewport */
+@media (width >= 1152px) {
+  .desktop-title-1,
+  .desktop-title-1-sb,
+  .desktop-title-1-bd,
+  .desktop-title-1-rg,
+  .desktop-title-1-lt,
+  .desktop-title-1-md {
+    font-size: 4.5rem; /* 72px */
+    line-height: 5rem; /* 80px */
+  }
+
+  .desktop-title-2,
+  .desktop-title-2-sb,
+  .desktop-title-2-bd,
+  .desktop-title-2-rg,
+  .desktop-title-2-lt,
+  .desktop-title-2-md {
+    font-size: 3rem; /* 48px */
+    line-height: 3.25rem; /* 52px */
+  }
+
+  .desktop-title-3,
+  .desktop-title-3-sb,
+  .desktop-title-3-bd,
+  .desktop-title-3-rg,
+  .desktop-title-3-lt,
+  .desktop-title-3-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .desktop-title-4,
+  .desktop-title-4-sb,
+  .desktop-title-4-bd,
+  .desktop-title-4-rg,
+  .desktop-title-4-lt,
+  .desktop-title-4-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .desktop-title-5,
+  .desktop-title-5-sb,
+  .desktop-title-5-bd,
+  .desktop-title-5-rg,
+  .desktop-title-5-lt,
+  .desktop-title-5-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .desktop-title-6,
+  .desktop-title-6-sb,
+  .desktop-title-6-bd,
+  .desktop-title-6-rg,
+  .desktop-title-6-lt,
+  .desktop-title-6-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .desktop-heading-1,
+  .desktop-heading-1-sb,
+  .desktop-heading-1-bd,
+  .desktop-heading-1-rg,
+  .desktop-heading-1-lt,
+  .desktop-heading-1-md {
+    font-size: 2rem; /* 32px */
+    line-height: 2.75rem; /* 44px */
+  }
+
+  .desktop-heading-2,
+  .desktop-heading-2-sb,
+  .desktop-heading-2-bd,
+  .desktop-heading-2-rg,
+  .desktop-heading-2-lt,
+  .desktop-heading-2-md {
+    font-size: 1.75rem; /* 28px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .desktop-heading-3,
+  .desktop-heading-3-sb,
+  .desktop-heading-3-bd,
+  .desktop-heading-3-rg,
+  .desktop-heading-3-lt,
+  .desktop-heading-3-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .desktop-heading-4,
+  .desktop-heading-4-sb,
+  .desktop-heading-4-bd,
+  .desktop-heading-4-rg,
+  .desktop-heading-4-lt,
+  .desktop-heading-4-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.375rem; /* 22px */
+  }
+
+  .desktop-body-1,
+  .desktop-body-1-sb,
+  .desktop-body-1-bd,
+  .desktop-body-1-rg,
+  .desktop-body-1-lt,
+  .desktop-body-1-md {
+    font-size: 1.5rem; /* 24px */
+    line-height: 2rem; /* 32px */
+  }
+
+  .desktop-body-2,
+  .desktop-body-2-sb,
+  .desktop-body-2-bd,
+  .desktop-body-2-rg,
+  .desktop-body-2-lt,
+  .desktop-body-2-md {
+    font-size: 1.25rem; /* 20px */
+    line-height: 1.75rem; /* 28px */
+  }
+
+  .desktop-body-3,
+  .desktop-body-3-sb,
+  .desktop-body-3-bd,
+  .desktop-body-3-rg,
+  .desktop-body-3-lt,
+  .desktop-body-3-md {
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .desktop-body-4,
+  .desktop-body-4-sb,
+  .desktop-body-4-bd,
+  .desktop-body-4-rg,
+  .desktop-body-4-lt,
+  .desktop-body-4-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .desktop-body-5,
+  .desktop-body-5-sb,
+  .desktop-body-5-bd,
+  .desktop-body-5-rg,
+  .desktop-body-5-lt,
+  .desktop-body-5-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+
+  .desktop-body-6,
+  .desktop-body-6-sb,
+  .desktop-body-6-bd,
+  .desktop-body-6-rg,
+  .desktop-body-6-lt,
+  .desktop-body-6-md {
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+  }
+
+  .desktop-body-7,
+  .desktop-body-7-sb,
+  .desktop-body-7-bd,
+  .desktop-body-7-rg,
+  .desktop-body-7-lt,
+  .desktop-body-7-md {
+    font-size: 0.625rem; /* 10px */
+    line-height: 0.875rem; /* 14px */
+  }
+
+  .desktop-interactive-1,
+  .desktop-interactive-1-sb,
+  .desktop-interactive-1-bd,
+  .desktop-interactive-1-rg,
+  .desktop-interactive-1-lt,
+  .desktop-interactive-1-md {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5rem; /* 24px */
+  }
+
+  .desktop-interactive-2,
+  .desktop-interactive-2-sb,
+  .desktop-interactive-2-bd,
+  .desktop-interactive-2-rg,
+  .desktop-interactive-2-lt,
+  .desktop-interactive-2-md {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.125rem; /* 18px */
+  }
+}
