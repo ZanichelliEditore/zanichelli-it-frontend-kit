@@ -1,0 +1,217 @@
+:host {
+  --zanit-menubar-max-width: ;
+
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  color: var(--gray900);
+  font-family: var(--font-family-sans);
+}
+
+:host,
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+*:focus:focus-visible {
+  box-shadow: var(--shadow-focus-primary);
+  outline: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+a {
+  color: var(--gray900);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+:host nav {
+  width: 100%;
+}
+
+.shadow-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.shadow-wrapper::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow: var(--shadow-1);
+  content: '';
+  pointer-events: none;
+}
+
+.shadow-wrapper + .shadow-wrapper {
+  z-index: 0;
+}
+
+.shadow-wrapper > ul {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: var(--zanit-menubar-max-width, 1366px);
+  align-items: center;
+  padding: 0 var(--grid-margin);
+  margin-right: auto;
+  margin-left: auto;
+  gap: 20px;
+}
+
+ul.menubar {
+  padding-right: 0;
+}
+
+/* separator bar */
+.menubar > li[role='separator'] {
+  width: 1px;
+  height: 1.25rem;
+  background-color: #000;
+}
+
+.menubar-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 14px 0;
+  font-size: 1rem;
+  gap: 8px;
+  line-height: 1.25rem;
+}
+
+.menubar .menubar-item {
+  text-transform: uppercase;
+}
+
+.menubar-item [data-text] {
+  display: flex;
+  flex-direction: column;
+}
+
+.menubar-item.active > [data-text],
+.menubar-item:hover > [data-text],
+.menubar-item:focus:focus-visible > [data-text] {
+  font-weight: var(--font-bd);
+}
+
+/* To avoid size changes in the element, when it is hovered and becomes bold,
+we put the same text already bold with height 0, so as to always occupy the maximum necessary width. */
+.menubar-item > [data-text]::after {
+  height: 0;
+  content: attr(data-text) / '';
+  font-weight: var(--font-bd);
+  letter-spacing: normal;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+}
+
+.sub-menubar:not(.visible) {
+  display: none;
+}
+
+.sub-menubar > ul {
+  gap: 28px;
+}
+
+/* active item bottom border */
+.sub-menubar .menubar-item.active::after {
+  position: absolute;
+  z-index: -1;
+  bottom: 0;
+  left: -4px;
+  width: calc(100% + 8px); /* the border is 4px per side larger than its container */
+  height: 4px;
+  background-color: var(--red500);
+  content: '';
+}
+
+.searchbar-container {
+  margin-left: auto;
+}
+
+.searchbar {
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.searchbar.searchbar-open {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+
+.searchbar .input-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 0 var(--grid-margin);
+  background-color: #fff;
+  gap: 14px;
+}
+
+.searchbar button[type='reset'] {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.searchbar input {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 8px 0;
+  border: none;
+  background-color: #fff;
+  font-family: var(--font-family-sans);
+  font-size: inherit;
+}
+
+.searchbar input[type='search']::-webkit-search-cancel-button,
+.searchbar input[type='search']::-webkit-search-decoration {
+  appearance: none;
+}
+
+.searchbar input::placeholder {
+  color: var(--gray500);
+}
+
+.searchbar .searchbar-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-right: 1px solid #000;
+  border-left: 1px solid #000;
+  background: var(--zanit-accent-color);
+  font-family: inherit;
+  font-size: inherit;
+  gap: 64px;
+  line-height: 1;
+}
+
+.searchbar input:focus:focus-visible,
+.searchbar .searchbar-button:focus:focus-visible {
+  z-index: 1;
+}

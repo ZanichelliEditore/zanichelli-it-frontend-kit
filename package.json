@@ -1,0 +1,63 @@
+{
+  "name": "@zanichelli/zanichelli-it-frontend-kit",
+  "version": "0.0.1",
+  "description": "Zanichelli.it frontend kit",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZanichelliEditore/zanichelli-it-frontend-kit.git"
+  },
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.esm.js",
+      "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.cjs.js"
+    },
+    "./zanit-menubar": {
+      "import": "./dist/components/zanit-menubar.js",
+      "types": "./dist/components/zanit-menubar.d.ts"
+    },
+    "./loader": {
+      "import": "./loader/index.js",
+      "require": "./loader/index.cjs",
+      "types": "./loader/index.d.ts"
+    },
+    "./style": {
+      "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css",
+      "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
+    }
+  },
+  "files": [
+    "dist/",
+    "loader/",
+    "www/"
+  ],
+  "scripts": {
+    "build": "stencil build",
+    "start": "stencil build --dev --watch --no-cache --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watchAll",
+    "generate": "stencil generate",
+    "lint": "stylelint \"src/**/*.css\" && prettier --check .",
+    "lint-fix": "stylelint \"src/**/*.css\" --fix && prettier --write ."
+  },
+  "peerDependencies": {
+    "@zanichelli/albe-web-components": "^18.3.2"
+  },
+  "devDependencies": {
+    "@stencil/core": "^4.27.1",
+    "@types/node": "^22.13.5",
+    "prettier": "3.5.3",
+    "stylelint": "^16.19.1",
+    "stylelint-config-idiomatic-order": "^10.0.0",
+    "stylelint-config-standard": "^38.0.0"
+  },
+  "packageManager": "pnpm@10.10.0+sha256.fa0f513aa8191764d2b6b432420788c270f07b4f999099b65bb2010eec702a30"
+}

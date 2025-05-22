@@ -1,0 +1,23 @@
+@import url('~@zanichelli/albe-web-components/dist/web-components-library/web-components-library.css');
+@import url('./style/typography.css');
+@import url('./style/buttons.css');
+
+:root {
+  --zanit-accent-color: #ffe74c;
+
+  /* albe overrides */
+  --shadow-focus-primary: 0 0 0 2px #fff, 0 0 2px 5px var(--gray950);
+}
+
+.zanit-link,
+.zanit-link-inverse {
+  color: currentcolor;
+  font-family: inherit;
+  text-decoration: underline solid 12% var(--red500);
+  text-underline-offset: 28%;
+}
+
+.zanit-link-inverse {
+  color: var(--color-text-inverse);
+  text-decoration-color: var(--color-text-inverse);
+}
