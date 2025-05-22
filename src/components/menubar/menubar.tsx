@@ -104,8 +104,6 @@ export class ZanitMenubar {
   @Event({ cancelable: true }) search: EventEmitter<{ query: string }>;
 
   async connectedCallback() {
-    await this.parseData(this.data);
-    this.initTabindex();
     this.showSearchbar = !!this.searchQuery;
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
@@ -115,6 +113,8 @@ export class ZanitMenubar {
       this.openMenu = undefined;
       this.showSearchbar = false;
     };
+    await this.parseData(this.data);
+    this.initTabindex();
   }
 
   /** Close open searchbar or any open menu when clicking outside. */

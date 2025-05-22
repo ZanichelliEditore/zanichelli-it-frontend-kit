@@ -16,7 +16,6 @@ src/readme
 log.txt
 *.sublime-project
 *.sublime-workspace
-pnpm-lock.yaml
 
 .stencil/
 .idea/
@@ -30,3 +29,4 @@ $RECYCLE.BIN/
 Thumbs.db
 UserInterfaceState.xcuserstate
 .env
+/.pnpm-cache/
