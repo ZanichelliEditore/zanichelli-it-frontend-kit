@@ -215,3 +215,9 @@ we put the same text already bold with height 0, so as to always occupy the maxi
 .searchbar .searchbar-button:focus:focus-visible {
   z-index: 1;
 }
+
+@media (width >= 768px) and (width < 1152px) {
+  .searchbar .searchbar-button > .searchbar-button-label {
+    display: none;
+  }
+}

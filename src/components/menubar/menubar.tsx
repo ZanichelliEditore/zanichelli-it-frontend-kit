@@ -517,7 +517,7 @@ export class ZanitMenubar {
                   type={this.showSearchbar ? 'submit' : 'button'}
                   onClick={() => (this.showSearchbar = true)}
                 >
-                  {this.showSearchbar ? null : <span>Cerca</span>}
+                  {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
                   <z-icon
                     name="search"
                     width="2rem"
