@@ -8,7 +8,6 @@
   color: var(--gray900);
   fill: var(--gray900);
   font-family: var(--font-family-sans);
-  overflow-x: clip;
 }
 
 :host,
