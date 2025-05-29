@@ -30,8 +30,7 @@
       "types": "./loader/index.d.ts"
     },
     "./style": {
-      "import": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css",
-      "require": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
+      "default": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
     }
   },
   "files": [

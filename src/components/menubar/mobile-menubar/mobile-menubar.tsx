@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { MenubarItem, MenuItem } from '../../../utils/types';
 import { containsTarget, moveFocus } from '../../../utils/utils';
 import { Menu } from '../menu/menu';
-import { MenubarItem, MenuItem } from '../../../utils/types';
 
 /** Mobile menubar component. */
 @Component({
@@ -22,6 +22,9 @@ export class ZanitMobileMenubar {
 
   /** Initial search query. */
   @Prop({ mutable: true }) searchQuery: string | undefined = undefined;
+
+  /** Whether the menubar is loading the data. */
+  @Prop() loading: boolean = false;
 
   @State() parentItem: MenubarItem | undefined = undefined;
   @State() menuItems: MenubarItem[] | MenuItem[] | undefined = undefined;
@@ -261,26 +264,41 @@ export class ZanitMobileMenubar {
               </form>
             </li>
 
-            <li role="none">
-              <a
-                class="parent"
-                href={this.parentItem?.href ?? '/'}
-                id={this.parentItem?.id ?? undefined}
-                role="menuitem"
-                tabIndex={-1}
-                onKeyDown={(event) => this.handleItemKeydown(event)}
+            {!this.loading && this.current && (
+              <li role="none">
+                <a
+                  class="parent"
+                  href={this.parentItem?.href ?? '/'}
+                  id={this.parentItem?.id ?? undefined}
+                  role="menuitem"
+                  tabIndex={-1}
+                  onKeyDown={(event) => this.handleItemKeydown(event)}
+                >
+                  <z-icon
+                    name="arrow-left"
+                    width="0.5rem"
+                    height="0.5rem"
+                  ></z-icon>
+                  <span>
+                    {/* Show the 'Home' label if the current item is a root child. */}
+                    {this.parentItem?.label ?? 'Home'}
+                  </span>
+                </a>
+              </li>
+            )}
+
+            {this.loading && (
+              <div
+                class="items-container"
+                role="none"
               >
-                <z-icon
-                  name="arrow-left"
-                  width="0.5rem"
-                  height="0.5rem"
-                ></z-icon>
-                <span>
-                  {/* Show the 'Home' label if the current item is a root child. */}
-                  {this.parentItem?.label ?? 'Home'}
-                </span>
-              </a>
-            </li>
+                {[...new Array(4)].map(() => (
+                  <li role="none">
+                    <z-ghost-loading></z-ghost-loading>
+                  </li>
+                ))}
+              </div>
+            )}
 
             {this.menuType === 'menu' ? (
               <Menu

@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { Menu } from './menu/menu';
-import { containsTarget, moveFocus } from '../../utils/utils';
 import { MenubarItem } from '../../utils/types';
+import { containsTarget, moveFocus } from '../../utils/utils';
+import { Menu } from './menu/menu';
 
 /**
  * Main menubar component. Each item can have a menu with subitems
@@ -35,6 +35,8 @@ export class ZanitMenubar {
 
   @State() isMobile: boolean = false;
 
+  @State() loading: boolean = false;
+
   /** The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. */
   @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
@@ -52,9 +54,13 @@ export class ZanitMenubar {
     }
 
     if (data instanceof URL) {
+      this.loading = true;
       this.items = await this.fetchData(data);
+      this.loading = false;
     } else if (data instanceof Promise) {
+      this.loading = true;
       this.items = await data;
+      this.loading = false;
     } else if (typeof data === 'string') {
       try {
         this.items = JSON.parse(data);
@@ -425,6 +431,7 @@ export class ZanitMenubar {
           items={this.items}
           current={this.current}
           searchQuery={this.searchQuery}
+          loading={this.loading}
         />
       );
     }
@@ -440,6 +447,18 @@ export class ZanitMenubar {
             role="menubar"
             aria-label="Zanichelli.it"
           >
+            {this.loading &&
+              [...new Array(4)].map((_, index) => (
+                <Fragment>
+                  <li
+                    class="menubar-item"
+                    role="none"
+                  >
+                    <z-ghost-loading></z-ghost-loading>
+                  </li>
+                  {index < this.items?.length - 1 && <li role="separator"></li>}
+                </Fragment>
+              ))}
             {this.items?.map((item, index) => (
               <Fragment>
                 <li role="none">

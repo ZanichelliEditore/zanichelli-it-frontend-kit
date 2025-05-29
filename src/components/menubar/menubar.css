@@ -81,6 +81,12 @@ ul.menubar {
   padding-right: 0;
 }
 
+.menubar z-ghost-loading {
+  display: block;
+  width: 120px;
+  height: 1.25rem;
+}
+
 /* separator bar */
 .menubar > li[role='separator'] {
   width: 1px;

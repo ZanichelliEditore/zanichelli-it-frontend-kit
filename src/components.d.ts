@@ -40,6 +40,10 @@ export namespace Components {
          */
         "items": MenubarItem[];
         /**
+          * Whether the menubar is loading the data.
+         */
+        "loading": boolean;
+        /**
           * Initial search query.
          */
         "searchQuery": string | undefined;
@@ -137,6 +141,10 @@ declare namespace LocalJSX {
           * Menubar items.
          */
         "items"?: MenubarItem[];
+        /**
+          * Whether the menubar is loading the data.
+         */
+        "loading"?: boolean;
         /**
           * Emitted on search form submission.
          */

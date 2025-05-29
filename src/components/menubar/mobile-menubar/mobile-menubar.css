@@ -137,6 +137,11 @@ nav::after {
   gap: 8px;
 }
 
+.mobile-menu .items-container z-ghost-loading {
+  width: 40%;
+  height: 1.2rem;
+}
+
 .mobile-menu .items-container .menubar-item {
   display: block;
   width: 100%;
