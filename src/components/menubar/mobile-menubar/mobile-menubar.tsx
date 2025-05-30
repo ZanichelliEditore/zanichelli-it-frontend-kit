@@ -294,7 +294,12 @@ export class ZanitMobileMenubar {
               >
                 {[...new Array(4)].map(() => (
                   <li role="none">
-                    <z-ghost-loading></z-ghost-loading>
+                    <div
+                      class="menubar-item"
+                      role="none"
+                    >
+                      <z-ghost-loading></z-ghost-loading>
+                    </div>
                   </li>
                 ))}
               </div>

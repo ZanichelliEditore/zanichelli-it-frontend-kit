@@ -54,9 +54,7 @@ export class ZanitMenubar {
     }
 
     if (data instanceof URL) {
-      this.loading = true;
       this.items = await this.fetchData(data);
-      this.loading = false;
     } else if (data instanceof Promise) {
       this.loading = true;
       this.items = await data;
@@ -162,13 +160,16 @@ export class ZanitMenubar {
   /** Fetch data from passed URL. */
   private async fetchData(url: URL) {
     try {
+      this.loading = true;
       const data = await (await fetch(url)).json();
+      this.loading = false;
       if (!Array.isArray(data) || !data.every((item) => item satisfies MenubarItem)) {
         throw new Error('Invalid data structure. Expected an array of MenuItem objects.');
       }
 
       return data as MenubarItem[];
     } catch (error) {
+      this.loading = false;
       console.error('Error fetching menubar data:', error);
       throw new Error('Failed to fetch menubar data from the provided URL.', { cause: error });
     }
