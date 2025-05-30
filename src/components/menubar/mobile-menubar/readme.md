@@ -32,18 +32,9 @@ Mobile menubar component.
 
  - [zanit-menubar](..)
 
-### Depends on
-
-- z-logo
-- z-icon
-- z-ghost-loading
-
 ### Graph
 ```mermaid
 graph TD;
-  zanit-mobile-menubar --> z-logo
-  zanit-mobile-menubar --> z-icon
-  zanit-mobile-menubar --> z-ghost-loading
   zanit-menubar --> zanit-mobile-menubar
   style zanit-mobile-menubar fill:#f9f,stroke:#333,stroke-width:4px
 ```

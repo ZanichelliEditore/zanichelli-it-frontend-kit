@@ -10,5 +10,3 @@
 
 export type * from './components.d.ts';
 export * from './utils/types';
-
-import '@zanichelli/albe-web-components';

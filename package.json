@@ -29,9 +29,8 @@
       "require": "./loader/index.cjs",
       "types": "./loader/index.d.ts"
     },
-    "./style": {
-      "default": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
-    }
+    "./style.css": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css",
+    "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
   },
   "files": [
     "dist/",

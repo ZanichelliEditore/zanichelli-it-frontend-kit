@@ -16,10 +16,22 @@ In your project import the library by adding the following line to your `index.t
 import '@zanichelli/zanichelli-it-frontend-kit';
 ```
 
+or import the specific components you need:
+
+```javascript
+import '@zanichelli/zanichelli-it-frontend-kit/zanit-menubar';
+```
+
 Import the styles in your main stylesheet:
 
 ```css
-@import '@zanichelli/zanichelli-it-frontend-kit/src/styles';
+@import '@zanichelli/zanichelli-it-frontend-kit/dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css';
+```
+
+or
+
+```css
+@import '@zanichelli/zanichelli-it-frontend-kit/style.css';
 ```
 
 ## Components

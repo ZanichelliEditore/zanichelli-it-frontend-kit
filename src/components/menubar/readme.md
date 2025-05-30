@@ -29,18 +29,11 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 ### Depends on
 
 - [zanit-mobile-menubar](mobile-menubar)
-- z-ghost-loading
-- z-icon
 
 ### Graph
 ```mermaid
 graph TD;
   zanit-menubar --> zanit-mobile-menubar
-  zanit-menubar --> z-ghost-loading
-  zanit-menubar --> z-icon
-  zanit-mobile-menubar --> z-logo
-  zanit-mobile-menubar --> z-icon
-  zanit-mobile-menubar --> z-ghost-loading
   style zanit-menubar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

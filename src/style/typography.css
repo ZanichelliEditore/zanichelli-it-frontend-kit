@@ -1,14 +1,6 @@
 :root {
-  /* font-family */
-  --font-family-sans: 'IBM Plex Sans', sans-serif;
-  --font-family-serif: 'IBM Plex Serif', serif;
-
   /* font-weight */
-  --font-lt: 300;
-  --font-rg: 400;
   --font-md: 500;
-  --font-sb: 600;
-  --font-bd: 700;
 }
 
 .title-1,

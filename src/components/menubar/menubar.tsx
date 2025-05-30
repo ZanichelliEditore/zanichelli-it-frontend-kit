@@ -451,13 +451,12 @@ export class ZanitMenubar {
             {this.loading &&
               [...new Array(4)].map((_, index) => (
                 <Fragment>
-                  <li
-                    class="menubar-item"
-                    role="none"
-                  >
-                    <z-ghost-loading></z-ghost-loading>
+                  <li role="none">
+                    <div class="menubar-item">
+                      <z-ghost-loading></z-ghost-loading>
+                    </div>
                   </li>
-                  {index < this.items?.length - 1 && <li role="separator"></li>}
+                  {index < 3 && <li role="separator"></li>}
                 </Fragment>
               ))}
             {this.items?.map((item, index) => (

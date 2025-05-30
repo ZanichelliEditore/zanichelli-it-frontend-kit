@@ -7,13 +7,16 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'dist',
+      empty: true,
       isPrimaryPackageOutputTarget: true,
       esmLoaderPath: '../loader',
     },
     {
       type: 'dist-custom-elements',
       customElementsExportBehavior: 'auto-define-custom-elements',
+      generateTypeDeclarations: true,
       externalRuntime: false,
+      empty: true,
     },
     {
       type: 'docs-readme',
@@ -21,6 +24,7 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: null, // disable service workers
+      empty: true,
     },
   ],
   extras: {
