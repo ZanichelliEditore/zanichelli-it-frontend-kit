@@ -1,0 +1,143 @@
+:host,
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+*:focus:focus-visible {
+  box-shadow: var(--shadow-focus-primary);
+  outline: none;
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+@media (width < 768px) {
+  .searchbar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 4px;
+  }
+
+  .searchbar > *:first-child {
+    /* To have a seamless appearance of the border radius of an internal child element nested within a parent element with rounded borders, we need to subtract the parent's border thickness from the child's border radius. Inner Radius = Outer Radius - Border Thickness */
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+
+  .searchbar button[type='reset'] {
+    display: flex;
+    padding: 0 0 0 8px;
+    cursor: pointer;
+  }
+
+  .searchbar input {
+    width: 100%;
+    height: 100%;
+    padding: 4px 8px;
+    border: none;
+    background-color: #fff;
+    font-family: var(--font-family-sans);
+    font-size: 1rem;
+  }
+
+  .searchbar input[type='search']::-webkit-search-cancel-button,
+  .searchbar input[type='search']::-webkit-search-decoration {
+    appearance: none;
+  }
+
+  .searchbar input::placeholder {
+    color: var(--gray500);
+  }
+
+  .searchbar .searchbar-button {
+    padding: 4px 8px;
+    border-left: 1px solid #000;
+    background: var(--zanit-accent-color);
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  .searchbar input:focus:focus-visible,
+  .searchbar .searchbar-button:focus:focus-visible {
+    z-index: 1;
+  }
+}
+
+@media (width >= 768px) {
+  .searchbar {
+    display: flex;
+    font-size: 1.5rem;
+  }
+
+  .searchbar.searchbar-open {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+  }
+
+  .searchbar .input-wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 0 0 0 var(--grid-margin);
+    background-color: #fff;
+    gap: 14px;
+  }
+
+  .searchbar button[type='reset'] {
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .searchbar input {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    padding: 8px 14px 8px 0;
+    border: none;
+    background-color: #fff;
+    font-family: var(--font-family-sans);
+    font-size: inherit;
+  }
+
+  .searchbar input[type='search']::-webkit-search-cancel-button,
+  .searchbar input[type='search']::-webkit-search-decoration {
+    appearance: none;
+  }
+
+  .searchbar input::placeholder {
+    color: var(--gray500);
+  }
+
+  .searchbar .searchbar-button {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-right: 1px solid #000;
+    border-left: 1px solid #000;
+    background: var(--zanit-accent-color);
+    font-family: inherit;
+    font-size: inherit;
+    gap: 64px;
+    line-height: 1;
+  }
+
+  .searchbar input:focus:focus-visible,
+  .searchbar .searchbar-button:focus:focus-visible {
+    z-index: 1;
+  }
+}
+
+@media (width >= 768px) and (width < 1152px) {
+  .searchbar .searchbar-button > .searchbar-button-label {
+    display: none;
+  }
+}

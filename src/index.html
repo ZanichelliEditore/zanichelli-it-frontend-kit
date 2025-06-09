@@ -37,7 +37,10 @@
 
   <body>
     <header>
-      <zanit-menubar current="per-chi-insegna-fb74aa"></zanit-menubar>
+      <zanit-menubar
+        current="per-chi-insegna"
+        search-query="ciao"
+      ></zanit-menubar>
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           document.querySelector('zanit-menubar')?.setAttribute(
@@ -50,8 +53,8 @@
                 navbarItems: [
                   {
                     label: 'Per chi insegna',
-                    href: 'https://localhost.zanichelli.it:3000/per-chi-insegna-fb74aa',
-                    id: 'per-chi-insegna-fb74aa',
+                    href: 'https://localhost.zanichelli.it:3000/per-chi-insegna',
+                    id: 'per-chi-insegna',
                     menuItems: [
                       {
                         label: 'Perché è difficile riconoscere le fake news in Rete?',

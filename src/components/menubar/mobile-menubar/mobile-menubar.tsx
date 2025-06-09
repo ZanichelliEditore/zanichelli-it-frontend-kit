@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { MenubarItem, MenuItem } from '../../../utils/types';
 import { containsTarget, moveFocus } from '../../../utils/utils';
 import { Menu } from '../menu/menu';
@@ -10,8 +10,6 @@ import { Menu } from '../menu/menu';
   shadow: true,
 })
 export class ZanitMobileMenubar {
-  private formElement: HTMLFormElement;
-
   @Element() host: HTMLZanitMobileMenubarElement;
 
   /** ID of the current active item. */
@@ -31,9 +29,6 @@ export class ZanitMobileMenubar {
   /** Whether the items to render come from a menubar or a menu. */
   @State() menuType: 'menubar' | 'menu' | undefined = undefined;
   @State() open: boolean;
-
-  /** Search query to apply. */
-  @State() _searchQuery: string | undefined = undefined;
 
   @Watch('items')
   @Watch('current')
@@ -127,28 +122,6 @@ export class ZanitMobileMenubar {
     }
   }
 
-  private handleInputChange(event: Event) {
-    this._searchQuery = (event.target as HTMLInputElement).value;
-  }
-
-  private onSearchSubmit(event: Event) {
-    event.preventDefault();
-    if (!this._searchQuery) {
-      return;
-    }
-
-    const searchEv = this.search.emit({ query: this._searchQuery });
-    // do not submit the form if the event default behavior was prevented
-    if (searchEv.defaultPrevented) {
-      return;
-    }
-
-    this.formElement.submit();
-  }
-
-  /** Emitted on search form submission. */
-  @Event() search: EventEmitter<{ query: string }>;
-
   connectedCallback() {
     this.setupData(this.items);
   }
@@ -218,50 +191,10 @@ export class ZanitMobileMenubar {
             role="menubar"
           >
             <li role="none">
-              <form
-                class="searchbar"
-                ref={(el) => (this.formElement = el as HTMLFormElement)}
-                role="search"
-                aria-label="Cerca"
-                method="get"
-                action="/ricerca"
-                onSubmit={(event) => this.onSearchSubmit(event)}
-                onReset={() => (this.searchQuery = undefined)}
-              >
-                {this.searchQuery && (
-                  <button
-                    type="reset"
-                    aria-label="Svuota campo di ricerca"
-                  >
-                    <z-icon
-                      name="multiply-circled"
-                      width="1rem"
-                      height="1rem"
-                    />
-                  </button>
-                )}
-                <input
-                  id="searchbar-input"
-                  name="q"
-                  type="search"
-                  placeholder="Cerca per parola chiave o ISBN"
-                  onInput={(event) => this.handleInputChange(event)}
-                  value={this.searchQuery}
-                  required
-                ></input>
-                <button
-                  class="searchbar-button"
-                  aria-controls="searchbar-input"
-                  aria-label="Cerca"
-                  type="submit"
-                >
-                  <z-icon
-                    name="search"
-                    width="1.25rem"
-                    height="1.25rem"
-                  ></z-icon>
-                </button>
-              </form>
+              <zanit-search-form
+                searchQuery={this.searchQuery}
+                onResetSearch={() => (this.searchQuery = undefined)}
+              />
             </li>
 
             {!this.loading && this.current && (

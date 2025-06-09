@@ -19,22 +19,20 @@ Mobile menubar component.
 | `searchQuery` | `search-query` | Initial search query.                    | `string`        | `undefined` |
 
 
-## Events
-
-| Event    | Description                        | Type                              |
-| -------- | ---------------------------------- | --------------------------------- |
-| `search` | Emitted on search form submission. | `CustomEvent<{ query: string; }>` |
-
-
 ## Dependencies
 
 ### Used by
 
  - [zanit-menubar](..)
 
+### Depends on
+
+- [zanit-search-form](../search-form)
+
 ### Graph
 ```mermaid
 graph TD;
+  zanit-mobile-menubar --> zanit-search-form
   zanit-menubar --> zanit-mobile-menubar
   style zanit-mobile-menubar fill:#f9f,stroke:#333,stroke-width:4px
 ```

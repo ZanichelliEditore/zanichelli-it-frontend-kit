@@ -25,9 +25,9 @@
       "types": "./dist/components/zanit-menubar.d.ts"
     },
     "./loader": {
+      "types": "./loader/index.d.ts",
       "import": "./loader/index.js",
-      "require": "./loader/index.cjs",
-      "types": "./loader/index.d.ts"
+      "require": "./loader/index.cjs"
     },
     "./style.css": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css",
     "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css": "./dist/zanichelli-it-frontend-kit/zanichelli-it-frontend-kit.css"
@@ -43,19 +43,23 @@
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll",
     "generate": "stencil generate",
-    "lint": "stylelint \"src/**/*.css\" && prettier --check .",
-    "lint-fix": "stylelint \"src/**/*.css\" --fix && prettier --write ."
+    "lint": "eslint . && stylelint \"src/**/*.css\" && prettier --check .",
+    "lint-fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix && prettier --write ."
   },
   "peerDependencies": {
     "@zanichelli/albe-web-components": "^18.3.2"
   },
   "devDependencies": {
-    "@stencil/core": "^4.27.1",
+    "@eslint/js": "^9.28.0",
+    "@stencil/core": "^4.33.1",
     "@types/node": "^22.13.5",
+    "eslint": "^9.28.0",
     "prettier": "3.5.3",
     "stylelint": "^16.19.1",
     "stylelint-config-idiomatic-order": "^10.0.0",
-    "stylelint-config-standard": "^38.0.0"
+    "stylelint-config-standard": "^38.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1"
   },
   "packageManager": "pnpm@10.10.0+sha256.fa0f513aa8191764d2b6b432420788c270f07b4f999099b65bb2010eec702a30"
 }

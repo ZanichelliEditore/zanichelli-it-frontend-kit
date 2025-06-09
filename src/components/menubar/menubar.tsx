@@ -1,4 +1,4 @@
-import { Component, Element, Event, EventEmitter, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
+import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { MenubarItem } from '../../utils/types';
 import { containsTarget, moveFocus } from '../../utils/utils';
 import { Menu } from './menu/menu';
@@ -14,37 +14,37 @@ import { Menu } from './menu/menu';
   shadow: true,
 })
 export class ZanitMenubar {
-  private formElement: HTMLFormElement;
-
   @Element() host: HTMLZanitMenubarElement;
 
   /** Menubar items extracted from `data`. */
-  @State() items: MenubarItem[] = [];
+  @State()
+  items: MenubarItem[] = [];
 
   /** ID of the currently open menu. */
-  @State() openMenu: string | undefined = undefined;
+  @State()
+  openMenu: string | undefined = undefined;
 
   /** ID of the item to show the subitems navbar for. */
-  @State() openNavbar: string | undefined = undefined;
+  @State()
+  openNavbar: string | undefined = undefined;
 
-  /** Indicates whether the searchbar is visible and usable. */
-  @State() showSearchbar: boolean = false;
+  @State()
+  isMobile: boolean = false;
 
-  /** Search query to apply. */
-  @State() _searchQuery: string | undefined = undefined;
-
-  @State() isMobile: boolean = false;
-
-  @State() loading: boolean = false;
+  @State()
+  loading: boolean = false;
 
   /** The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. */
-  @Prop() data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
+  @Prop()
+  data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
   /** ID of the current active item. */
-  @Prop() current: string | undefined = undefined;
+  @Prop()
+  current: string | undefined = undefined;
 
   /** Initial search query. */
-  @Prop({ mutable: true }) searchQuery: string | undefined = undefined;
+  @Prop({ mutable: true })
+  searchQuery: string | undefined = undefined;
 
   /** Setup the list of items. */
   @Watch('data')
@@ -69,7 +69,7 @@ export class ZanitMenubar {
         let url: URL;
         try {
           url = new URL(data);
-        } catch (error) {
+        } catch {
           throw new Error('Invalid string provided for `data` property: not a valid url or JSON.');
         }
 
@@ -89,45 +89,21 @@ export class ZanitMenubar {
     this.initTabindex();
   }
 
-  /** Focus searchbar input when it becomes visible. */
-  @Watch('showSearchbar')
-  onShowSearchbar() {
-    if (!this.showSearchbar) {
-      return;
-    }
-
-    setTimeout(() => {
-      const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-      if (this.showSearchbar && !this.searchQuery) {
-        searchbarInput.focus();
-      }
-    }, 100);
-  }
-
-  /** Emitted on search form submission. */
-  @Event({ cancelable: true }) search: EventEmitter<{ query: string }>;
-
   async connectedCallback() {
-    this.showSearchbar = !!this.searchQuery;
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
     mobileMediaQuery.onchange = (mql) => {
       this.isMobile = mql.matches;
       this.initTabindex();
       this.openMenu = undefined;
-      this.showSearchbar = false;
     };
     await this.parseData(this.data);
     this.initTabindex();
   }
 
-  /** Close open searchbar or any open menu when clicking outside. */
+  /** Close any open menu when clicking outside. */
   @Listen('click', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
-    if (this.showSearchbar && this.formElement && !containsTarget(this.formElement, event)) {
-      this.showSearchbar = false;
-    }
-
     if (!this.openMenu || containsTarget(this.host, event)) {
       return;
     }
@@ -375,7 +351,7 @@ export class ZanitMenubar {
         break;
       }
       // Move the focus to the first item of the previous group if any, otherwise move it to the previous menubar item
-      case 'ArrowLeft':
+      case 'ArrowLeft': {
         event.preventDefault();
         event.stopPropagation();
         const currentGroup = itemElement.closest('[role=group]') as HTMLElement;
@@ -391,6 +367,7 @@ export class ZanitMenubar {
         const prevGroupItems = (prevGroup.querySelectorAll('[role="menuitem"]') ?? []) as HTMLElement[];
         moveFocus(itemElement, prevGroupItems[0]);
         break;
+      }
       case 'Home':
         // Move to the first menu item
         event.preventDefault();
@@ -404,25 +381,6 @@ export class ZanitMenubar {
         moveFocus(itemElement, items[items.length - 1]);
         break;
     }
-  }
-
-  private handleInputChange(event: Event) {
-    this._searchQuery = (event.target as HTMLInputElement).value;
-  }
-
-  private onSearchSubmit(event: Event) {
-    event.preventDefault();
-    if (!this._searchQuery) {
-      return;
-    }
-
-    const searchEv = this.search.emit({ query: this._searchQuery });
-    // do not submit the form if the event default behavior was prevented
-    if (searchEv.defaultPrevented) {
-      return;
-    }
-
-    this.formElement.submit();
   }
 
   render() {
@@ -491,59 +449,10 @@ export class ZanitMenubar {
               class="searchbar-container"
               role="none"
             >
-              <form
-                class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
-                ref={(el) => (this.formElement = el)}
-                role="search"
-                aria-label="Cerca"
-                method="get"
-                action="/ricerca"
-                onSubmit={(event) => this.onSearchSubmit(event)}
-                onReset={() => (this.searchQuery = undefined)}
-              >
-                {this.showSearchbar && (
-                  <div
-                    class="input-wrapper"
-                    role="none"
-                  >
-                    {this.searchQuery && (
-                      <button
-                        type="reset"
-                        aria-label="Svuota campo di ricerca"
-                      >
-                        <z-icon
-                          name="multiply-circled"
-                          width="1.5rem"
-                          height="1.5rem"
-                        />
-                      </button>
-                    )}
-                    <input
-                      id="searchbar-input"
-                      name="q"
-                      type="search"
-                      placeholder="Cerca per parola chiave o ISBN"
-                      onInput={(event) => this.handleInputChange(event)}
-                      value={this.searchQuery}
-                      required
-                    ></input>
-                  </div>
-                )}
-                <button
-                  class="searchbar-button"
-                  aria-label="Cerca"
-                  aria-controls="searchbar-input"
-                  type={this.showSearchbar ? 'submit' : 'button'}
-                  onClick={() => (this.showSearchbar = true)}
-                >
-                  {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
-                  <z-icon
-                    name="search"
-                    width="2rem"
-                    height="2rem"
-                  ></z-icon>
-                </button>
-              </form>
+              <zanit-search-form
+                searchQuery={this.searchQuery}
+                onResetSearch={() => (this.searchQuery = undefined)}
+              />
             </li>
           </ul>
           {this.items.map(

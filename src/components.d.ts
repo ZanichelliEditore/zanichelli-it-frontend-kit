@@ -16,6 +16,7 @@ export namespace Components {
     interface ZanitMenubar {
         /**
           * ID of the current active item.
+          * @default undefined
          */
         "current": string | undefined;
         /**
@@ -24,6 +25,7 @@ export namespace Components {
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
           * Initial search query.
+          * @default undefined
          */
         "searchQuery": string | undefined;
     }
@@ -33,76 +35,80 @@ export namespace Components {
     interface ZanitMobileMenubar {
         /**
           * ID of the current active item.
+          * @default undefined
          */
         "current": string | undefined;
         /**
           * Menubar items.
+          * @default []
          */
         "items": MenubarItem[];
         /**
           * Whether the menubar is loading the data.
+          * @default false
          */
         "loading": boolean;
         /**
           * Initial search query.
+          * @default undefined
+         */
+        "searchQuery": string | undefined;
+    }
+    interface ZanitSearchForm {
+        /**
+          * Initial search query
+          * @default undefined
          */
         "searchQuery": string | undefined;
     }
 }
-export interface ZanitMenubarCustomEvent<T> extends CustomEvent<T> {
+export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
     detail: T;
-    target: HTMLZanitMenubarElement;
-}
-export interface ZanitMobileMenubarCustomEvent<T> extends CustomEvent<T> {
-    detail: T;
-    target: HTMLZanitMobileMenubarElement;
+    target: HTMLZanitSearchFormElement;
 }
 declare global {
-    interface HTMLZanitMenubarElementEventMap {
-        "search": { query: string };
-    }
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface HTMLZanitMenubarElement extends Components.ZanitMenubar, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLZanitMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMenubarElement, ev: ZanitMenubarCustomEvent<HTMLZanitMenubarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLZanitMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMenubarElement, ev: ZanitMenubarCustomEvent<HTMLZanitMenubarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLZanitMenubarElement: {
         prototype: HTMLZanitMenubarElement;
         new (): HTMLZanitMenubarElement;
     };
-    interface HTMLZanitMobileMenubarElementEventMap {
-        "search": { query: string };
-    }
     /**
      * Mobile menubar component.
      */
     interface HTMLZanitMobileMenubarElement extends Components.ZanitMobileMenubar, HTMLStencilElement {
-        addEventListener<K extends keyof HTMLZanitMobileMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMobileMenubarElement, ev: ZanitMobileMenubarCustomEvent<HTMLZanitMobileMenubarElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLZanitMobileMenubarElementEventMap>(type: K, listener: (this: HTMLZanitMobileMenubarElement, ev: ZanitMobileMenubarCustomEvent<HTMLZanitMobileMenubarElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLZanitMobileMenubarElement: {
         prototype: HTMLZanitMobileMenubarElement;
         new (): HTMLZanitMobileMenubarElement;
     };
+    interface HTMLZanitSearchFormElementEventMap {
+        "search": { query: string };
+        "resetSearch": void;
+    }
+    interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLZanitSearchFormElement: {
+        prototype: HTMLZanitSearchFormElement;
+        new (): HTMLZanitSearchFormElement;
+    };
     interface HTMLElementTagNameMap {
         "zanit-menubar": HTMLZanitMenubarElement;
         "zanit-mobile-menubar": HTMLZanitMobileMenubarElement;
+        "zanit-search-form": HTMLZanitSearchFormElement;
     }
 }
 declare namespace LocalJSX {
@@ -114,6 +120,7 @@ declare namespace LocalJSX {
     interface ZanitMenubar {
         /**
           * ID of the current active item.
+          * @default undefined
          */
         "current"?: string | undefined;
         /**
@@ -121,11 +128,8 @@ declare namespace LocalJSX {
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * Emitted on search form submission.
-         */
-        "onSearch"?: (event: ZanitMenubarCustomEvent<{ query: string }>) => void;
-        /**
           * Initial search query.
+          * @default undefined
          */
         "searchQuery"?: string | undefined;
     }
@@ -135,28 +139,41 @@ declare namespace LocalJSX {
     interface ZanitMobileMenubar {
         /**
           * ID of the current active item.
+          * @default undefined
          */
         "current"?: string | undefined;
         /**
           * Menubar items.
+          * @default []
          */
         "items"?: MenubarItem[];
         /**
           * Whether the menubar is loading the data.
+          * @default false
          */
         "loading"?: boolean;
         /**
+          * Initial search query.
+          * @default undefined
+         */
+        "searchQuery"?: string | undefined;
+    }
+    interface ZanitSearchForm {
+        "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;
+        /**
           * Emitted on search form submission.
          */
-        "onSearch"?: (event: ZanitMobileMenubarCustomEvent<{ query: string }>) => void;
+        "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string }>) => void;
         /**
-          * Initial search query.
+          * Initial search query
+          * @default undefined
          */
         "searchQuery"?: string | undefined;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;
         "zanit-mobile-menubar": ZanitMobileMenubar;
+        "zanit-search-form": ZanitSearchForm;
     }
 }
 export { LocalJSX as JSX };
@@ -173,6 +190,7 @@ declare module "@stencil/core" {
              * Mobile menubar component.
              */
             "zanit-mobile-menubar": LocalJSX.ZanitMobileMenubar & JSXBase.HTMLAttributes<HTMLZanitMobileMenubarElement>;
+            "zanit-search-form": LocalJSX.ZanitSearchForm & JSXBase.HTMLAttributes<HTMLZanitSearchFormElement>;
         }
     }
 }

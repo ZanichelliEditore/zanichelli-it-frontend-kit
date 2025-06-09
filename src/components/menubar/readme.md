@@ -17,23 +17,19 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 | `searchQuery` | `search-query` | Initial search query.                                                                                         | `string`                                                   | `undefined` |
 
 
-## Events
-
-| Event    | Description                        | Type                              |
-| -------- | ---------------------------------- | --------------------------------- |
-| `search` | Emitted on search form submission. | `CustomEvent<{ query: string; }>` |
-
-
 ## Dependencies
 
 ### Depends on
 
 - [zanit-mobile-menubar](mobile-menubar)
+- [zanit-search-form](search-form)
 
 ### Graph
 ```mermaid
 graph TD;
   zanit-menubar --> zanit-mobile-menubar
+  zanit-menubar --> zanit-search-form
+  zanit-mobile-menubar --> zanit-search-form
   style zanit-menubar fill:#f9f,stroke:#333,stroke-width:4px
 ```
 
