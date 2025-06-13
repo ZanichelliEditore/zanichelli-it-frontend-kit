@@ -470,16 +470,12 @@ export class ZanitMenubar {
                 {index < this.items?.length - 1 && <li role="separator"></li>}
               </Fragment>
             ))}
-            <li
-              class="searchbar-container"
-              role="none"
-            >
-              <zanit-search-form
-                searchQuery={this.searchQuery}
-                onResetSearch={() => (this.searchQuery = undefined)}
-              />
-            </li>
           </ul>
+          <zanit-search-form
+            searchQuery={this.searchQuery}
+            onResetSearch={() => (this.searchQuery = undefined)}
+          />
+
           {this.items.map(
             (item) =>
               this.openMenu === item.id && (

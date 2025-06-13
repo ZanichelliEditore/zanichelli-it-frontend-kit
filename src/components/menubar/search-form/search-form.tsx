@@ -160,34 +160,33 @@ export class ZanitSearchForm {
         onSubmit={(event) => this.onSearchSubmit(event)}
         onReset={() => this.resetSearchQuery()}
       >
-        {this.showSearchbar && (
-          <div
-            class="input-wrapper"
-            role="none"
-          >
-            {this.searchQuery && (
-              <button
-                type="reset"
-                aria-label="Svuota campo di ricerca"
-              >
-                <z-icon
-                  name="multiply-circled"
-                  width="1.5rem"
-                  height="1.5rem"
-                />
-              </button>
-            )}
-            <input
-              id="searchbar-input"
-              name="q"
-              type="search"
-              placeholder="Cerca per parola chiave o ISBN"
-              onInput={(event) => this.handleInputChange(event)}
-              value={this.searchQuery}
-              required
-            ></input>
-          </div>
-        )}
+        <div
+          class={{ 'hide': !this.showSearchbar, 'input-wrapper': true }}
+          role="none"
+        >
+          {this.searchQuery && (
+            <button
+              type="reset"
+              aria-label="Svuota campo di ricerca"
+            >
+              <z-icon
+                name="multiply-circled"
+                width="1.5rem"
+                height="1.5rem"
+              />
+            </button>
+          )}
+          <input
+            id="searchbar-input"
+            name="q"
+            type="search"
+            placeholder="Cerca per parola chiave o ISBN"
+            onInput={(event) => this.handleInputChange(event)}
+            value={this.searchQuery}
+            required
+          ></input>
+        </div>
+
         <button
           class="searchbar-button"
           aria-label="Cerca"

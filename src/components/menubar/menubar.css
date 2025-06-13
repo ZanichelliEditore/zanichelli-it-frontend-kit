@@ -44,6 +44,7 @@ button {
 }
 
 .shadow-wrapper {
+  display: flex;
   position: relative;
   z-index: 1;
   width: 100%;
@@ -151,6 +152,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   content: '';
 }
 
-.searchbar-container {
+zanit-search-form {
   margin-left: auto;
 }
