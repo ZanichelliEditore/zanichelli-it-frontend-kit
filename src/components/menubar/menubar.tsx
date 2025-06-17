@@ -449,7 +449,9 @@ export class ZanitMenubar {
                       id={item.id}
                       role="menuitem"
                       tabIndex={-1}
-                      aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
+                      aria-expanded={
+                        item.menuItems?.length ? (this.openMenu === item.id ? 'true' : 'false') : undefined
+                      }
                       aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
                       aria-current={this.current === item.id ? 'page' : 'false'}
                       onPointerOver={() => this.showMenu(item)}
@@ -503,7 +505,9 @@ export class ZanitMenubar {
                           role="menuitem"
                           tabIndex={-1}
                           aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
-                          aria-expanded={this.openMenu === subitem.id ? 'true' : 'false'}
+                          aria-expanded={
+                            subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
+                          }
                           aria-current={this.current === item.id ? 'page' : 'false'}
                           onPointerOver={() => this.showMenu(subitem)}
                           onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
