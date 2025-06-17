@@ -43,13 +43,6 @@ button {
   width: 100%;
 }
 
-.width-limiter {
-  display: flex;
-  width: 100%;
-  max-width: var(--zanit-menubar-max-width, 1366px);
-  margin: 0 auto;
-}
-
 .shadow-wrapper {
   position: relative;
   z-index: 1;
@@ -67,6 +60,14 @@ button {
   box-shadow: var(--shadow-1);
   content: '';
   pointer-events: none;
+}
+
+.width-limiter {
+  position: relative;
+  display: flex;
+  width: 100%;
+  max-width: var(--zanit-menubar-max-width, 1366px);
+  margin: 0 auto;
 }
 
 .shadow-wrapper + .shadow-wrapper {

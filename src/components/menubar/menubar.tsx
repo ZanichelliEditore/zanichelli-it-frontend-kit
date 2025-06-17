@@ -138,7 +138,7 @@ export class ZanitMenubar {
 
   @Listen('mouseout', { passive: true })
   handleMouseout(event: MouseEvent) {
-    this.timerId = setTimeout((_e) => {
+    this.timerId = window.setTimeout(() => {
       if (!this.openMenu || containsTarget(this.host, event)) {
         return;
       }
@@ -422,10 +422,7 @@ export class ZanitMenubar {
 
     return (
       <nav aria-label="Zanichelli.it">
-        <div
-          class="shadow-wrapper"
-          role="none"
-        >
+        <div class="shadow-wrapper">
           <div class="width-limiter">
             <ul
               class="menubar"
