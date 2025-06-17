@@ -167,7 +167,7 @@ export class ZanitMobileMenubar {
     return (
       <nav aria-label="Zanichelli.it">
         <z-logo
-          imageAlt="Zanichelli Logo"
+          imageAlt="Logo Zanichelli"
           link="/"
           height={32}
           width={126}
