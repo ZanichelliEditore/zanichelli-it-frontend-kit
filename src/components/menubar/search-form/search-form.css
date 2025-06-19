@@ -82,12 +82,16 @@ button {
   }
 
   .searchbar .input-wrapper {
-    display: flex;
+    display: none;
     width: 100%;
     align-items: center;
     padding: 0 0 0 var(--grid-margin);
     background-color: #fff;
     gap: 14px;
+  }
+
+  .searchbar .input-wrapper:not(.hide) {
+    display: flex;
   }
 
   .searchbar button[type='reset'] {

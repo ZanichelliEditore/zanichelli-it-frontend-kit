@@ -46,6 +46,7 @@ button {
 .shadow-wrapper {
   position: relative;
   z-index: 1;
+  display: flex;
   width: 100%;
 }
 
@@ -61,20 +62,38 @@ button {
   pointer-events: none;
 }
 
-.shadow-wrapper + .shadow-wrapper {
-  z-index: 0;
-}
-
-.shadow-wrapper > ul {
+.width-limiter {
   position: relative;
   display: flex;
   width: 100%;
   max-width: var(--zanit-menubar-max-width, 1366px);
+  margin: 0 auto;
+}
+
+.shadow-wrapper + .shadow-wrapper {
+  z-index: 0;
+}
+
+.sub-menubar > ul {
+  gap: 28px;
+}
+
+.width-limiter > ul,
+.sub-menubar > ul {
+  position: relative;
+  display: flex;
+  width: 100%;
   align-items: center;
   padding: 0 var(--grid-margin);
   margin-right: auto;
   margin-left: auto;
   gap: 20px;
+}
+
+.shadow-wrapper > .width-limiter,
+.shadow-wrapper > ul {
+  width: 100%;
+  max-width: var(--zanit-menubar-max-width, 1366px);
 }
 
 ul.menubar {
@@ -135,10 +154,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   display: none;
 }
 
-.sub-menubar > ul {
-  gap: 28px;
-}
-
 /* active item bottom border */
 .sub-menubar .menubar-item.active::after {
   position: absolute;
@@ -151,6 +166,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   content: '';
 }
 
-.searchbar-container {
+zanit-search-form {
   margin-left: auto;
 }

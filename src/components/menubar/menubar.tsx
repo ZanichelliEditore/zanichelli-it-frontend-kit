@@ -42,9 +42,18 @@ export class ZanitMenubar {
   @Prop()
   current: string | undefined = undefined;
 
+  /**
+   * Delay in milliseconds before closing the menu after a mouseout event.
+   * Useful to avoid immediate closing when the pointer briefly leaves the component.
+   */
+  @Prop()
+  mouseOutTimeout: number | undefined = 1000;
+
   /** Initial search query. */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
+
+  private timerId: number;
 
   /** Setup the list of items. */
   @Watch('data')
@@ -120,6 +129,22 @@ export class ZanitMenubar {
         this.openMenu = undefined;
         break;
     }
+  }
+
+  @Listen('mouseover', { passive: true })
+  handleMouseover() {
+    clearTimeout(this.timerId);
+  }
+
+  @Listen('mouseout', { passive: true })
+  handleMouseout(event: MouseEvent) {
+    this.timerId = window.setTimeout(() => {
+      if (!this.openMenu || containsTarget(this.host, event)) {
+        return;
+      }
+
+      this.openMenu = undefined;
+    }, this.mouseOutTimeout);
   }
 
   /** Close the menu when it loses focus. */
@@ -397,64 +422,61 @@ export class ZanitMenubar {
 
     return (
       <nav aria-label="Zanichelli.it">
-        <div
-          class="shadow-wrapper"
-          role="none"
-        >
-          <ul
-            class="menubar"
-            role="menubar"
-            aria-label="Zanichelli.it"
-          >
-            {this.loading &&
-              [...new Array(4)].map((_, index) => (
+        <div class="shadow-wrapper">
+          <div class="width-limiter">
+            <ul
+              class="menubar"
+              role="menubar"
+              aria-label="Zanichelli.it"
+            >
+              {this.loading &&
+                [...new Array(4)].map((_, index) => (
+                  <Fragment>
+                    <li role="none">
+                      <div class="menubar-item">
+                        <z-ghost-loading></z-ghost-loading>
+                      </div>
+                    </li>
+                    {index < 3 && <li role="separator"></li>}
+                  </Fragment>
+                ))}
+              {this.items?.map((item, index) => (
                 <Fragment>
                   <li role="none">
-                    <div class="menubar-item">
-                      <z-ghost-loading></z-ghost-loading>
-                    </div>
+                    <a
+                      class={{ 'menubar-item': true, 'active': this.isActive(item) }}
+                      href={item.href}
+                      id={item.id}
+                      role="menuitem"
+                      tabIndex={-1}
+                      aria-expanded={
+                        item.menuItems?.length ? (this.openMenu === item.id ? 'true' : 'false') : undefined
+                      }
+                      aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
+                      aria-current={this.current === item.id ? 'page' : 'false'}
+                      onPointerOver={() => this.showMenu(item)}
+                      onKeyDown={(event) => this.handleItemKeydown(event, item)}
+                    >
+                      <span data-text={item.label}>{item.label}</span>
+                      {item.menuItems?.length > 0 && (
+                        <z-icon
+                          name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'}
+                          width="0.875rem"
+                          height="0.875rem"
+                        />
+                      )}
+                    </a>
                   </li>
-                  {index < 3 && <li role="separator"></li>}
+                  {index < this.items?.length - 1 && <li role="separator"></li>}
                 </Fragment>
               ))}
-            {this.items?.map((item, index) => (
-              <Fragment>
-                <li role="none">
-                  <a
-                    class={{ 'menubar-item': true, 'active': this.isActive(item) }}
-                    href={item.href}
-                    id={item.id}
-                    role="menuitem"
-                    tabIndex={-1}
-                    aria-expanded={this.openMenu === item.id ? 'true' : 'false'}
-                    aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
-                    aria-current={this.current === item.id ? 'page' : 'false'}
-                    onPointerOver={() => this.showMenu(item)}
-                    onKeyDown={(event) => this.handleItemKeydown(event, item)}
-                  >
-                    <span data-text={item.label}>{item.label}</span>
-                    {item.menuItems?.length > 0 && (
-                      <z-icon
-                        name={this.openMenu === item.id ? 'chevron-up' : 'chevron-down'}
-                        width="0.875rem"
-                        height="0.875rem"
-                      />
-                    )}
-                  </a>
-                </li>
-                {index < this.items?.length - 1 && <li role="separator"></li>}
-              </Fragment>
-            ))}
-            <li
-              class="searchbar-container"
-              role="none"
-            >
-              <zanit-search-form
-                searchQuery={this.searchQuery}
-                onResetSearch={() => (this.searchQuery = undefined)}
-              />
-            </li>
-          </ul>
+            </ul>
+            <zanit-search-form
+              searchQuery={this.searchQuery}
+              onResetSearch={() => (this.searchQuery = undefined)}
+            />
+          </div>
+
           {this.items.map(
             (item) =>
               this.openMenu === item.id && (
@@ -483,7 +505,9 @@ export class ZanitMenubar {
                           role="menuitem"
                           tabIndex={-1}
                           aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
-                          aria-expanded={this.openMenu === subitem.id ? 'true' : 'false'}
+                          aria-expanded={
+                            subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
+                          }
                           aria-current={this.current === item.id ? 'page' : 'false'}
                           onPointerOver={() => this.showMenu(subitem)}
                           onKeyDown={(event) => this.handleItemKeydown(event, subitem)}

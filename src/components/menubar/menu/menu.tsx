@@ -59,10 +59,7 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, curr
         role="menu"
       >
         {groups.map(({ group, items }) => (
-          <div
-            class={{ group: true, highlight: items.some((item) => item.highlight) }}
-            role="none"
-          >
+          <div class={{ group: true, highlight: items.some((item) => item.highlight) }}>
             {group.id !== DEFAULT_GROUP_KEY ? (
               <div
                 class="group-name"
