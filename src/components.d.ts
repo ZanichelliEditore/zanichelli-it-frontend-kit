@@ -33,6 +33,11 @@ export namespace Components {
           * @default undefined
          */
         "searchQuery": string | undefined;
+        /**
+          * The path of current item, used to solve ubiquity and determine the right active element.
+          * @default undefined
+         */
+        "via": string | undefined;
     }
     /**
      * Mobile menubar component.
@@ -58,6 +63,11 @@ export namespace Components {
           * @default undefined
          */
         "searchQuery": string | undefined;
+        /**
+          * The path of the current item, used to solve ubiquity and determine the right active element.
+          * @default undefined
+         */
+        "via": string | undefined;
     }
     interface ZanitSearchForm {
         /**
@@ -142,6 +152,11 @@ declare namespace LocalJSX {
           * @default undefined
          */
         "searchQuery"?: string | undefined;
+        /**
+          * The path of current item, used to solve ubiquity and determine the right active element.
+          * @default undefined
+         */
+        "via"?: string | undefined;
     }
     /**
      * Mobile menubar component.
@@ -167,6 +182,11 @@ declare namespace LocalJSX {
           * @default undefined
          */
         "searchQuery"?: string | undefined;
+        /**
+          * The path of the current item, used to solve ubiquity and determine the right active element.
+          * @default undefined
+         */
+        "via"?: string | undefined;
     }
     interface ZanitSearchForm {
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;

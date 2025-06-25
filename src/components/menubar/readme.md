@@ -16,6 +16,7 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 | `data`            | `data`              | The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it.                                          | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined` |
 | `mouseOutTimeout` | `mouse-out-timeout` | Delay in milliseconds before closing the menu after a mouseout event. Useful to avoid immediate closing when the pointer briefly leaves the component. | `number`                                                   | `1000`      |
 | `searchQuery`     | `search-query`      | Initial search query.                                                                                                                                  | `string`                                                   | `undefined` |
+| `via`             | `via`               | The path of current item, used to solve ubiquity and determine the right active element.                                                               | `string`                                                   | `undefined` |
 
 
 ## Dependencies

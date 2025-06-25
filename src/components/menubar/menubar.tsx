@@ -42,6 +42,10 @@ export class ZanitMenubar {
   @Prop()
   current: string | undefined = undefined;
 
+  /** The path of current item, used to solve ubiquity and determine the right active element. */
+  @Prop()
+  via: string | undefined = undefined;
+
   /**
    * Delay in milliseconds before closing the menu after a mouseout event.
    * Useful to avoid immediate closing when the pointer briefly leaves the component.
@@ -189,22 +193,15 @@ export class ZanitMenubar {
 
   /** Indicates whether the element has to be highlighted by checking whether it is set as current or one of its descendants is. */
   private isActive(item: MenubarItem) {
-    if (item.id === this.current) {
-      return true;
-    }
+    const active =
+      item.id === this.current ||
+      (item.menuItems?.length && item.menuItems.some((menuItem) => menuItem.id === this.current)) ||
+      (item.navbarItems?.length && item.navbarItems.some((navbarItem) => this.isActive(navbarItem)));
 
-    if (item.menuItems?.length) {
-      return item.menuItems.some((menuItem) => menuItem.id === this.current);
+    if (this.via) {
+      return active && this.via.includes(item.id);
     }
-
-    if (item.navbarItems?.length) {
-      const isActive = item.navbarItems.some((navbarItem) => this.isActive(navbarItem));
-      if (isActive) {
-        return true;
-      }
-    }
-
-    return false;
+    return active;
   }
 
   /** Opens the menu associated with the menubar `item`, if any. */
@@ -444,7 +441,10 @@ export class ZanitMenubar {
                 <Fragment>
                   <li role="none">
                     <a
-                      class={{ 'menubar-item': true, 'active': this.isActive(item) }}
+                      class={{
+                        'menubar-item': true,
+                        'active': this.isActive(item),
+                      }}
                       href={item.href}
                       id={item.id}
                       role="menuitem"
@@ -484,61 +484,70 @@ export class ZanitMenubar {
                   controlledBy={item.id}
                   items={item.menuItems}
                   current={this.current}
+                  via={this.via}
                   onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                 />
               )
           )}
         </div>
 
-        {this.items?.map(
-          (item) =>
-            item.navbarItems?.length && (
-              <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true, 'visible': this.isActive(item) }}>
-                <ul role="menubar">
-                  {item.navbarItems.map((subitem) => (
-                    <Fragment>
-                      <li role="none">
-                        <a
-                          class={{ 'menubar-item': true, 'active': this.isActive(subitem) }}
-                          href={subitem.href}
-                          id={subitem.id}
-                          role="menuitem"
-                          tabIndex={-1}
-                          aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
-                          aria-expanded={
-                            subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
-                          }
-                          aria-current={this.current === item.id ? 'page' : 'false'}
-                          onPointerOver={() => this.showMenu(subitem)}
-                          onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
-                        >
-                          <span>{subitem.label}</span>
-                          {subitem.menuItems?.length > 0 && (
-                            <z-icon
-                              name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'}
-                              width="0.75rem"
-                              height="0.75rem"
-                            />
-                          )}
-                        </a>
-                      </li>
-                    </Fragment>
-                  ))}
-                </ul>
-                {item.navbarItems.map(
-                  (subitem) =>
-                    this.openMenu === subitem.id && (
-                      <Menu
-                        controlledBy={subitem.id}
-                        items={subitem.menuItems}
-                        current={this.current}
-                        onItemKeyDown={(event) => this.handleMenuKeydown(event)}
-                      />
-                    )
-                )}
-              </nav>
-            )
-        )}
+        {this.items
+          ?.filter((item) => (this.via ? this.via.includes(item.id) : true))
+          .map(
+            (item) =>
+              item.navbarItems?.length && (
+                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true, 'visible': this.isActive(item) }}>
+                  <ul role="menubar">
+                    {item.navbarItems.map((subitem) => (
+                      <Fragment>
+                        <li role="none">
+                          <a
+                            class={{
+                              'menubar-item': true,
+                              'active': !this.via
+                                ? this.isActive(subitem)
+                                : this.isActive(subitem) && this.via.includes(subitem.id),
+                            }}
+                            href={subitem.href}
+                            id={subitem.id}
+                            role="menuitem"
+                            tabIndex={-1}
+                            aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
+                            aria-expanded={
+                              subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
+                            }
+                            aria-current={this.current === item.id ? 'page' : 'false'}
+                            onPointerOver={() => this.showMenu(subitem)}
+                            onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
+                          >
+                            <span>{subitem.label}</span>
+                            {subitem.menuItems?.length > 0 && (
+                              <z-icon
+                                name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'}
+                                width="0.75rem"
+                                height="0.75rem"
+                              />
+                            )}
+                          </a>
+                        </li>
+                      </Fragment>
+                    ))}
+                  </ul>
+                  {item.navbarItems.map(
+                    (subitem) =>
+                      this.openMenu === subitem.id && (
+                        <Menu
+                          controlledBy={subitem.id}
+                          items={subitem.menuItems}
+                          current={this.current}
+                          via={this.via}
+                          onItemKeyDown={(event) => this.handleMenuKeydown(event)}
+                        />
+                      )
+                  )}
+                </nav>
+              )
+          )}
       </nav>
     );
   }

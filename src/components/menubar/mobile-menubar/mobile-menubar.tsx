@@ -15,6 +15,9 @@ export class ZanitMobileMenubar {
   /** ID of the current active item. */
   @Prop() current: string | undefined = undefined;
 
+  /** The path of the current item, used to solve ubiquity and determine the right active element. */
+  @Prop() via: string | undefined = undefined;
+
   /** Menubar items. */
   @Prop() items: MenubarItem[] = [];
 
@@ -243,6 +246,7 @@ export class ZanitMobileMenubar {
               <Menu
                 items={this.menuItems}
                 current={this.current}
+                via={this.via}
                 onItemKeyDown={(event) => this.handleItemKeydown(event)}
               />
             ) : (

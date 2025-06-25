@@ -6,12 +6,14 @@ import { MenuItem } from '../../../utils/types';
  * @member {string} controlledBy - The HTML id of the element that controls the menu.
  * @member {MenuItem[]} items - The items to show in the menu.
  * @member {string} current - The id of the current active item.
+ * @member {string | undefined} via - The path of current item, used to solve ubiquity and determine the right active element.
  * @member {function} onItemKeyDown - The function to call when a key is pressed from a menuitem.
  */
 export interface MenuProps {
   controlledBy?: string;
   items?: MenuItem[];
   current?: string;
+  via?: string | undefined;
   onItemKeyDown?: (event: KeyboardEvent) => void;
 }
 
@@ -41,12 +43,16 @@ const getGroupedItems = (items: MenuItem[]) => {
 /**
  * Floating menu component. It shows a list of items that can be grouped.
  */
-export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, current, onItemKeyDown }) => {
+export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, current, via, onItemKeyDown }) => {
   if (!items?.length) {
     return null;
   }
 
   const groups = getGroupedItems(items);
+
+  const isActive = (item: MenuItem) => {
+    return via ? current === item.id && via.includes(controlledBy) : current === item.id;
+  };
 
   return (
     <div
@@ -80,7 +86,10 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, curr
                 <li role="none">
                   {item.href && (
                     <a
-                      class={{ 'menu-item': true, 'active': current === item.id }}
+                      class={{
+                        'menu-item': true,
+                        'active': isActive(item),
+                      }}
                       href={item.href}
                       role="menuitem"
                       tabIndex={-1}
