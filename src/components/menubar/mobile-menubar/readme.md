@@ -11,13 +11,12 @@ Mobile menubar component.
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                  | Type            | Default     |
-| ------------- | -------------- | -------------------------------------------------------------------------------------------- | --------------- | ----------- |
-| `current`     | `current`      | ID of the current active item.                                                               | `string`        | `undefined` |
-| `items`       | `items`        | Menubar items.                                                                               | `MenubarItem[]` | `[]`        |
-| `loading`     | `loading`      | Whether the menubar is loading the data.                                                     | `boolean`       | `false`     |
-| `searchQuery` | `search-query` | Initial search query.                                                                        | `string`        | `undefined` |
-| `via`         | `via`          | The path of the current item, used to solve ubiquity and determine the right active element. | `string`        | `undefined` |
+| Property      | Attribute      | Description                              | Type            | Default     |
+| ------------- | -------------- | ---------------------------------------- | --------------- | ----------- |
+| `currentPath` | `current-path` | IDs path of the current item.            | `string[]`      | `[]`        |
+| `items`       | `items`        | Menubar items.                           | `MenubarItem[]` | `[]`        |
+| `loading`     | `loading`      | Whether the menubar is loading the data. | `boolean`       | `false`     |
+| `searchQuery` | `search-query` | Initial search query.                    | `string`        | `undefined` |
 
 
 ## Dependencies

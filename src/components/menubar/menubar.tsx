@@ -28,6 +28,10 @@ export class ZanitMenubar {
   @State()
   openNavbar: string | undefined = undefined;
 
+  /** IDs of the current prop */
+  @State()
+  currentPath: string[] = [];
+
   @State()
   isMobile: boolean = false;
 
@@ -38,13 +42,9 @@ export class ZanitMenubar {
   @Prop()
   data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
-  /** ID of the current active item. */
+  /** Path of the current item. */
   @Prop()
   current: string | undefined = undefined;
-
-  /** The path of current item, used to solve ubiquity and determine the right active element. */
-  @Prop()
-  via: string | undefined = undefined;
 
   /**
    * Delay in milliseconds before closing the menu after a mouseout event.
@@ -102,6 +102,11 @@ export class ZanitMenubar {
     this.initTabindex();
   }
 
+  @Watch('current')
+  onCurrentChange() {
+    this.currentPath = this.current?.split('/').filter(Boolean) || [];
+  }
+
   async connectedCallback() {
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
@@ -111,6 +116,7 @@ export class ZanitMenubar {
       this.openMenu = undefined;
     };
     await this.parseData(this.data);
+    this.onCurrentChange();
     this.initTabindex();
   }
 
@@ -193,15 +199,26 @@ export class ZanitMenubar {
 
   /** Indicates whether the element has to be highlighted by checking whether it is set as current or one of its descendants is. */
   private isActive(item: MenubarItem) {
-    const active =
-      item.id === this.current ||
-      (item.menuItems?.length && item.menuItems.some((menuItem) => menuItem.id === this.current)) ||
-      (item.navbarItems?.length && item.navbarItems.some((navbarItem) => this.isActive(navbarItem)));
-
-    if (this.via) {
-      return active && this.via.includes(item.id);
+    if (this.currentPath.length === 0) {
+      return false;
     }
-    return active;
+
+    if (this.currentPath.includes(item.id)) {
+      return true;
+    }
+
+    if (item.menuItems?.length) {
+      return item.menuItems.some((menuItem) => menuItem.id === this.current);
+    }
+
+    if (item.navbarItems?.length) {
+      const isActive = item.navbarItems.some((navbarItem) => this.isActive(navbarItem));
+      if (isActive) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /** Opens the menu associated with the menubar `item`, if any. */
@@ -410,7 +427,7 @@ export class ZanitMenubar {
       return (
         <zanit-mobile-menubar
           items={this.items}
-          current={this.current}
+          currentPath={this.currentPath}
           searchQuery={this.searchQuery}
           loading={this.loading}
         />
@@ -483,8 +500,7 @@ export class ZanitMenubar {
                 <Menu
                   controlledBy={item.id}
                   items={item.menuItems}
-                  current={this.current}
-                  via={this.via}
+                  currentPath={this.currentPath}
                   onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                 />
               )
@@ -492,11 +508,11 @@ export class ZanitMenubar {
         </div>
 
         {this.items
-          ?.filter((item) => (this.via ? this.via.includes(item.id) : true))
+          ?.filter((item) => this.isActive(item))
           .map(
             (item) =>
               item.navbarItems?.length && (
-                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true, 'visible': this.isActive(item) }}>
+                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }}>
                   <ul role="menubar">
                     {item.navbarItems.map((subitem) => (
                       <Fragment>
@@ -504,9 +520,7 @@ export class ZanitMenubar {
                           <a
                             class={{
                               'menubar-item': true,
-                              'active': !this.via
-                                ? this.isActive(subitem)
-                                : this.isActive(subitem) && this.via.includes(subitem.id),
+                              'active': this.isActive(subitem),
                             }}
                             href={subitem.href}
                             id={subitem.id}
@@ -539,8 +553,7 @@ export class ZanitMenubar {
                         <Menu
                           controlledBy={subitem.id}
                           items={subitem.menuItems}
-                          current={this.current}
-                          via={this.via}
+                          currentPath={this.currentPath}
                           onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                         />
                       )

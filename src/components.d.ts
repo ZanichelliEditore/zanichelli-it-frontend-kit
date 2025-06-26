@@ -15,7 +15,7 @@ export namespace Components {
      */
     interface ZanitMenubar {
         /**
-          * ID of the current active item.
+          * Path of the current item.
           * @default undefined
          */
         "current": string | undefined;
@@ -33,21 +33,16 @@ export namespace Components {
           * @default undefined
          */
         "searchQuery": string | undefined;
-        /**
-          * The path of current item, used to solve ubiquity and determine the right active element.
-          * @default undefined
-         */
-        "via": string | undefined;
     }
     /**
      * Mobile menubar component.
      */
     interface ZanitMobileMenubar {
         /**
-          * ID of the current active item.
-          * @default undefined
+          * IDs path of the current item.
+          * @default []
          */
-        "current": string | undefined;
+        "currentPath": string[];
         /**
           * Menubar items.
           * @default []
@@ -63,11 +58,6 @@ export namespace Components {
           * @default undefined
          */
         "searchQuery": string | undefined;
-        /**
-          * The path of the current item, used to solve ubiquity and determine the right active element.
-          * @default undefined
-         */
-        "via": string | undefined;
     }
     interface ZanitSearchForm {
         /**
@@ -134,7 +124,7 @@ declare namespace LocalJSX {
      */
     interface ZanitMenubar {
         /**
-          * ID of the current active item.
+          * Path of the current item.
           * @default undefined
          */
         "current"?: string | undefined;
@@ -152,21 +142,16 @@ declare namespace LocalJSX {
           * @default undefined
          */
         "searchQuery"?: string | undefined;
-        /**
-          * The path of current item, used to solve ubiquity and determine the right active element.
-          * @default undefined
-         */
-        "via"?: string | undefined;
     }
     /**
      * Mobile menubar component.
      */
     interface ZanitMobileMenubar {
         /**
-          * ID of the current active item.
-          * @default undefined
+          * IDs path of the current item.
+          * @default []
          */
-        "current"?: string | undefined;
+        "currentPath"?: string[];
         /**
           * Menubar items.
           * @default []
@@ -182,11 +167,6 @@ declare namespace LocalJSX {
           * @default undefined
          */
         "searchQuery"?: string | undefined;
-        /**
-          * The path of the current item, used to solve ubiquity and determine the right active element.
-          * @default undefined
-         */
-        "via"?: string | undefined;
     }
     interface ZanitSearchForm {
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;

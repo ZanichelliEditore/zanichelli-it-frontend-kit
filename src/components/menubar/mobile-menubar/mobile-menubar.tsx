@@ -12,11 +12,8 @@ import { Menu } from '../menu/menu';
 export class ZanitMobileMenubar {
   @Element() host: HTMLZanitMobileMenubarElement;
 
-  /** ID of the current active item. */
-  @Prop() current: string | undefined = undefined;
-
-  /** The path of the current item, used to solve ubiquity and determine the right active element. */
-  @Prop() via: string | undefined = undefined;
+  /** IDs path of the current item. */
+  @Prop() currentPath: string[] = [];
 
   /** Menubar items. */
   @Prop() items: MenubarItem[] = [];
@@ -27,6 +24,8 @@ export class ZanitMobileMenubar {
   /** Whether the menubar is loading the data. */
   @Prop() loading: boolean = false;
 
+  /** Last active item ID. */
+  @State() lastCurrent: string | undefined = undefined;
   @State() parentItem: MenubarItem | undefined = undefined;
   @State() menuItems: MenubarItem[] | MenuItem[] | undefined = undefined;
   /** Whether the items to render come from a menubar or a menu. */
@@ -34,38 +33,38 @@ export class ZanitMobileMenubar {
   @State() open: boolean;
 
   @Watch('items')
-  @Watch('current')
+  @Watch('currentPath')
   onItemsChange() {
+    this.lastCurrent = this.currentPath?.length ? this.currentPath?.[this.currentPath.length - 1] : undefined;
     this.setupData(this.items);
   }
 
   /**
    * Find the current item and take its parent, `menuItems` or the `navbarItems`.
-   * @returns True if an item matches the `current` prop, false otherwise.
    */
-  private setupData(items: MenubarItem[], parent?: MenubarItem): boolean {
+  private setupData(items: MenubarItem[], parent?: MenubarItem) {
     for (const item of items) {
-      if (item.id === this.current) {
-        const type = item.menuItems?.length ? 'menu' : 'menubar';
+      if (item.id === this.lastCurrent) {
         this.parentItem = parent;
-        this.menuType = type;
+        this.menuType = item.menuItems?.length ? 'menu' : 'menubar';
         this.menuItems = item.menuItems || item.navbarItems;
-        return true;
+        return;
       }
 
-      if (item.menuItems?.some(({ id }) => id === this.current)) {
-        this.parentItem = parent;
-        this.menuType = 'menu';
-        this.menuItems = item.menuItems;
-        return true;
+      if (
+        item.id === this.currentPath[this.currentPath.length - 2] &&
+        item.menuItems?.some(({ id }) => id === this.lastCurrent)
+      ) {
+        this.parentItem = item;
+        this.menuType = item.menuItems?.length ? 'menu' : 'menubar';
+        this.menuItems = item.menuItems || item.navbarItems;
+        return;
       }
 
       if (item.navbarItems?.length) {
         return this.setupData(item.navbarItems, item);
       }
     }
-
-    return false;
   }
 
   private get menuItemsElement() {
@@ -126,6 +125,7 @@ export class ZanitMobileMenubar {
   }
 
   connectedCallback() {
+    this.lastCurrent = this.currentPath?.length ? this.currentPath?.[this.currentPath.length - 1] : undefined;
     this.setupData(this.items);
   }
 
@@ -201,7 +201,7 @@ export class ZanitMobileMenubar {
               />
             </li>
 
-            {!this.loading && this.current && (
+            {!this.loading && this.currentPath && (
               <li role="none">
                 <a
                   class="parent"
@@ -245,8 +245,8 @@ export class ZanitMobileMenubar {
             {this.menuType === 'menu' ? (
               <Menu
                 items={this.menuItems}
-                current={this.current}
-                via={this.via}
+                controlledBy={this.parentItem?.id}
+                currentPath={this.currentPath}
                 onItemKeyDown={(event) => this.handleItemKeydown(event)}
               />
             ) : (
@@ -265,7 +265,7 @@ export class ZanitMobileMenubar {
                         href={item.href}
                         id={item.id}
                         role="menuitem"
-                        aria-current={this.current === item.id ? 'page' : 'false'}
+                        aria-current={this.lastCurrent === item.id ? 'page' : 'false'}
                         tabIndex={-1}
                         onKeyDown={(event) => this.handleItemKeydown(event)}
                       >
