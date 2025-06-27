@@ -46,13 +46,6 @@ export class ZanitMenubar {
   @Prop()
   current: string | undefined = undefined;
 
-  /**
-   * Delay in milliseconds before closing the menu after a mouseout event.
-   * Useful to avoid immediate closing when the pointer briefly leaves the component.
-   */
-  @Prop()
-  mouseOutTimeout: number | undefined = 500;
-
   /** Initial search query. */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
@@ -146,6 +139,10 @@ export class ZanitMenubar {
     clearTimeout(this.timerId);
   }
 
+  /**
+   * Automatically close any open menu on mouseout after with a little delay.
+   * The delay is useful to avoid immediate closing when the pointer briefly leaves the component.
+   */
   @Listen('mouseout', { passive: true })
   handleMouseout(event: MouseEvent) {
     this.timerId = window.setTimeout(() => {
@@ -154,7 +151,7 @@ export class ZanitMenubar {
       }
 
       this.openMenu = undefined;
-    }, this.mouseOutTimeout);
+    }, 500);
   }
 
   /** Close the menu when it loses focus. */
