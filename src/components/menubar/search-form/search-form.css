@@ -87,7 +87,7 @@ button {
     align-items: center;
     padding: 0 0 0 var(--grid-margin);
     background-color: #fff;
-    gap: 14px;
+    gap: 6px; /* diventa 14px sommato al padding a sinistra della input */
   }
 
   .searchbar .input-wrapper:not(.hide) {
