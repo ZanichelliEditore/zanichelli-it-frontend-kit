@@ -52,6 +52,7 @@ export class ZanitMobileMenubar {
       }
 
       if (
+        this.currentPath.length > 1 &&
         item.id === this.currentPath[this.currentPath.length - 2] &&
         item.menuItems?.some(({ id }) => id === this.lastCurrent)
       ) {
