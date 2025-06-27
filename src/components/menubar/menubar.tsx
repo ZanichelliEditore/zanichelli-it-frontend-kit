@@ -28,6 +28,10 @@ export class ZanitMenubar {
   @State()
   openNavbar: string | undefined = undefined;
 
+  /** IDs of the current prop */
+  @State()
+  currentPath: string[] = [];
+
   @State()
   isMobile: boolean = false;
 
@@ -38,7 +42,7 @@ export class ZanitMenubar {
   @Prop()
   data: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
 
-  /** ID of the current active item. */
+  /** Path of the current item. */
   @Prop()
   current: string | undefined = undefined;
 
@@ -98,6 +102,11 @@ export class ZanitMenubar {
     this.initTabindex();
   }
 
+  @Watch('current')
+  onCurrentChange() {
+    this.currentPath = this.current?.split('/').filter(Boolean) || [];
+  }
+
   async connectedCallback() {
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
@@ -107,6 +116,7 @@ export class ZanitMenubar {
       this.openMenu = undefined;
     };
     await this.parseData(this.data);
+    this.onCurrentChange();
     this.initTabindex();
   }
 
@@ -189,7 +199,11 @@ export class ZanitMenubar {
 
   /** Indicates whether the element has to be highlighted by checking whether it is set as current or one of its descendants is. */
   private isActive(item: MenubarItem) {
-    if (item.id === this.current) {
+    if (this.currentPath.length === 0) {
+      return false;
+    }
+
+    if (this.currentPath.includes(item.id)) {
       return true;
     }
 
@@ -413,7 +427,7 @@ export class ZanitMenubar {
       return (
         <zanit-mobile-menubar
           items={this.items}
-          current={this.current}
+          currentPath={this.currentPath}
           searchQuery={this.searchQuery}
           loading={this.loading}
         />
@@ -444,7 +458,10 @@ export class ZanitMenubar {
                 <Fragment>
                   <li role="none">
                     <a
-                      class={{ 'menubar-item': true, 'active': this.isActive(item) }}
+                      class={{
+                        'menubar-item': true,
+                        'active': this.isActive(item),
+                      }}
                       href={item.href}
                       id={item.id}
                       role="menuitem"
@@ -453,7 +470,7 @@ export class ZanitMenubar {
                         item.menuItems?.length ? (this.openMenu === item.id ? 'true' : 'false') : undefined
                       }
                       aria-haspopup={item.menuItems?.length ? 'true' : 'false'}
-                      aria-current={this.current === item.id ? 'page' : 'false'}
+                      aria-current={this.current.includes(item.id) ? 'page' : 'false'}
                       onPointerOver={() => this.showMenu(item)}
                       onKeyDown={(event) => this.handleItemKeydown(event, item)}
                     >
@@ -483,62 +500,67 @@ export class ZanitMenubar {
                 <Menu
                   controlledBy={item.id}
                   items={item.menuItems}
-                  current={this.current}
+                  currentPath={this.currentPath}
                   onItemKeyDown={(event) => this.handleMenuKeydown(event)}
                 />
               )
           )}
         </div>
 
-        {this.items?.map(
-          (item) =>
-            item.navbarItems?.length && (
-              <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true, 'visible': this.isActive(item) }}>
-                <ul role="menubar">
-                  {item.navbarItems.map((subitem) => (
-                    <Fragment>
-                      <li role="none">
-                        <a
-                          class={{ 'menubar-item': true, 'active': this.isActive(subitem) }}
-                          href={subitem.href}
-                          id={subitem.id}
-                          role="menuitem"
-                          tabIndex={-1}
-                          aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
-                          aria-expanded={
-                            subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
-                          }
-                          aria-current={this.current === item.id ? 'page' : 'false'}
-                          onPointerOver={() => this.showMenu(subitem)}
-                          onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
-                        >
-                          <span>{subitem.label}</span>
-                          {subitem.menuItems?.length > 0 && (
-                            <z-icon
-                              name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'}
-                              width="0.75rem"
-                              height="0.75rem"
-                            />
-                          )}
-                        </a>
-                      </li>
-                    </Fragment>
-                  ))}
-                </ul>
-                {item.navbarItems.map(
-                  (subitem) =>
-                    this.openMenu === subitem.id && (
-                      <Menu
-                        controlledBy={subitem.id}
-                        items={subitem.menuItems}
-                        current={this.current}
-                        onItemKeyDown={(event) => this.handleMenuKeydown(event)}
-                      />
-                    )
-                )}
-              </nav>
-            )
-        )}
+        {this.items
+          ?.filter((item) => this.isActive(item))
+          .map(
+            (item) =>
+              item.navbarItems?.length && (
+                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }}>
+                  <ul role="menubar">
+                    {item.navbarItems.map((subitem) => (
+                      <Fragment>
+                        <li role="none">
+                          <a
+                            class={{
+                              'menubar-item': true,
+                              'active': this.isActive(subitem),
+                            }}
+                            href={subitem.href}
+                            id={subitem.id}
+                            role="menuitem"
+                            tabIndex={-1}
+                            aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
+                            aria-expanded={
+                              subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
+                            }
+                            aria-current={this.current.includes(subitem.id) ? 'page' : 'false'}
+                            onPointerOver={() => this.showMenu(subitem)}
+                            onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
+                          >
+                            <span>{subitem.label}</span>
+                            {subitem.menuItems?.length > 0 && (
+                              <z-icon
+                                name={this.openMenu === subitem.id ? 'chevron-up' : 'chevron-down'}
+                                width="0.75rem"
+                                height="0.75rem"
+                              />
+                            )}
+                          </a>
+                        </li>
+                      </Fragment>
+                    ))}
+                  </ul>
+                  {item.navbarItems.map(
+                    (subitem) =>
+                      this.openMenu === subitem.id && (
+                        <Menu
+                          controlledBy={subitem.id}
+                          items={subitem.menuItems}
+                          currentPath={this.currentPath}
+                          onItemKeyDown={(event) => this.handleMenuKeydown(event)}
+                        />
+                      )
+                  )}
+                </nav>
+              )
+          )}
       </nav>
     );
   }

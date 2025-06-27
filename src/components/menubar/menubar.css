@@ -150,10 +150,6 @@ we put the same text already bold with height 0, so as to always occupy the maxi
   visibility: hidden;
 }
 
-.sub-menubar:not(.visible) {
-  display: none;
-}
-
 /* active item bottom border */
 .sub-menubar .menubar-item.active::after {
   position: absolute;

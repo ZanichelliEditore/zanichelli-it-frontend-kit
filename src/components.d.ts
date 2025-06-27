@@ -15,7 +15,7 @@ export namespace Components {
      */
     interface ZanitMenubar {
         /**
-          * ID of the current active item.
+          * Path of the current item.
           * @default undefined
          */
         "current": string | undefined;
@@ -39,10 +39,10 @@ export namespace Components {
      */
     interface ZanitMobileMenubar {
         /**
-          * ID of the current active item.
-          * @default undefined
+          * IDs path of the current item.
+          * @default []
          */
-        "current": string | undefined;
+        "currentPath": string[];
         /**
           * Menubar items.
           * @default []
@@ -124,7 +124,7 @@ declare namespace LocalJSX {
      */
     interface ZanitMenubar {
         /**
-          * ID of the current active item.
+          * Path of the current item.
           * @default undefined
          */
         "current"?: string | undefined;
@@ -148,10 +148,10 @@ declare namespace LocalJSX {
      */
     interface ZanitMobileMenubar {
         /**
-          * ID of the current active item.
-          * @default undefined
+          * IDs path of the current item.
+          * @default []
          */
-        "current"?: string | undefined;
+        "currentPath"?: string[];
         /**
           * Menubar items.
           * @default []

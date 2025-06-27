@@ -5,13 +5,13 @@ import { MenuItem } from '../../../utils/types';
  * Menu of items that can be grouped.
  * @member {string} controlledBy - The HTML id of the element that controls the menu.
  * @member {MenuItem[]} items - The items to show in the menu.
- * @member {string} current - The id of the current active item.
+ * @member {string[]} currentPath - Path of current item.
  * @member {function} onItemKeyDown - The function to call when a key is pressed from a menuitem.
  */
 export interface MenuProps {
   controlledBy?: string;
   items?: MenuItem[];
-  current?: string;
+  currentPath?: string[];
   onItemKeyDown?: (event: KeyboardEvent) => void;
 }
 
@@ -41,12 +41,14 @@ const getGroupedItems = (items: MenuItem[]) => {
 /**
  * Floating menu component. It shows a list of items that can be grouped.
  */
-export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, current, onItemKeyDown }) => {
+export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, currentPath = [], onItemKeyDown }) => {
   if (!items?.length) {
     return null;
   }
 
   const groups = getGroupedItems(items);
+
+  const isActive = (item: MenuItem) => currentPath.includes(controlledBy) && currentPath.includes(item.id);
 
   return (
     <div
@@ -80,11 +82,14 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, curr
                 <li role="none">
                   {item.href && (
                     <a
-                      class={{ 'menu-item': true, 'active': current === item.id }}
+                      class={{
+                        'menu-item': true,
+                        'active': isActive(item),
+                      }}
                       href={item.href}
                       role="menuitem"
                       tabIndex={-1}
-                      aria-current={current === item.id ? 'page' : 'false'}
+                      aria-current={isActive(item) ? 'page' : 'false'}
                       onKeyDown={(event) => onItemKeyDown(event)}
                     >
                       {item.label}

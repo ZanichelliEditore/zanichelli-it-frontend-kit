@@ -13,7 +13,7 @@ Mobile menubar component.
 
 | Property      | Attribute      | Description                              | Type            | Default     |
 | ------------- | -------------- | ---------------------------------------- | --------------- | ----------- |
-| `current`     | `current`      | ID of the current active item.           | `string`        | `undefined` |
+| `currentPath` | `current-path` | IDs path of the current item.            | `string[]`      | `[]`        |
 | `items`       | `items`        | Menubar items.                           | `MenubarItem[]` | `[]`        |
 | `loading`     | `loading`      | Whether the menubar is loading the data. | `boolean`       | `false`     |
 | `searchQuery` | `search-query` | Initial search query.                    | `string`        | `undefined` |

@@ -37,7 +37,7 @@
 
   <body>
     <header>
-      <zanit-menubar current="per-chi-insegna"></zanit-menubar>
+      <zanit-menubar current="scuola/per-chi-studia-4457ef/ciao-manuel"></zanit-menubar>
       <script>
         document.addEventListener('DOMContentLoaded', function () {
           document.querySelector('zanit-menubar')?.setAttribute(
@@ -45,110 +45,249 @@
             JSON.stringify([
               {
                 label: 'Scuola',
-                href: 'https://localhost.zanichelli.it:3000/scuola',
+                href: 'https://test-www.aglebert.zanichelli.it/scuola',
                 id: 'scuola',
+                highlight: false,
                 navbarItems: [
                   {
                     label: 'Per chi insegna',
-                    href: 'https://localhost.zanichelli.it:3000/per-chi-insegna',
-                    id: 'per-chi-insegna',
+                    href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna',
+                    id: 'per-chi-insegna-fb74aa',
+                    highlight: false,
                     menuItems: [
                       {
-                        label: 'Perché è difficile riconoscere le fake news in Rete?',
-                        href: 'https://localhost.zanichelli.it:3000/perche-e-difficile-riconoscere-le-fake-news-in-rete',
-                        id: 'perche-e-difficile-riconoscere-le-fake-news-in-rete',
-                        highlight: true,
-                        group: { id: 'in-evidenza', label: 'In evidenza' },
-                      },
-                      {
-                        label: 'Dalla correlazione alla causalita applicazione al caso del global warming',
-                        href: 'https://localhost.zanichelli.it:3000/dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
-                        id: 'dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
-                        highlight: true,
-                        group: { id: 'in-evidenza', label: 'In evidenza' },
-                      },
-                      {
-                        label: 'esplora, crea, connetti con laZ',
-                        href: 'https://localhost.zanichelli.it:3000/laz',
+                        label: 'laZ',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/laz',
                         id: 'laz',
+                        group: {
+                          label: 'In evidenza',
+                          id: 'in-evidenza',
+                        },
+                        highlight: true,
                       },
                       {
                         label: 'Obiettivi formativi',
-                        href: 'https://localhost.zanichelli.it:3000/obiettivi-formativi',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/obiettivi-formativi',
                         id: 'obiettivi-formativi',
+                        highlight: false,
                       },
                       {
-                        label: 'Cacciatori di bufale (si diventa)',
-                        href: 'https://localhost.zanichelli.it:3000/cacciatori-di-bufale-si-diventa',
+                        label: 'cacciatori',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/cacciatori-di-bufale-si-diventa',
                         id: 'cacciatori-di-bufale-si-diventa',
                         group: {
-                          id: '6-acqua-pulita-e-servizi-igienico-sanitari',
                           label: '6 Acqua pulita e servizi igienico-sanitari',
+                          id: 'agenda2030-acqua-pulita-servizi-igienico-sanitari',
                         },
+                        highlight: false,
+                      },
+                      {
+                        label: 'Perché è difficile riconoscere le fake news in Rete?',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/perche-e-difficile-riconoscere-le-fake-news-in-rete',
+                        id: 'perche-e-difficile-riconoscere-le-fake-news-in-rete',
+                        group: {
+                          label: '4 Istruzione di qualità',
+                          id: 'agenda2030-istruzione-di-qualita',
+                        },
+                        highlight: false,
+                      },
+                      {
+                        label: 'Dalla correlazione alla causalita applicazione al caso del global warming',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
+                        id: 'dalla-correlazione-alla-causalita-applicazione-al-caso-del-global-warming',
+                        group: {
+                          label: '4 Istruzione di qualità',
+                          id: 'agenda2030-istruzione-di-qualita',
+                        },
+                        highlight: false,
                       },
                       {
                         label: 'Documento con copertina',
-                        href: 'https://localhost.zanichelli.it:3000/documento-con-copertina',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/documento-con-copertina',
                         id: 'documento-con-copertina',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Offerta per Bisogni Educativi Speciali',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/offerta-per-bisogni-educativi-speciali',
+                        id: 'offerta-per-bisogni-educativi-speciali',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Filiali & Filiali',
+                        href: 'https://test-www.aglebert.zanichelli.it/contatti/filiali-e-agenzie/',
+                        id: 'filiali-e-filiali',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Servizi',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/servizi',
+                        id: 'servizi',
+                        highlight: false,
+                      },
+                      {
+                        label: 'prova manuel',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/prova-manuel',
+                        id: 'prova-manuel',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Collezioni',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/collezioni-64748c',
+                        id: 'collezioni-64748c',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Ciao manuel',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/ciao-manuel',
+                        id: 'ciao-manuel',
+                        group: {
+                          label: 'Proposta editorale',
+                          id: 'proposta-editoriale',
+                        },
+                        highlight: false,
+                      },
+                      {
+                        label: 'Prova di Paolo di Prova',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-insegna/pdpdp',
+                        id: 'pdpdp',
+                        highlight: false,
                       },
                     ],
                   },
                   {
                     label: 'Per chi studia',
-                    href: 'https://localhost.zanichelli.it:3000/per-chi-studia-4457ef',
+                    href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-studia',
                     id: 'per-chi-studia-4457ef',
-                    menuItems: [],
+                    highlight: false,
+                    menuItems: [
+                      {
+                        label: 'PNRR 2023-2024',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-studia/pnrr-2023-2024',
+                        id: 'pnrr-2023-2024',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Siti LaZ',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-studia/laz',
+                        id: 'siti-laz',
+                        highlight: false,
+                      },
+                      {
+                        label: 'Ciao manuel',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-chi-studia/ciao-manuel',
+                        id: 'ciao-manuel',
+                        group: {
+                          label: 'Proposta editorale',
+                          id: 'proposta-editoriale',
+                        },
+                        highlight: false,
+                      },
+                    ],
                   },
                   {
                     label: 'Per le scuole',
-                    href: 'https://localhost.zanichelli.it:3000/per-le-scuole',
+                    href: 'https://test-www.aglebert.zanichelli.it/scuola/per-le-scuole',
                     id: 'per-le-scuole',
+                    highlight: false,
                     menuItems: [
                       {
                         label: 'La nostra proposta per i Bisogni Educativi Speciali',
-                        href: 'https://localhost.zanichelli.it:3000/longformtestfrappa',
+                        href: 'https://test-www.aglebert.zanichelli.it/scuola/per-le-scuole/longformtestfrappa',
                         id: 'longformtestfrappa',
+                        highlight: false,
                       },
                     ],
                   },
                   {
                     label: 'Per le librerie',
-                    href: 'https://localhost.zanichelli.it:3000/per-le-librerie',
+                    href: 'https://test-www.aglebert.zanichelli.it/scuola/per-le-librerie',
                     id: 'per-le-librerie',
+                    highlight: false,
                     menuItems: [],
                   },
                 ],
               },
               {
                 label: 'Università',
-                href: 'https://localhost.zanichelli.it:3000/universita',
+                href: 'https://test-www.aglebert.zanichelli.it/universita',
                 id: 'universita',
-                menuItems: [],
+                highlight: false,
+                navbarItems: [
+                  {
+                    label: 'Per chi insegna',
+                    href: 'https://test-www.aglebert.zanichelli.it/universita/per-chi-insegna',
+                    id: 'per-chi-insegna-5b3787',
+                    highlight: false,
+                    menuItems: [],
+                  },
+                  {
+                    label: 'Per chi studia',
+                    href: 'https://test-www.aglebert.zanichelli.it/universita/per-chi-studia',
+                    id: 'per-chi-studia-86b006',
+                    highlight: false,
+                    menuItems: [
+                      {
+                        label: 'Ciao manuel',
+                        href: 'https://test-www.aglebert.zanichelli.it/universita/per-chi-studia/ciao-manuel',
+                        id: 'ciao-manuel',
+                        group: {
+                          label: 'Proposta editorale',
+                          id: 'proposta-editoriale',
+                        },
+                        highlight: false,
+                      },
+                    ],
+                  },
+                ],
               },
               {
                 label: 'Giuridico',
-                href: 'https://localhost.zanichelli.it:3000/giuridico',
+                href: 'https://test-www.aglebert.zanichelli.it/giuridico',
                 id: 'giuridico',
+                highlight: false,
                 menuItems: [
                   {
+                    label: 'Contatti',
+                    href: 'https://test-www.aglebert.zanichelli.it/giuridico/contatti-c0b9ed',
+                    id: 'contatti-c0b9ed',
+                    group: {
+                      label: 'In evidenza',
+                      id: 'in-evidenza',
+                    },
+                    highlight: true,
+                  },
+                  {
                     label: 'Manuali universitari',
-                    href: 'https://localhost.zanichelli.it:3000/manuali-universitari',
+                    href: 'https://test-www.aglebert.zanichelli.it/giuridico/manuali-universitari',
                     id: 'manuali-universitari',
-                    group: { id: 'gruppo-1', label: 'gruppo 1' },
+                    group: {
+                      label: 'Primo biennio',
+                      id: 'secondaria-2-grado-biennio',
+                    },
+                    highlight: false,
                     navbarItems: [],
                   },
                   {
                     label: 'Notiziario zanichelli',
-                    href: 'https://localhost.zanichelli.it:3000/notiziario-zanichelli-ea8873',
+                    href: 'https://test-www.aglebert.zanichelli.it/giuridico/notiziario-zanichelli-ea8873',
                     id: 'notiziario-zanichelli-ea8873',
+                    highlight: false,
                     navbarItems: [],
+                  },
+                  {
+                    label: 'Sostenibilità ambientale - 7',
+                    href: 'https://test-www.aglebert.zanichelli.it/giuridico/sostenibilita-ambientale-7-9881c1',
+                    id: 'sostenibilita-ambientale-7-9881c1',
+                    highlight: false,
                   },
                 ],
               },
               {
                 label: 'Saggistica',
-                href: 'https://localhost.zanichelli.it:3000/saggistica',
+                href: 'https://test-www.aglebert.zanichelli.it/saggistica',
                 id: 'saggistica',
+                highlight: false,
                 menuItems: [],
               },
             ])
