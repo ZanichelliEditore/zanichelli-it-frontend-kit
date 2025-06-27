@@ -51,15 +51,18 @@ export class ZanitMobileMenubar {
         return;
       }
 
-      if (item.menuItems && item.menuItems.some((child) => child.id === this.lastCurrent)) {
+      if (
+        item.id === this.currentPath[this.currentPath.length - 2] &&
+        item.menuItems?.some(({ id }) => id === this.lastCurrent)
+      ) {
         this.parentItem = item;
-        this.menuType = item.menuItems.length ? 'menu' : 'menubar';
+        this.menuType = item.menuItems?.length ? 'menu' : 'menubar';
         this.menuItems = item.menuItems || item.navbarItems;
         return;
       }
 
       if (item.navbarItems?.length) {
-        this.setupData(item.navbarItems, item);
+        return this.setupData(item.navbarItems, item);
       }
     }
   }
