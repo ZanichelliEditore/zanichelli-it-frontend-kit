@@ -35,7 +35,7 @@ export class ZanitMobileMenubar {
   @Watch('items')
   @Watch('currentPath')
   onItemsChange() {
-    this.lastCurrent = this.currentPath?.length ? this.currentPath?.[this.currentPath.length - 1] : undefined;
+    this.lastCurrent = this.currentPath?.length ? this.currentPath[this.currentPath.length - 1] : undefined;
     this.setupData(this.items);
   }
 
@@ -63,7 +63,7 @@ export class ZanitMobileMenubar {
       }
 
       if (item.navbarItems?.length) {
-        return this.setupData(item.navbarItems, item);
+        this.setupData(item.navbarItems, item);
       }
     }
   }
@@ -126,7 +126,7 @@ export class ZanitMobileMenubar {
   }
 
   connectedCallback() {
-    this.lastCurrent = this.currentPath?.length ? this.currentPath?.[this.currentPath.length - 1] : undefined;
+    this.lastCurrent = this.currentPath?.length ? this.currentPath[this.currentPath.length - 1] : undefined;
     this.setupData(this.items);
   }
 

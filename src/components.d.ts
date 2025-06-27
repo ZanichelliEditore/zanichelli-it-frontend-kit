@@ -24,11 +24,6 @@ export namespace Components {
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * Delay in milliseconds before closing the menu after a mouseout event. Useful to avoid immediate closing when the pointer briefly leaves the component.
-          * @default 1000
-         */
-        "mouseOutTimeout": number | undefined;
-        /**
           * Initial search query.
           * @default undefined
          */
@@ -132,11 +127,6 @@ declare namespace LocalJSX {
           * The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it.
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
-        /**
-          * Delay in milliseconds before closing the menu after a mouseout event. Useful to avoid immediate closing when the pointer briefly leaves the component.
-          * @default 1000
-         */
-        "mouseOutTimeout"?: number | undefined;
         /**
           * Initial search query.
           * @default undefined

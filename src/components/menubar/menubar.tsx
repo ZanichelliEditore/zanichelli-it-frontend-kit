@@ -46,13 +46,6 @@ export class ZanitMenubar {
   @Prop()
   current: string | undefined = undefined;
 
-  /**
-   * Delay in milliseconds before closing the menu after a mouseout event.
-   * Useful to avoid immediate closing when the pointer briefly leaves the component.
-   */
-  @Prop()
-  mouseOutTimeout: number | undefined = 1000;
-
   /** Initial search query. */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
@@ -146,6 +139,10 @@ export class ZanitMenubar {
     clearTimeout(this.timerId);
   }
 
+  /**
+   * Automatically close any open menu on mouseout after with a little delay.
+   * The delay is useful to avoid immediate closing when the pointer briefly leaves the component.
+   */
   @Listen('mouseout', { passive: true })
   handleMouseout(event: MouseEvent) {
     this.timerId = window.setTimeout(() => {
@@ -154,7 +151,7 @@ export class ZanitMenubar {
       }
 
       this.openMenu = undefined;
-    }, this.mouseOutTimeout);
+    }, 500);
   }
 
   /** Close the menu when it loses focus. */
@@ -223,6 +220,7 @@ export class ZanitMenubar {
 
   /** Opens the menu associated with the menubar `item`, if any. */
   private showMenu(item: MenubarItem) {
+    this.openMenu = undefined; // close any open menu first
     if (!item.menuItems?.length) {
       return;
     }
@@ -239,6 +237,7 @@ export class ZanitMenubar {
 
   /** Move the focus to the previous menubar item, or the last one. Then open its menu if any other menu was open. */
   private focusPreviousItem(itemEl: HTMLElement) {
+    this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
     itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
@@ -253,6 +252,7 @@ export class ZanitMenubar {
 
   /** Move the focus to the next menubar item, or the first one. Then open its menu if any other menu was open. */
   private focusNextItem(itemEl: HTMLElement) {
+    this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
     itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
