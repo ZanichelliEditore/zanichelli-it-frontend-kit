@@ -51,7 +51,7 @@ export class ZanitMenubar {
    * Useful to avoid immediate closing when the pointer briefly leaves the component.
    */
   @Prop()
-  mouseOutTimeout: number | undefined = 1000;
+  mouseOutTimeout: number | undefined = 500;
 
   /** Initial search query. */
   @Prop({ mutable: true })
@@ -223,6 +223,7 @@ export class ZanitMenubar {
 
   /** Opens the menu associated with the menubar `item`, if any. */
   private showMenu(item: MenubarItem) {
+    this.openMenu = undefined; // close any open menu first
     if (!item.menuItems?.length) {
       return;
     }
@@ -239,6 +240,7 @@ export class ZanitMenubar {
 
   /** Move the focus to the previous menubar item, or the last one. Then open its menu if any other menu was open. */
   private focusPreviousItem(itemEl: HTMLElement) {
+    this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
     itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
@@ -253,6 +255,7 @@ export class ZanitMenubar {
 
   /** Move the focus to the next menubar item, or the first one. Then open its menu if any other menu was open. */
   private focusNextItem(itemEl: HTMLElement) {
+    this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
     itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
