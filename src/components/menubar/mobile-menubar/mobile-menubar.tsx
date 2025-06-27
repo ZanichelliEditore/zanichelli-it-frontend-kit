@@ -63,7 +63,7 @@ export class ZanitMobileMenubar {
       }
 
       if (item.navbarItems?.length) {
-        return this.setupData(item.navbarItems, item);
+        this.setupData(item.navbarItems, item);
       }
     }
   }
