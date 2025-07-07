@@ -192,7 +192,13 @@ export class ZanitSearchForm {
           aria-label="Cerca"
           aria-controls="searchbar-input"
           type={this.showSearchbar ? 'submit' : 'button'}
-          onClick={() => (this.showSearchbar = true)}
+          onClick={() => {
+            this.showSearchbar = true;
+            setTimeout(() => {
+              const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
+              searchbarInput.focus();
+            }, 100);
+          }}
         >
           {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
           <z-icon
