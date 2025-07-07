@@ -202,7 +202,7 @@ export class ZanitMobileMenubar {
               />
             </li>
 
-            {!this.loading && this.currentPath && (
+            {!this.loading && this.currentPath && this.currentPath.length > 0 && (
               <li role="none">
                 <a
                   class="parent"
