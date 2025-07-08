@@ -43,6 +43,14 @@ export class ZanitMobileMenubar {
    * Find the current item and take its parent, `menuItems` or the `navbarItems`.
    */
   private setupData(items: MenubarItem[], parent?: MenubarItem) {
+    // If no current item is defined, we show all items
+    if (this.lastCurrent === undefined) {
+      this.parentItem = undefined;
+      this.menuType = 'menubar';
+      this.menuItems = items;
+      return;
+    }
+
     for (const item of items) {
       if (item.id === this.lastCurrent) {
         this.parentItem = parent;
@@ -202,7 +210,7 @@ export class ZanitMobileMenubar {
               />
             </li>
 
-            {!this.loading && this.currentPath.length > 0 && (
+            {!this.loading && this.currentPath && this.currentPath.length > 0 && (
               <li role="none">
                 <a
                   class="parent"
@@ -252,7 +260,6 @@ export class ZanitMobileMenubar {
                 onItemKeyDown={(event) => this.handleItemKeydown(event)}
               />
             ) : (
-              this.currentPath.length > 0 &&
               this.menuItems?.length && (
                 <div
                   class="items-container"

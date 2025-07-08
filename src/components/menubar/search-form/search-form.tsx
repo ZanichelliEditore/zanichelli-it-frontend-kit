@@ -77,10 +77,17 @@ export class ZanitSearchForm {
   }
 
   private handleInputChange(event: Event) {
+    const scrollY = window.scrollY;
+
     this._searchQuery = (event.target as HTMLInputElement).value;
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
+
+    // Prevent scroll position in chrome
+    requestAnimationFrame(() => {
+      window.scrollTo(0, scrollY);
+    });
   }
 
   private onSearchSubmit(event: Event) {
@@ -192,7 +199,13 @@ export class ZanitSearchForm {
           aria-label="Cerca"
           aria-controls="searchbar-input"
           type={this.showSearchbar ? 'submit' : 'button'}
-          onClick={() => (this.showSearchbar = true)}
+          onClick={() => {
+            this.showSearchbar = true;
+            setTimeout(() => {
+              const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
+              searchbarInput.focus();
+            }, 100);
+          }}
         >
           {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
           <z-icon
