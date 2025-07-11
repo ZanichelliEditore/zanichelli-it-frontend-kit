@@ -43,6 +43,14 @@ export class ZanitMobileMenubar {
    * Find the current item and take its parent, `menuItems` or the `navbarItems`.
    */
   private setupData(items: MenubarItem[], parent?: MenubarItem) {
+    // If no current item is defined, we show all items
+    if (this.lastCurrent === undefined) {
+      this.parentItem = undefined;
+      this.menuType = 'menubar';
+      this.menuItems = items;
+      return;
+    }
+
     for (const item of items) {
       if (item.id === this.lastCurrent) {
         this.parentItem = parent;
@@ -202,7 +210,7 @@ export class ZanitMobileMenubar {
               />
             </li>
 
-            {!this.loading && this.currentPath && (
+            {!this.loading && this.currentPath && this.currentPath.length > 0 && (
               <li role="none">
                 <a
                   class="parent"
@@ -211,6 +219,7 @@ export class ZanitMobileMenubar {
                   role="menuitem"
                   tabIndex={-1}
                   onKeyDown={(event) => this.handleItemKeydown(event)}
+                  target={this.parentItem?.target}
                 >
                   <z-icon
                     name="arrow-left"
@@ -219,7 +228,7 @@ export class ZanitMobileMenubar {
                   ></z-icon>
                   <span>
                     {/* Show the 'Home' label if the current item is a root child. */}
-                    {this.parentItem?.label ?? 'Home'}
+                    {this.parentItem?.label || 'Home'}
                   </span>
                 </a>
               </li>
@@ -269,6 +278,7 @@ export class ZanitMobileMenubar {
                         aria-current={this.lastCurrent === item.id ? 'page' : 'false'}
                         tabIndex={-1}
                         onKeyDown={(event) => this.handleItemKeydown(event)}
+                        target={item.target}
                       >
                         <span data-text={item.label}>{item.label}</span>
                       </a>

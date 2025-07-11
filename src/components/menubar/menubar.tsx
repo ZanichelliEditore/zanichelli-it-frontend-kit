@@ -473,6 +473,7 @@ export class ZanitMenubar {
                       aria-current={this.current.includes(item.id) ? 'page' : 'false'}
                       onPointerOver={() => this.showMenu(item)}
                       onKeyDown={(event) => this.handleItemKeydown(event, item)}
+                      target={item.target}
                     >
                       <span data-text={item.label}>{item.label}</span>
                       {item.menuItems?.length > 0 && (
@@ -533,6 +534,7 @@ export class ZanitMenubar {
                             aria-current={this.current.includes(subitem.id) ? 'page' : 'false'}
                             onPointerOver={() => this.showMenu(subitem)}
                             onKeyDown={(event) => this.handleItemKeydown(event, subitem)}
+                            target={item.target}
                           >
                             <span>{subitem.label}</span>
                             {subitem.menuItems?.length > 0 && (
