@@ -30,23 +30,8 @@ export class ZanitSearchForm {
   onSearchQueryChange() {
     this._searchQuery = this.searchQuery;
     if (this.searchQuery) {
-      this.showSearchbar = true;
+      this.openSearchbar();
     }
-  }
-
-  /** Focus searchbar input when it becomes visible. */
-  @Watch('showSearchbar')
-  onShowSearchbar() {
-    if (!this.showSearchbar) {
-      return;
-    }
-
-    setTimeout(() => {
-      const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-      if (this.showSearchbar && !this.searchQuery) {
-        searchbarInput.focus();
-      }
-    }, 100);
   }
 
   /** Emitted on search form submission. */
@@ -71,23 +56,24 @@ export class ZanitSearchForm {
     }
   }
 
+  private openSearchbar() {
+    this.showSearchbar = true;
+    setTimeout(() => {
+      const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
+      searchbarInput.focus();
+    }, 100);
+  }
+
   private resetSearchQuery() {
     this.searchQuery = undefined;
     this.resetSearch.emit();
   }
 
   private handleInputChange(event: Event) {
-    const scrollY = window.scrollY;
-
     this._searchQuery = (event.target as HTMLInputElement).value;
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
-
-    // Prevent scroll position in chrome
-    requestAnimationFrame(() => {
-      window.scrollTo(0, scrollY);
-    });
   }
 
   private onSearchSubmit(event: Event) {
@@ -199,13 +185,7 @@ export class ZanitSearchForm {
           aria-label="Cerca"
           aria-controls="searchbar-input"
           type={this.showSearchbar ? 'submit' : 'button'}
-          onClick={() => {
-            this.showSearchbar = true;
-            setTimeout(() => {
-              const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-              searchbarInput.focus();
-            }, 100);
-          }}
+          onClick={() => this.openSearchbar()}
         >
           {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
           <z-icon
