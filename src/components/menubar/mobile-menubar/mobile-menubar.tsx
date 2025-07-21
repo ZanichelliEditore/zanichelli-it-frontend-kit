@@ -234,7 +234,7 @@ export class ZanitMobileMenubar {
               </li>
             )}
 
-            {this.loading && (
+            {this.loading ? (
               <div
                 class="items-container"
                 role="none"
@@ -250,9 +250,7 @@ export class ZanitMobileMenubar {
                   </li>
                 ))}
               </div>
-            )}
-
-            {this.menuType === 'menu' ? (
+            ) : this.menuType === 'menu' ? (
               <Menu
                 items={this.menuItems}
                 controlledBy={this.parentItem?.id}
@@ -260,7 +258,7 @@ export class ZanitMobileMenubar {
                 onItemKeyDown={(event) => this.handleItemKeydown(event)}
               />
             ) : (
-              this.menuItems?.length && (
+              this.menuItems?.length > 0 && (
                 <div
                   class="items-container"
                   role="none"
