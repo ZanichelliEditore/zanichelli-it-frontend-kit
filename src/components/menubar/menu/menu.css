@@ -27,7 +27,7 @@
 .menu .group .menu-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .menu .group .menu-list .menu-item {
@@ -93,6 +93,6 @@
   }
 
   .menu .group.highlight .menu-list {
-    gap: 24px;
+    gap: 16px;
   }
 }
