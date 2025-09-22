@@ -1,6 +1,6 @@
 import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { MenubarItem } from '../../utils/types';
-import { containsTarget, moveFocus } from '../../utils/utils';
+import { MenubarItem } from '../../utils';
+import { containsTarget, moveFocus } from '../../utils';
 import { Menu } from './menu/menu';
 
 /**

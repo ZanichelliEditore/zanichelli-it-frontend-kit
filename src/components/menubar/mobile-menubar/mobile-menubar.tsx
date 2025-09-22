@@ -1,7 +1,7 @@
 import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { MenubarItem, MenuItem } from '../../../utils/types';
-import { containsTarget, moveFocus } from '../../../utils/utils';
+import { MenubarItem, MenuItem } from '../../../utils';
 import { Menu } from '../menu/menu';
+import { containsTarget, moveFocus } from '../../../utils';
 
 /** Mobile menubar component. */
 @Component({
@@ -178,12 +178,6 @@ export class ZanitMobileMenubar {
   render() {
     return (
       <nav aria-label="Zanichelli.it">
-        <z-logo
-          imageAlt="Logo Zanichelli"
-          link="/"
-          height={32}
-          width={126}
-        ></z-logo>
         <button
           class="burger-button"
           type="button"
@@ -198,18 +192,24 @@ export class ZanitMobileMenubar {
             height="1.5rem"
           ></z-icon>
         </button>
+
+        <z-logo
+          imageAlt="Logo Zanichelli"
+          link="/"
+          height={32}
+          width={126}
+        ></z-logo>
+
+        <zanit-search-form
+          searchQuery={this.searchQuery}
+          onResetSearch={() => (this.searchQuery = undefined)}
+        />
+
         {this.open && (
           <ul
             class="mobile-menu"
             role="menubar"
           >
-            <li role="none">
-              <zanit-search-form
-                searchQuery={this.searchQuery}
-                onResetSearch={() => (this.searchQuery = undefined)}
-              />
-            </li>
-
             {!this.loading && this.currentPath && this.currentPath.length > 0 && (
               <li role="none">
                 <a
