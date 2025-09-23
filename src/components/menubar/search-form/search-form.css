@@ -28,7 +28,7 @@ button {
   display: flex;
   width: var(--closed-searchbar-width);
   justify-content: flex-end;
-  transition: width 0.4s ease-in;
+  transition: width 0.4s ease-in-out;
 }
 
 .searchbar.searchbar-open {
@@ -46,7 +46,7 @@ button {
   gap: 8px;
   transition-duration: 0.4s;
   transition-property: padding-right, padding-left, width;
-  transition-timing-function: ease-in;
+  transition-timing-function: ease-in-out;
 }
 
 .searchbar:not(.searchbar-open) .input-wrapper {
