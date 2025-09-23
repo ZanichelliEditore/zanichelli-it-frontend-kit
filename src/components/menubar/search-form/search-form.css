@@ -28,7 +28,7 @@ button {
   display: flex;
   width: var(--closed-searchbar-width);
   justify-content: flex-end;
-  transition: width 0.6s ease-in;
+  transition: width 0.4s ease-in;
 }
 
 .searchbar.searchbar-open {
