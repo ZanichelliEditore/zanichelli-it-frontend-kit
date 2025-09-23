@@ -21,7 +21,7 @@
   margin-bottom: 4px;
   color: var(--red500);
   font-size: 0.875rem;
-  font-weight: var(--font-rg);
+  font-weight: var(--font-md);
 }
 
 .menu .group .menu-list {
@@ -31,6 +31,7 @@
 }
 
 .menu .group .menu-list .menu-item {
+  display: block;
   border-bottom: 2px solid transparent;
   font-size: 0.875rem;
   font-weight: var(--font-md);
@@ -90,9 +91,5 @@
 
   .menu .group.highlight .menu-list .menu-item {
     font-size: 1.5rem;
-  }
-
-  .menu .group.highlight .menu-list {
-    gap: 16px;
   }
 }

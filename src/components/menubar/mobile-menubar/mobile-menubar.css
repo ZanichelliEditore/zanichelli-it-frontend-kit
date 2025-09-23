@@ -43,7 +43,8 @@ nav {
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 8px var(--grid-margin);
+  padding-left: var(--grid-margin);
+  gap: 8px;
 }
 
 nav::after {
@@ -58,8 +59,8 @@ nav::after {
   pointer-events: none;
 }
 
-.burger-button {
-  margin-left: auto;
+z-logo {
+  margin: 8px 0;
 }
 
 .mobile-menu {
@@ -111,4 +112,8 @@ nav::after {
   border: none;
   font-size: 0.875rem;
   gap: 8px;
+}
+
+zanit-search-form {
+  margin-left: auto;
 }

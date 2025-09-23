@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { containsTarget } from '../../../utils/utils';
+import { containsTarget } from '../../../utils';
 
 @Component({
   tag: 'zanit-search-form',
@@ -10,9 +10,6 @@ export class ZanitSearchForm {
   private formElement: HTMLFormElement;
 
   @Element() host: HTMLZanitSearchFormElement;
-
-  @State()
-  isMobile: boolean = false;
 
   /** Indicates whether the searchbar is visible and usable. */
   @State()
@@ -41,11 +38,7 @@ export class ZanitSearchForm {
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
-    const mobileMediaQuery = window.matchMedia('(width < 768px)');
-    this.isMobile = mobileMediaQuery.matches;
-    mobileMediaQuery.onchange = (mql) => {
-      this.isMobile = mql.matches;
-    };
+    this._searchQuery = this.searchQuery;
   }
 
   /** Close open searchbar when clicking outside. */
@@ -56,12 +49,29 @@ export class ZanitSearchForm {
     }
   }
 
+  /** Close the menu when pressing Escape or Tab. */
+  @Listen('keydown', { passive: true })
+  handleKeydown(event: KeyboardEvent) {
+    switch (event.key) {
+      case 'Escape':
+        this.showSearchbar = false;
+        break;
+      case 'Tab':
+        if (containsTarget(this.host, event)) {
+          break;
+        }
+
+        this.showSearchbar = false;
+        break;
+    }
+  }
+
   private openSearchbar() {
     this.showSearchbar = true;
     setTimeout(() => {
       const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
       searchbarInput.focus();
-    }, 100);
+    }, 500);
   }
 
   private resetSearchQuery() {
@@ -93,55 +103,6 @@ export class ZanitSearchForm {
   }
 
   render() {
-    if (this.isMobile) {
-      return (
-        <form
-          class="searchbar"
-          ref={(el) => (this.formElement = el)}
-          role="search"
-          aria-label="Cerca"
-          method="get"
-          action="/ricerca"
-          onSubmit={(event) => this.onSearchSubmit(event)}
-          onReset={() => this.resetSearchQuery()}
-        >
-          {this.searchQuery && (
-            <button
-              type="reset"
-              aria-label="Svuota campo di ricerca"
-            >
-              <z-icon
-                name="multiply-circled"
-                width="1rem"
-                height="1rem"
-              />
-            </button>
-          )}
-          <input
-            id="searchbar-input"
-            name="q"
-            type="search"
-            placeholder="Cerca per parola chiave o ISBN"
-            onInput={(event) => this.handleInputChange(event)}
-            value={this.searchQuery}
-            required
-          ></input>
-          <button
-            class="searchbar-button"
-            aria-controls="searchbar-input"
-            aria-label="Cerca"
-            type="submit"
-          >
-            <z-icon
-              name="search"
-              width="1.25rem"
-              height="1.25rem"
-            ></z-icon>
-          </button>
-        </form>
-      );
-    }
-
     return (
       <form
         class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
@@ -154,25 +115,23 @@ export class ZanitSearchForm {
         onReset={() => this.resetSearchQuery()}
       >
         <div
-          class={{ 'hide': !this.showSearchbar, 'input-wrapper': true }}
+          class="input-wrapper"
           role="none"
         >
           {this.searchQuery && (
             <button
               type="reset"
               aria-label="Svuota campo di ricerca"
+              disabled={!this.showSearchbar}
             >
-              <z-icon
-                name="multiply-circled"
-                width="1.5rem"
-                height="1.5rem"
-              />
+              <z-icon name="multiply-circled" />
             </button>
           )}
           <input
             id="searchbar-input"
             name="q"
             type="search"
+            disabled={!this.showSearchbar}
             placeholder="Cerca per parola chiave o ISBN"
             onInput={(event) => this.handleInputChange(event)}
             value={this.searchQuery}
@@ -188,11 +147,7 @@ export class ZanitSearchForm {
           onClick={() => this.openSearchbar()}
         >
           {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
-          <z-icon
-            name="search"
-            width="2rem"
-            height="2rem"
-          ></z-icon>
+          <z-icon name="search"></z-icon>
         </button>
       </form>
     );

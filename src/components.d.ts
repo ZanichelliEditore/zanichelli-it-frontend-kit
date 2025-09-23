@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenubarItem } from "./utils/types";
-export { MenubarItem } from "./utils/types";
+import { MenubarItem } from "./utils";
+export { MenubarItem } from "./utils";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems

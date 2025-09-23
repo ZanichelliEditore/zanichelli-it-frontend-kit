@@ -15,133 +15,141 @@ button {
   cursor: pointer;
 }
 
-@media (width < 768px) {
-  .searchbar {
-    display: flex;
-    align-items: center;
-    border: 1px solid #000;
-    border-radius: 4px;
-  }
+.searchbar {
+  --searchbar-button-x-padding: 14px;
+  --searchbar-button-icon-width: 1.75rem;
 
-  .searchbar > *:first-child {
-    /* To have a seamless appearance of the border radius of an internal child element nested within a parent element with rounded borders, we need to subtract the parent's border thickness from the child's border radius. Inner Radius = Outer Radius - Border Thickness */
-    border-bottom-left-radius: 3px;
-    border-top-left-radius: 3px;
-  }
+  /* button horizontal padding + icon size + left border */
+  --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 1px);
 
-  .searchbar button[type='reset'] {
-    display: flex;
-    padding: 0 0 0 8px;
-    cursor: pointer;
-  }
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  width: var(--closed-searchbar-width);
+  justify-content: flex-end;
+  transition: width 0.4s ease-in-out;
+}
 
-  .searchbar input {
-    width: 100%;
-    height: 100%;
-    padding: 4px 8px;
-    border: none;
-    background-color: #fff;
-    font-family: var(--font-family-sans);
-    font-size: 1rem;
-  }
+.searchbar.searchbar-open {
+  width: 100%;
+}
 
-  .searchbar input[type='search']::-webkit-search-cancel-button,
-  .searchbar input[type='search']::-webkit-search-decoration {
-    appearance: none;
-  }
+.searchbar .input-wrapper {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  align-items: center;
+  padding: 8px;
+  padding-left: var(--grid-margin);
+  background-color: #fff;
+  gap: 8px;
+  transition-duration: 0.4s;
+  transition-property: padding-right, padding-left, width;
+  transition-timing-function: ease-in-out;
+}
 
-  .searchbar input::placeholder {
-    color: var(--gray500);
-  }
+.searchbar:not(.searchbar-open) .input-wrapper {
+  overflow: hidden;
+  width: 0;
+  padding: 0;
+}
 
-  .searchbar .searchbar-button {
-    padding: 4px 8px;
-    border-left: 1px solid #000;
-    background: var(--zanit-accent-color);
-    border-bottom-right-radius: 3px;
-    border-top-right-radius: 3px;
-  }
+.searchbar button[type='reset'] {
+  --z-icon-width: 1rem;
+  --z-icon-height: 1rem;
 
-  .searchbar input:focus:focus-visible,
-  .searchbar .searchbar-button:focus:focus-visible {
-    z-index: 1;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.searchbar input {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background-color: #fff;
+  font-family: var(--font-family-sans);
+  font-size: 1rem;
+}
+
+.searchbar.searchbar-open input:first-child {
+  padding-left: 4px;
+  margin-left: -4px; /* per evitare che la focus shadow vada fuori dallo schermo */
+}
+
+.searchbar input[type='search']::-webkit-search-cancel-button,
+.searchbar input[type='search']::-webkit-search-decoration {
+  appearance: none;
+}
+
+.searchbar input::placeholder {
+  color: var(--gray500);
+}
+
+.searchbar .searchbar-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px var(--searchbar-button-x-padding);
+  border-left: 1px solid #000;
+  background: var(--zanit-accent-color);
+  font-family: inherit;
+  font-size: inherit;
+  gap: 64px;
+  line-height: 1;
+}
+
+.searchbar .searchbar-button:focus-visible {
+  z-index: 1;
+}
+
+.searchbar-button z-icon {
+  --z-icon-width: var(--searchbar-button-icon-width);
+  --z-icon-height: var(--searchbar-button-icon-width);
+}
+
+@media (width < 1152px) {
+  .searchbar .searchbar-button > .searchbar-button-label {
+    display: none;
   }
 }
 
 @media (width >= 768px) {
   .searchbar {
-    display: flex;
-    font-size: 1.5rem;
-  }
-
-  .searchbar.searchbar-open {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    inset: 0;
+    --searchbar-button-x-padding: 16px;
+    --searchbar-button-icon-width: 2rem;
   }
 
   .searchbar .input-wrapper {
-    display: none;
-    width: 100%;
-    align-items: center;
-    padding: 0 0 0 var(--grid-margin);
-    background-color: #fff;
-    gap: 6px; /* diventa 14px sommato al padding a sinistra della input */
-  }
-
-  .searchbar .input-wrapper:not(.hide) {
-    display: flex;
+    gap: 14px;
   }
 
   .searchbar button[type='reset'] {
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-    cursor: pointer;
+    --z-icon-width: 1.5rem;
+    --z-icon-height: 1.5rem;
   }
 
-  .searchbar input {
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    padding: 8px;
-    border: none;
-    background-color: #fff;
-    font-family: var(--font-family-sans);
-    font-size: inherit;
-  }
-
-  .searchbar input[type='search']::-webkit-search-cancel-button,
-  .searchbar input[type='search']::-webkit-search-decoration {
-    appearance: none;
-  }
-
-  .searchbar input::placeholder {
-    color: var(--gray500);
+  .searchbar input,
+  .searchbar .searchbar-button {
+    font-size: 1.5rem;
   }
 
   .searchbar .searchbar-button {
-    display: flex;
-    align-items: center;
-    padding: 8px 16px;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000;
-    background: var(--zanit-accent-color);
-    font-family: inherit;
-    font-size: inherit;
-    gap: 64px;
-    line-height: 1;
-  }
-
-  .searchbar input:focus:focus-visible,
-  .searchbar .searchbar-button:focus:focus-visible {
-    z-index: 1;
+    padding: 8px var(--searchbar-button-x-padding);
   }
 }
 
-@media (width >= 768px) and (width < 1152px) {
-  .searchbar .searchbar-button > .searchbar-button-label {
-    display: none;
+@media (width >= 1152px) {
+  .searchbar {
+    --closed-searchbar-width: 190px;
+  }
+}
+
+@media (width >= 1366px) {
+  .searchbar .searchbar-button {
+    border-right: 1px solid #000;
   }
 }
