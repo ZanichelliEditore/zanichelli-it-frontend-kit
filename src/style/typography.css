@@ -190,8 +190,8 @@
 .title-1-rg,
 .title-1-lt,
 .title-1-md {
-  font-size: 4.5rem; /* 72px */
-  line-height: 5rem; /* 80px */
+  font-size: 72px;
+  line-height: 80px;
 }
 
 .title-2,
@@ -200,8 +200,8 @@
 .title-2-rg,
 .title-2-lt,
 .title-2-md {
-  font-size: 3rem; /* 48px */
-  line-height: 3.25rem; /* 52px */
+  font-size: 48px;
+  line-height: 52px;
 }
 
 .title-3,
