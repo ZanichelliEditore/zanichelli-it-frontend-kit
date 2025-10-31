@@ -70,7 +70,7 @@ export class ZanitSearchForm {
     this.showSearchbar = true;
     setTimeout(() => {
       const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-      searchbarInput.focus();
+      searchbarInput.focus({ preventScroll: true });
     }, 500);
   }
 
