@@ -13,5 +13,5 @@ export const containsTarget = (ancestor: HTMLElement, event: Event) => {
 export const moveFocus = (current: HTMLElement, next: HTMLElement) => {
   current.tabIndex = -1;
   next.tabIndex = 0;
-  next.focus();
+  next.focus({ preventScroll: true });
 };

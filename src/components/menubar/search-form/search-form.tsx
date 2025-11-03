@@ -70,7 +70,7 @@ export class ZanitSearchForm {
     this.showSearchbar = true;
     setTimeout(() => {
       const searchbarInput = this.host.shadowRoot.querySelector('#searchbar-input') as HTMLInputElement;
-      searchbarInput.focus();
+      searchbarInput.focus({ preventScroll: true });
     }, 500);
   }
 
@@ -108,7 +108,7 @@ export class ZanitSearchForm {
         class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
         ref={(el) => (this.formElement = el)}
         role="search"
-        aria-label="Cerca"
+        aria-label="Cerca nel sito"
         method="get"
         action="/ricerca"
         onSubmit={(event) => this.onSearchSubmit(event)}
@@ -141,7 +141,7 @@ export class ZanitSearchForm {
 
         <button
           class="searchbar-button"
-          aria-label="Cerca"
+          aria-label="Esegui ricerca"
           aria-controls="searchbar-input"
           type={this.showSearchbar ? 'submit' : 'button'}
           onClick={() => this.openSearchbar()}

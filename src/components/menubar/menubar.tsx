@@ -1,6 +1,5 @@
 import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
-import { MenubarItem } from '../../utils';
-import { containsTarget, moveFocus } from '../../utils';
+import { MenubarItem, containsTarget, moveFocus } from '../../utils';
 import { Menu } from './menu/menu';
 
 /**
@@ -239,11 +238,9 @@ export class ZanitMenubar {
   private focusPreviousItem(itemEl: HTMLElement) {
     this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
-    itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
     const prevItem = menubarElements[(currentIndex - 1 + menubarElements.length) % menubarElements.length]; // get previous item or last one
-    prevItem.tabIndex = 0;
-    prevItem.focus();
+    moveFocus(itemEl, prevItem);
     // open the item's menu if any other menu was open
     if (prevItem.ariaHasPopup === 'true' && this.openMenu) {
       this.openMenu = prevItem.id;
@@ -254,11 +251,9 @@ export class ZanitMenubar {
   private focusNextItem(itemEl: HTMLElement) {
     this.openMenu = undefined; // close any open menu first
     const menubarElements = this.getParentMenubarElements(itemEl);
-    itemEl.tabIndex = -1;
     const currentIndex = menubarElements.indexOf(itemEl);
     const nextItem = menubarElements[(currentIndex + 1) % menubarElements.length]; // get next item or first one
-    nextItem.tabIndex = 0;
-    nextItem.focus();
+    moveFocus(itemEl, nextItem);
     // open the item's menu if any other menu was open
     if (nextItem.ariaHasPopup === 'true' && this.openMenu) {
       this.openMenu = nextItem.id;
@@ -309,15 +304,8 @@ export class ZanitMenubar {
         if (!item.menuItems?.length) {
           break;
         }
-        this.openMenu = item.id;
-        setTimeout(() => {
-          // focus first item of the menu
-          const firsMenuItem = this.host.shadowRoot.querySelector(
-            `[aria-labelledby=${item.id}] [role="menuitem"]`
-          ) as HTMLElement;
-          firsMenuItem.tabIndex = 0;
-          firsMenuItem.focus();
-        }, 100);
+
+        this.openItemMenu(item);
         break;
       }
       case 'ArrowLeft': {
@@ -325,6 +313,17 @@ export class ZanitMenubar {
         event.stopPropagation();
         this.focusPreviousItem(target);
         break;
+      }
+      case ' ': {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.openMenu === item.id) {
+          this.openMenu = undefined;
+          break;
+        } else if (item.menuItems?.length) {
+          this.openItemMenu(item);
+          break;
+        }
       }
     }
   }
@@ -347,6 +346,18 @@ export class ZanitMenubar {
     const currentIndex = groups.indexOf(groupContainer);
 
     return groups[currentIndex + 1];
+  }
+
+  private openItemMenu(item: MenubarItem) {
+    this.openMenu = item.id;
+    setTimeout(() => {
+      // focus first item of the menu
+      const firstMenuItem = this.host.shadowRoot.querySelector(
+        `[aria-labelledby=${item.id}] [role="menuitem"]`
+      ) as HTMLElement;
+      firstMenuItem.tabIndex = 0;
+      firstMenuItem.focus({ preventScroll: true });
+    }, 100);
   }
 
   /** Handles keyboard navigation events from `Menu` component. */

@@ -92,7 +92,7 @@ export class ZanitMobileMenubar {
       this.open = true;
       setTimeout(() => {
         this.initTabindex();
-        this.menuItemsElement[0]?.focus();
+        this.menuItemsElement[0]?.focus({ preventScroll: true });
       }, 200);
     }
   }
