@@ -476,7 +476,6 @@ export class ZanitMenubar {
                       href={item.href}
                       id={item.id}
                       role="menuitem"
-                      tabIndex={-1}
                       aria-expanded={
                         item.menuItems?.length ? (this.openMenu === item.id ? 'true' : 'false') : undefined
                       }
@@ -537,7 +536,6 @@ export class ZanitMenubar {
                             href={subitem.href}
                             id={subitem.id}
                             role="menuitem"
-                            tabIndex={-1}
                             aria-haspopup={subitem.menuItems?.length ? 'true' : 'false'}
                             aria-expanded={
                               subitem.menuItems?.length ? (this.openMenu === subitem.id ? 'true' : 'false') : undefined
