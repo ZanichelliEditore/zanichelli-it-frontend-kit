@@ -122,11 +122,28 @@ export class ZanitMenubar {
     this.openMenu = undefined;
   }
 
-  /** Close any open menu when pressing Escape or Tab. */
-  @Listen('keydown', { passive: true })
+  /** Close any open menu when pressing Escape or Tab.
+   * Uses document-level listener to ensure Escape works from any focus location within the menu.
+   */
+  @Listen('keydown', { target: 'document', passive: true })
   handleKeydown(event: KeyboardEvent) {
     switch (event.key) {
-      case 'Escape':
+      case 'Escape': {
+        if (this.openMenu) {
+          event.preventDefault();
+          // Return focus to the menu trigger after closing
+          const menuTriggerId = this.openMenu;
+          this.openMenu = undefined;
+          // Use setTimeout(0) to defer focus until after Stencil's render cycle completes
+          setTimeout(() => {
+            const menuTrigger = this.host.shadowRoot.getElementById(menuTriggerId);
+            if (menuTrigger) {
+              menuTrigger.focus();
+            }
+          }, 0);
+        }
+        break;
+      }
       case 'Tab':
         this.openMenu = undefined;
         break;
