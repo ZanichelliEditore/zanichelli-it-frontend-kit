@@ -541,8 +541,8 @@ export class ZanitMenubar {
           .map(
             (item) =>
               item.navbarItems?.length && (
-                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }} aria-label={`${item.label} sections`}>
-                  <ul role="menubar" aria-label={`${item.label} categories`}>
+                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }} aria-label={`Sezioni: ${item.label}`}>
+                  <ul role="menubar">
                     {item.navbarItems.map((subitem) => (
                       <Fragment>
                         <li role="none">
