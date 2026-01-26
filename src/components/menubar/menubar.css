@@ -1,5 +1,6 @@
 :host {
   --zanit-menubar-max-width: ;
+  --zanit-menubar-top-offset: ;
 
   position: relative;
   z-index: 2;
