@@ -122,7 +122,7 @@ export class ZanitMenubar {
     this.openMenu = undefined;
   }
 
-  /** Close any open menu when pressing Escape or Tab.
+  /** Close any open menu when pressing Escape.
    * Uses document-level listener to ensure Escape works from any focus location within the menu.
    */
   @Listen('keydown', { target: 'document', passive: true })
@@ -144,9 +144,6 @@ export class ZanitMenubar {
         }
         break;
       }
-      case 'Tab':
-        this.openMenu = undefined;
-        break;
     }
   }
 
@@ -385,6 +382,19 @@ export class ZanitMenubar {
     ) as HTMLElement[];
     const currentIndex = items.indexOf(itemElement);
     switch (event.key) {
+      case 'Tab': {
+        // Allow Tab to move through menu items sequentially
+        // Close menu if Tab would exit the menu boundaries
+        if (!event.shiftKey && currentIndex === items.length - 1) {
+          // Tabbing forward from last item - close menu and let focus continue
+          this.openMenu = undefined;
+        } else if (event.shiftKey && currentIndex === 0) {
+          // Shift+Tabbing backward from first item - close menu and let focus go back
+          this.openMenu = undefined;
+        }
+        // Otherwise allow default Tab behavior within the menu
+        break;
+      }
       case 'ArrowUp': {
         event.preventDefault();
         event.stopPropagation();
@@ -399,7 +409,7 @@ export class ZanitMenubar {
         const currentGroup = itemElement.closest('[role=group]') as HTMLElement;
         const nextGroup = this.getNextGroup(currentGroup);
         if (!nextGroup) {
-          itemElement.tabIndex = -1;
+          itemElement.tabIndex = 0;
           const menuTriggerId = itemElement.closest('[role="menu"][aria-labelledby]').getAttribute('aria-labelledby');
           const focusedItem = this.host.shadowRoot.getElementById(menuTriggerId);
           this.focusNextItem(focusedItem);
@@ -424,7 +434,7 @@ export class ZanitMenubar {
         const currentGroup = itemElement.closest('[role=group]') as HTMLElement;
         const prevGroup = this.getPreviousGroup(currentGroup);
         if (!prevGroup) {
-          itemElement.tabIndex = -1;
+          itemElement.tabIndex = 0;
           const menuTriggerId = itemElement.closest('[role="menu"][aria-labelledby]').getAttribute('aria-labelledby');
           const focusedItem = this.host.shadowRoot.getElementById(menuTriggerId);
           this.focusPreviousItem(focusedItem);
@@ -541,7 +551,10 @@ export class ZanitMenubar {
           .map(
             (item) =>
               item.navbarItems?.length && (
-                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }} aria-label={`Sezioni: ${item.label}`}>
+                <nav
+                  class={{ 'sub-menubar': true, 'shadow-wrapper': true }}
+                  aria-label={`Sezioni: ${item.label}`}
+                >
                   <ul role="menubar">
                     {item.navbarItems.map((subitem) => (
                       <Fragment>

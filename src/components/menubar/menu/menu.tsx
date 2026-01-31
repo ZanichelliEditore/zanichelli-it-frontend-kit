@@ -88,7 +88,7 @@ export const Menu: FunctionalComponent<MenuProps> = ({ controlledBy, items, curr
                       }}
                       href={item.href}
                       role="menuitem"
-                      tabIndex={-1}
+                      tabIndex={0}
                       aria-current={isActive(item) ? 'page' : 'false'}
                       onKeyDown={(event) => onItemKeyDown(event)}
                       target={item.target}
