@@ -19,8 +19,8 @@ button {
   --searchbar-button-x-padding: 14px;
   --searchbar-button-icon-width: 1.75rem;
 
-  /* button horizontal padding + icon size + left border */
-  --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 1px);
+  /* button horizontal padding + icon size + borders */
+  --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 2px);
 
   position: absolute;
   top: 0;
@@ -94,7 +94,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 10px var(--searchbar-button-x-padding);
-  border-left: 1px solid #000;
+  border: 1px solid #000;
   background: var(--zanit-accent-color);
   font-family: inherit;
   font-size: inherit;
@@ -145,11 +145,5 @@ button {
 @media (width >= 1152px) {
   .searchbar {
     --closed-searchbar-width: 190px;
-  }
-}
-
-@media (width >= 1366px) {
-  .searchbar .searchbar-button {
-    border-right: 1px solid #000;
   }
 }
