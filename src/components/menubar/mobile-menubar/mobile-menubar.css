@@ -68,7 +68,9 @@ z-logo {
   top: 100%;
   left: 0;
   display: flex;
+  overflow: auto;
   width: 100%;
+  max-height: calc(100vh - 48px - var(--zanit-menubar-top-offset, 0px));
   flex-direction: column;
   padding: 16px var(--grid-margin) 32px;
   background-color: #fff;
