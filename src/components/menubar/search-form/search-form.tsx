@@ -122,7 +122,8 @@ export class ZanitSearchForm {
             <button
               type="reset"
               aria-label="Svuota campo di ricerca"
-              disabled={!this.showSearchbar}
+              aria-hidden={!this.showSearchbar ? 'true' : undefined}
+              tabIndex={!this.showSearchbar ? -1 : 0}
             >
               <z-icon name="multiply-circled" />
             </button>
@@ -131,11 +132,13 @@ export class ZanitSearchForm {
             id="searchbar-input"
             name="q"
             type="search"
-            disabled={!this.showSearchbar}
             placeholder="Cerca per parola chiave o ISBN"
             onInput={(event) => this.handleInputChange(event)}
             value={this.searchQuery}
             required
+            aria-label="Cerca per parola chiave o ISBN"
+            aria-hidden={!this.showSearchbar ? 'true' : undefined}
+            tabIndex={!this.showSearchbar ? -1 : 0}
           ></input>
         </div>
 
