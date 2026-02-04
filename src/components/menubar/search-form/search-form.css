@@ -68,16 +68,16 @@ button {
   z-index: 1;
   width: 100%;
   height: 100%;
-  padding: 0;
-  border: none;
+  padding: 8px 12px;
+  border: 2px solid #595959;
+  border-radius: 4px;
   background-color: #fff;
   font-family: var(--font-family-sans);
   font-size: 1rem;
 }
 
 .searchbar.searchbar-open input:first-child {
-  padding-left: 4px;
-  margin-left: -4px; /* per evitare che la focus shadow vada fuori dallo schermo */
+  margin-left: 0; /* per evitare che la focus shadow vada fuori dallo schermo */
 }
 
 .searchbar input[type='search']::-webkit-search-cancel-button,
@@ -87,6 +87,12 @@ button {
 
 .searchbar input::placeholder {
   color: var(--gray500);
+}
+
+.searchbar input:focus {
+  border-color: #000;
+  outline: 2px solid #000;
+  outline-offset: 2px;
 }
 
 .searchbar .searchbar-button {
