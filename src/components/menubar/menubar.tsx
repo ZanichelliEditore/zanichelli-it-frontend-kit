@@ -10,7 +10,9 @@ import { Menu } from './menu/menu';
 @Component({
   tag: 'zanit-menubar',
   styleUrls: ['menubar.css', 'menu/menu.css'],
-  shadow: true,
+  shadow: {
+    delegatesFocus: true,
+  },
 })
 export class ZanitMenubar {
   @Element() host: HTMLZanitMenubarElement;
