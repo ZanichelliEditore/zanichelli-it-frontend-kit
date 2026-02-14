@@ -18,8 +18,8 @@
   box-sizing: border-box;
 }
 
-*:focus:focus-visible {
-  box-shadow: var(--shadow-focus-primary);
+*:focus-visible {
+  box-shadow: var(--shadow-focus-primary, 0 0 0 2px #fff, 0 0 2px 5px #000);
   outline: none;
 }
 
