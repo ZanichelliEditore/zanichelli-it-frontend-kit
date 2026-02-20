@@ -49,6 +49,9 @@ export class ZanitMenubar {
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
 
+  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() area?: string | undefined = undefined;
+
   private timerId: number;
 
   /** Setup the list of items. */
@@ -519,6 +522,7 @@ export class ZanitMenubar {
             </ul>
             <zanit-search-form
               searchQuery={this.searchQuery}
+              area={this.area}
               onResetSearch={() => (this.searchQuery = undefined)}
             />
           </div>
@@ -541,7 +545,10 @@ export class ZanitMenubar {
           .map(
             (item) =>
               item.navbarItems?.length && (
-                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }} aria-label={`Sezioni: ${item.label}`}>
+                <nav
+                  class={{ 'sub-menubar': true, 'shadow-wrapper': true }}
+                  aria-label={`Sezioni: ${item.label}`}
+                >
                   <ul role="menubar">
                     {item.navbarItems.map((subitem) => (
                       <Fragment>

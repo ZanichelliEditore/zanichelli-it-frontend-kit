@@ -23,6 +23,9 @@ export class ZanitSearchForm {
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
 
+  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() area?: string | undefined = undefined;
+
   @Watch('searchQuery')
   onSearchQueryChange() {
     this._searchQuery = this.searchQuery;
@@ -32,7 +35,7 @@ export class ZanitSearchForm {
   }
 
   /** Emitted on search form submission. */
-  @Event({ cancelable: true }) search: EventEmitter<{ query: string }>;
+  @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
 
   @Event() resetSearch: EventEmitter<void>;
 
@@ -93,7 +96,7 @@ export class ZanitSearchForm {
     }
 
     this.showSearchbar = false;
-    const searchEv = this.search.emit({ query: this._searchQuery });
+    const searchEv = this.search.emit({ query: this._searchQuery, area: this.area });
     // do not submit the form if the event default behavior was prevented
     if (searchEv.defaultPrevented) {
       return;

@@ -15,6 +15,11 @@ export namespace Components {
      */
     interface ZanitMenubar {
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
+        /**
           * Path of the current item.
           * @default undefined
          */
@@ -56,6 +61,11 @@ export namespace Components {
     }
     interface ZanitSearchForm {
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
+        /**
           * Initial search query
           * @default undefined
          */
@@ -88,7 +98,7 @@ declare global {
         new (): HTMLZanitMobileMenubarElement;
     };
     interface HTMLZanitSearchFormElementEventMap {
-        "search": { query: string };
+        "search": { query: string; area?: string };
         "resetSearch": void;
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
@@ -118,6 +128,11 @@ declare namespace LocalJSX {
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitMenubar {
+        /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
         /**
           * Path of the current item.
           * @default undefined
@@ -159,11 +174,16 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
     }
     interface ZanitSearchForm {
+        /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;
         /**
           * Emitted on search form submission.
          */
-        "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string }>) => void;
+        "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string; area?: string }>) => void;
         /**
           * Initial search query
           * @default undefined

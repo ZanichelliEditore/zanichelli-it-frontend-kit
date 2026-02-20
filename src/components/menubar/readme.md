@@ -12,6 +12,7 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 
 | Property      | Attribute      | Description                                                                                                   | Type                                                       | Default     |
 | ------------- | -------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
+| `area`        | `area`         | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").                                         | `string`                                                   | `undefined` |
 | `current`     | `current`      | Path of the current item.                                                                                     | `string`                                                   | `undefined` |
 | `data`        | `data`         | The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined` |
 | `searchQuery` | `search-query` | Initial search query.                                                                                         | `string`                                                   | `undefined` |
