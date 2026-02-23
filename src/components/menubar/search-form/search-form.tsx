@@ -118,25 +118,42 @@ export class ZanitSearchForm {
           class="input-wrapper"
           role="none"
         >
-          {this.searchQuery && (
-            <button
-              type="reset"
-              aria-label="Svuota campo di ricerca"
-              disabled={!this.showSearchbar}
+          <div class="input-field-group">
+            <label
+              htmlFor="searchbar-input"
+              class="search-label"
             >
-              <z-icon name="multiply-circled" />
-            </button>
-          )}
-          <input
-            id="searchbar-input"
-            name="q"
-            type="search"
-            disabled={!this.showSearchbar}
-            placeholder="Cerca per parola chiave o ISBN"
-            onInput={(event) => this.handleInputChange(event)}
-            value={this.searchQuery}
-            required
-          ></input>
+              Cerca
+            </label>
+            <div class="input-controls">
+              {this.searchQuery && (
+                <button
+                  type="reset"
+                  aria-label="Svuota campo di ricerca"
+                  disabled={!this.showSearchbar}
+                >
+                  <z-icon name="multiply-circled" />
+                </button>
+              )}
+              <input
+                id="searchbar-input"
+                name="q"
+                type="search"
+                disabled={!this.showSearchbar}
+                placeholder="Cerca per parola chiave o ISBN"
+                aria-describedby="search-hint"
+                onInput={(event) => this.handleInputChange(event)}
+                value={this.searchQuery}
+                required
+              ></input>
+            </div>
+            <span
+              id="search-hint"
+              class="search-hint"
+            >
+              Puoi cercare per parola chiave o ISBN
+            </span>
+          </div>
         </div>
 
         <button

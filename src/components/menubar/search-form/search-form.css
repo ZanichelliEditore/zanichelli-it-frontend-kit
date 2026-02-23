@@ -49,6 +49,35 @@ button {
   transition-timing-function: ease-in-out;
 }
 
+.searchbar .input-field-group {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.searchbar .search-label {
+  padding-left: 4px;
+  color: var(--gray700, #333);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.searchbar .input-controls {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+}
+
+.searchbar .search-hint {
+  padding-left: 4px;
+  color: var(--gray500, #666);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
 .searchbar:not(.searchbar-open) .input-wrapper {
   overflow: hidden;
   width: 0;
