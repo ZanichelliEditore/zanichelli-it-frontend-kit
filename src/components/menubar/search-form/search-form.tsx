@@ -1,5 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { containsTarget } from '../../../utils';
+import { getSubjectsByArea } from '../../../utils/subjects.api';
 
 @Component({
   tag: 'zanit-search-form',
@@ -8,6 +9,7 @@ import { containsTarget } from '../../../utils';
 })
 export class ZanitSearchForm {
   private formElement: HTMLFormElement;
+  private subjectsMap: Record<string, string[]> = {};
 
   @Element() host: HTMLZanitSearchFormElement;
 
@@ -26,6 +28,9 @@ export class ZanitSearchForm {
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
   @Prop() area?: string | undefined = undefined;
 
+  /** Environment for which to retrieve the suggestions categories for search */
+  @Prop() suggestionsEnv: string;
+
   @Watch('searchQuery')
   onSearchQueryChange() {
     this._searchQuery = this.searchQuery;
@@ -42,6 +47,7 @@ export class ZanitSearchForm {
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
+    this.subjectsMap = await getSubjectsByArea(this.suggestionsEnv);
   }
 
   /** Close open searchbar when clicking outside. */
@@ -90,6 +96,7 @@ export class ZanitSearchForm {
   }
 
   private onSearchSubmit(event: Event) {
+    console.log('subjectsMap:', this.subjectsMap);
     event.preventDefault();
     if (!this._searchQuery) {
       return;

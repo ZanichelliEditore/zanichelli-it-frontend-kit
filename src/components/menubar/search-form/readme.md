@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                           | Type     | Default     |
-| ------------- | -------------- | --------------------------------------------------------------------- | -------- | ----------- |
-| `area`        | `area`         | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI"). | `string` | `undefined` |
-| `searchQuery` | `search-query` | Initial search query                                                  | `string` | `undefined` |
+| Property      | Attribute      | Description                                                             | Type     | Default     |
+| ------------- | -------------- | ----------------------------------------------------------------------- | -------- | ----------- |
+| `area`        | `area`         | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string` | `undefined` |
+| `searchQuery` | `search-query` | Initial search query                                                    | `string` | `undefined` |
+| `shopEnv`     | `shop-env`     | Environment for which to retrieve the suggestions categories for search | `string` | `undefined` |
 
 
 ## Events

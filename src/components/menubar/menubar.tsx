@@ -52,6 +52,9 @@ export class ZanitMenubar {
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
   @Prop() area?: string | undefined = undefined;
 
+  /** Environment for which to retrieve the suggestions categories for search */
+  @Prop() suggestionsEnv?: 'test' | 'prod' | string = 'test';
+
   private timerId: number;
 
   /** Setup the list of items. */
@@ -523,6 +526,7 @@ export class ZanitMenubar {
             <zanit-search-form
               searchQuery={this.searchQuery}
               area={this.area}
+              suggestionsEnv={this.suggestionsEnv}
               onResetSearch={() => (this.searchQuery = undefined)}
             />
           </div>
