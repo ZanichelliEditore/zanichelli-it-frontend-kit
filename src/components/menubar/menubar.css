@@ -166,3 +166,16 @@ we put the same text already bold with height 0, so as to always occupy the maxi
 zanit-search-form {
   margin-left: auto;
 }
+
+/* Screen reader only content - visually hidden but accessible to assistive technology */
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border-width: 0;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}

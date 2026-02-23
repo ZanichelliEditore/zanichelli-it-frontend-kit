@@ -23,6 +23,10 @@ export class ZanitMenubar {
   @State()
   openMenu: string | undefined = undefined;
 
+  /** Announcement text for screen readers when menu state changes. */
+  @State()
+  statusAnnouncement: string = '';
+
   /** ID of the item to show the subitems navbar for. */
   @State()
   openNavbar: string | undefined = undefined;
@@ -119,7 +123,13 @@ export class ZanitMenubar {
       return;
     }
 
+    const openMenuId = this.openMenu;
     this.openMenu = undefined;
+    // Announce menu closure to screen readers
+    const item = this.findItemById(openMenuId);
+    if (item) {
+      this.announceMenuState(item.label, false);
+    }
   }
 
   /** Close any open menu when pressing Escape or Tab.
@@ -133,7 +143,12 @@ export class ZanitMenubar {
           event.preventDefault();
           // Return focus to the menu trigger after closing
           const menuTriggerId = this.openMenu;
+          const item = this.findItemById(menuTriggerId);
           this.openMenu = undefined;
+          // Announce menu closure to screen readers
+          if (item) {
+            this.announceMenuState(item.label, false);
+          }
           // Use setTimeout(0) to defer focus until after Stencil's render cycle completes
           setTimeout(() => {
             const menuTrigger = this.host.shadowRoot.getElementById(menuTriggerId);
@@ -144,9 +159,18 @@ export class ZanitMenubar {
         }
         break;
       }
-      case 'Tab':
+      case 'Tab': {
+        const openMenuId = this.openMenu;
         this.openMenu = undefined;
+        // Announce menu closure to screen readers
+        if (openMenuId) {
+          const item = this.findItemById(openMenuId);
+          if (item) {
+            this.announceMenuState(item.label, false);
+          }
+        }
         break;
+      }
     }
   }
 
@@ -178,7 +202,13 @@ export class ZanitMenubar {
       return;
     }
 
+    const openMenuId = this.openMenu;
     this.openMenu = undefined;
+    // Announce menu closure to screen readers
+    const item = this.findItemById(openMenuId);
+    if (item) {
+      this.announceMenuState(item.label, false);
+    }
   }
 
   /** Fetch data from passed URL. */
@@ -242,6 +272,8 @@ export class ZanitMenubar {
     }
 
     this.openMenu = item.id;
+    // Announce menu expansion to screen readers
+    this.announceMenuState(item.label, true);
   }
 
   /** Get all elements with `menuitem` role inside parent's `menubar`. * */
@@ -336,6 +368,7 @@ export class ZanitMenubar {
         event.stopPropagation();
         if (this.openMenu === item.id) {
           this.openMenu = undefined;
+          this.announceMenuState(item.label, false);
           break;
         } else if (item.menuItems?.length) {
           this.openItemMenu(item);
@@ -367,6 +400,8 @@ export class ZanitMenubar {
 
   private openItemMenu(item: MenubarItem) {
     this.openMenu = item.id;
+    // Announce menu expansion to screen readers
+    this.announceMenuState(item.label, true);
     setTimeout(() => {
       // focus first item of the menu
       const firstMenuItem = this.host.shadowRoot.querySelector(
@@ -450,6 +485,33 @@ export class ZanitMenubar {
     }
   }
 
+  /** Finds a menu item by ID in the items array (recursively searches navbarItems). */
+  private findItemById(id: string): MenubarItem | undefined {
+    for (const item of this.items) {
+      if (item.id === id) {
+        return item;
+      }
+      if (item.navbarItems) {
+        for (const navbarItem of item.navbarItems) {
+          if (navbarItem.id === id) {
+            return navbarItem;
+          }
+        }
+      }
+    }
+    return undefined;
+  }
+
+  /** Announces menu state changes to screen readers via ARIA live region. */
+  private announceMenuState(menuLabel: string, isExpanded: boolean) {
+    // Clear previous announcement
+    this.statusAnnouncement = '';
+    // Use setTimeout to ensure the screen reader picks up the new announcement
+    setTimeout(() => {
+      this.statusAnnouncement = isExpanded ? `Menu ${menuLabel} espanso` : `Menu ${menuLabel} chiuso`;
+    }, 10);
+  }
+
   render() {
     if (this.isMobile) {
       return (
@@ -464,6 +526,15 @@ export class ZanitMenubar {
 
     return (
       <nav aria-label="Zanichelli.it">
+        {/* ARIA live region for menu state announcements */}
+        <div
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+          class="sr-only"
+        >
+          {this.statusAnnouncement}
+        </div>
         <div class="shadow-wrapper">
           <div class="width-limiter">
             <ul
@@ -541,7 +612,10 @@ export class ZanitMenubar {
           .map(
             (item) =>
               item.navbarItems?.length && (
-                <nav class={{ 'sub-menubar': true, 'shadow-wrapper': true }} aria-label={`Sezioni: ${item.label}`}>
+                <nav
+                  class={{ 'sub-menubar': true, 'shadow-wrapper': true }}
+                  aria-label={`Sezioni: ${item.label}`}
+                >
                   <ul role="menubar">
                     {item.navbarItems.map((subitem) => (
                       <Fragment>
