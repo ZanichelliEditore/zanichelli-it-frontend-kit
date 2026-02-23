@@ -64,6 +64,10 @@ button {
   cursor: pointer;
 }
 
+.searchbar button.reset-button-hidden {
+  visibility: hidden;
+}
+
 .searchbar input {
   z-index: 1;
   width: 100%;
