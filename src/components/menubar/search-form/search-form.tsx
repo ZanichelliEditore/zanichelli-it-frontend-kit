@@ -1,6 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { containsTarget } from '../../../utils';
+import { containsTarget, SearchSuggestion } from '../../../utils';
 import { getSubjectsByArea } from '../../../utils/subjects.api';
+import { buildSuggestions } from './searchUtils';
 
 @Component({
   tag: 'zanit-search-form',
@@ -21,6 +22,9 @@ export class ZanitSearchForm {
   @State()
   _searchQuery: string | undefined = undefined;
 
+  /** Search suggestions to show in the autocomplete dropdown. */
+  @State() suggestions: SearchSuggestion[] = [];
+
   /** Initial search query */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
@@ -37,6 +41,12 @@ export class ZanitSearchForm {
     if (this.searchQuery) {
       this.openSearchbar();
     }
+  }
+
+  @Watch('_searchQuery')
+  onQueryChange() {
+    this.suggestions = buildSuggestions(this._searchQuery, this.subjectsMap, this.area?.toUpperCase());
+    console.log('suggestions:', this.suggestions);
   }
 
   /** Emitted on search form submission. */

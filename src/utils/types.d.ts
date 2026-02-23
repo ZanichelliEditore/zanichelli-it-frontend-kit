@@ -11,3 +11,14 @@ export type MenubarItem = Omit<MenuItem, 'group' | 'highlight'> & {
   navbarItems?: MenubarItem[];
   menuItems?: MenuItem[];
 };
+
+export type SearchSuggestion = {
+  label: string;
+  url: string;
+  details: {
+    user_query: string;
+    query?: string;
+    area?: string;
+    subject?: string;
+  };
+}
