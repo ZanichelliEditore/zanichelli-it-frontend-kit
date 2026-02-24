@@ -53,7 +53,7 @@ export class ZanitMenubar {
   @Prop() area?: string | undefined = undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionsEnv?: 'test' | 'prod' | string = 'test';
+  @Prop() suggestionsEnv?: 'test' | 'prod' | string;
 
   private timerId: number;
 

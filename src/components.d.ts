@@ -35,7 +35,6 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default 'test'
          */
         "suggestionsEnv"?: 'test' | 'prod' | string;
     }
@@ -78,7 +77,7 @@ export namespace Components {
         /**
           * Environment for which to retrieve the suggestions categories for search
          */
-        "suggestionsEnv": string;
+        "suggestionsEnv"?: 'test' | 'prod' | string;
     }
 }
 export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
@@ -158,7 +157,6 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default 'test'
          */
         "suggestionsEnv"?: 'test' | 'prod' | string;
     }
@@ -206,7 +204,7 @@ declare namespace LocalJSX {
         /**
           * Environment for which to retrieve the suggestions categories for search
          */
-        "suggestionsEnv"?: string;
+        "suggestionsEnv"?: 'test' | 'prod' | string;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;

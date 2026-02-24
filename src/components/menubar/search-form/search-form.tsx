@@ -33,7 +33,7 @@ export class ZanitSearchForm {
   @Prop() area?: string | undefined = undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionsEnv: string;
+  @Prop() suggestionsEnv?: 'test' | 'prod' | string;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -57,7 +57,7 @@ export class ZanitSearchForm {
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    this.subjectsMap = await getSubjectsByArea(this.suggestionsEnv);
+    if (this.suggestionsEnv) this.subjectsMap = await getSubjectsByArea(this.suggestionsEnv);
   }
 
   /** Close open searchbar when clicking outside. */
