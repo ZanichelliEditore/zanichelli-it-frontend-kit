@@ -1,14 +1,12 @@
-// import { SearchSuggestion } from '../../../utils/types';
+import { SearchSuggestion } from '../../../utils/types';
 
-import { SearchSuggestion } from '../../..';
-
-const AREA_LABELS: Record<string, string> = {
-  SCUOLA: 'Scuola',
-  UNIVERSITÀ: 'Università',
-  GIURIDICO: 'Giuridico',
-  DIZIONARI: 'Dizionari',
-  SAGGISTICA: 'Saggistica',
-};
+export enum AREA_LABELS {
+  SCUOLA = 'Scuola',
+  UNIVERSITÀ = 'Università',
+  GIURIDICO = 'Giuridico',
+  DIZIONARI = 'Dizionari',
+  SAGGISTICA = 'Saggistica',
+}
 
 /** Find subject existing in areas */
 export function findSubjectAreas(query: string, subjectsMap: Record<string, string[]>): string[] {
@@ -29,6 +27,7 @@ export function buildSuggestions(
   console.log('buildSuggestions:', query);
   const getSubjectExistingAreas = findSubjectAreas(query, subjectsMap);
   const hasSubject = getSubjectExistingAreas.length > 0;
+  // const subject = hasSubject ? query : undefined;
 
   const suggestions: SearchSuggestion[] = [];
 
@@ -36,17 +35,18 @@ export function buildSuggestions(
     // Ricerca generica per parola chiave
     if (area) {
       // se esiste un area preselezionata
-      suggestions.push(makeWordSuggestion(query, area));
+      suggestions.push(buildWordSuggestion(query, area));
     }
     // altrimenti mostro solo ricerca per parola chiave
-    suggestions.push(makeWordSuggestion(query));
+    suggestions.push(buildWordSuggestion(query));
   } else {
-    // se la parola esiste come materia in un area
+    // // se la ricerca esiste come materia in un area
     if (area) {
-      // mostro la ricerca per materia in quell'area
-      suggestions.push(makeWordSuggestion(query, area));
+      //     // mostro la ricerca per materia in quell'area
+      console.log('subject exists in area, build subject suggestion for area:', area);
+      suggestions.push(buildSubjectSuggestion(query, area));
     } else {
-      suggestions.push(makeWordSuggestion(query));
+      //     suggestions.push(makeWordSuggestion(query, subject));
     }
   }
 
@@ -54,18 +54,23 @@ export function buildSuggestions(
   return suggestions;
 }
 
-export const makeWordSuggestion = (query: string, area?: string): SearchSuggestion => {
-  const targetLabel = area ? AREA_LABELS[area] : undefined;
-
-  console.log('target:', targetLabel);
+export const buildWordSuggestion = (query: string, area?: string, subject?: string): SearchSuggestion => {
   return {
-    label: area ? `Cerca la parola ${query} nel catalogo ${targetLabel}` : `Cerca la parola ${query} in tutto il sito`,
+    label: area
+      ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area]}`
+      : `Cerca la parola ${query} in tutto il sito`,
     url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
-    details: { user_query: query, query, ...(area ? { area } : {}), subject: 'subject' },
+    details: { user_query: query, query, ...(area ? { area } : {}), ...(subject ? { subject } : {}) },
   };
 };
 
-export const makeSubjectSuggestion = () => {};
+export const buildSubjectSuggestion = (query: string, area: string): SearchSuggestion => {
+  return {
+    label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area]}`,
+    url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
+    details: { user_query: query, query, area, subject: query },
+  };
+};
 
 export const buildUrl = (params: Record<string, string>): string => {
   return `/ricerca?${new URLSearchParams(params).toString()}`;

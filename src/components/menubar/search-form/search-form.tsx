@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { containsTarget, SearchSuggestion } from '../../../utils';
 import { getSubjectsByArea } from '../../../utils/subjects.api';
-import { buildSuggestions } from './searchUtils';
+import { buildSuggestions } from './buildSuggestions';
 
 @Component({
   tag: 'zanit-search-form',
