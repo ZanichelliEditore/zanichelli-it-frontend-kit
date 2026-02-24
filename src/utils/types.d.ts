@@ -15,7 +15,7 @@ export type MenubarItem = Omit<MenuItem, 'group' | 'highlight'> & {
 export type SearchSuggestion = {
   label: string;
   url: string;
-  details: {
+  detail: {
     user_query: string;
     query?: string;
     area?: string;

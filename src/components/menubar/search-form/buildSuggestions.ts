@@ -43,7 +43,7 @@ const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => 
       ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area]}`
       : `Cerca la parola ${query} in tutto il sito`,
     url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
-    details: { user_query: query, query, ...(area ? { area } : {}) },
+    detail: { user_query: query, query, ...(area ? { area } : {}) },
   };
 };
 
@@ -51,7 +51,7 @@ const buildSubjectSuggestion = (query: string, area: string): SearchSuggestion =
   return {
     label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area]}`,
     url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
-    details: { user_query: query, query, ...(area ? { area } : {}), subject: query.toUpperCase() },
+    detail: { user_query: query, query, ...(area ? { area } : {}), subject: query.toUpperCase() },
   };
 };
 

@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenubarItem } from "./utils";
-export { MenubarItem } from "./utils";
+import { MenubarItem, SearchSuggestion } from "./utils";
+export { MenubarItem, SearchSuggestion } from "./utils";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -108,6 +108,7 @@ declare global {
     interface HTMLZanitSearchFormElementEventMap {
         "search": { query: string; area?: string };
         "resetSearch": void;
+        "suggestionClicked": SearchSuggestion;
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -196,6 +197,7 @@ declare namespace LocalJSX {
           * Emitted on search form submission.
          */
         "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string; area?: string }>) => void;
+        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion>) => void;
         /**
           * Initial search query
           * @default undefined

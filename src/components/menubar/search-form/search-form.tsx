@@ -53,6 +53,7 @@ export class ZanitSearchForm {
   @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
 
   @Event() resetSearch: EventEmitter<void>;
+  @Event() suggestionClicked: EventEmitter<SearchSuggestion>;
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
