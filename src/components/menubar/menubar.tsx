@@ -465,6 +465,8 @@ export class ZanitMenubar {
           currentPath={this.currentPath}
           searchQuery={this.searchQuery}
           loading={this.loading}
+          area={this.area}
+          suggestionEnv={this.suggestionEnv}
         />
       );
     }

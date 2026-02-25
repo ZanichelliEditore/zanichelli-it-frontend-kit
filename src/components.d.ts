@@ -7,8 +7,10 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { MenubarItem, SearchSuggestion } from "./utils";
 import { SuggestionEnv } from "./utils/subjects.api";
+import { SuggestionEnv as SuggestionEnv1 } from ".";
 export { MenubarItem, SearchSuggestion } from "./utils";
 export { SuggestionEnv } from "./utils/subjects.api";
+export { SuggestionEnv as SuggestionEnv1 } from ".";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -46,6 +48,11 @@ export namespace Components {
      */
     interface ZanitMobileMenubar {
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
+        /**
           * IDs path of the current item.
           * @default []
          */
@@ -65,6 +72,11 @@ export namespace Components {
           * @default undefined
          */
         "searchQuery": string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
+         */
+        "suggestionEnv"?: SuggestionEnv1 | undefined;
     }
     interface ZanitSearchForm {
         /**
@@ -171,6 +183,11 @@ declare namespace LocalJSX {
      */
     interface ZanitMobileMenubar {
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * @default undefined
+         */
+        "area"?: string | undefined;
+        /**
           * IDs path of the current item.
           * @default []
          */
@@ -190,6 +207,11 @@ declare namespace LocalJSX {
           * @default undefined
          */
         "searchQuery"?: string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
+         */
+        "suggestionEnv"?: SuggestionEnv1 | undefined;
     }
     interface ZanitSearchForm {
         /**
