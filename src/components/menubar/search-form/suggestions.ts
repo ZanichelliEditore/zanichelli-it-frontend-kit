@@ -12,10 +12,10 @@ const AREA_ORDER = Object.keys(AREA_LABELS);
 
 export function buildSuggestions(
   query: string,
-  subjectsMap: Record<string, string[]>,
+  subjectsByArea: Record<string, string[]>,
   selectedArea?: string
 ): SearchSuggestion[] {
-  const matchingSubjectAreas = findSubjectAreas(query, subjectsMap);
+  const matchingSubjectAreas = findSubjectAreas(query, subjectsByArea);
   const hasSubject = matchingSubjectAreas.length > 0;
 
   const suggestions: SearchSuggestion[] = [];
@@ -46,10 +46,10 @@ export function buildSuggestions(
 const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => {
   return {
     label: area
-      ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area]}`
+      ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area] ?? area}`
       : `Cerca la parola ${query} in tutto il sito`,
     url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
-    detail: buildDetail(query, area),
+    ...buildDetail(query, area),
   };
 };
 
@@ -57,7 +57,7 @@ const buildSubjectSuggestion = (query: string, area: string): SearchSuggestion =
   return {
     label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area]}`,
     url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
-    detail: buildDetail(query, area, query),
+    ...buildDetail(query, area, query.toUpperCase()),
   };
 };
 
@@ -72,9 +72,9 @@ const buildDetail = (query: string, area?: string, subject?: string) => ({
   ...(subject ? { subject } : {}),
 });
 
-function findSubjectAreas(query: string, subjectsMap: Record<string, string[]>): string[] {
+function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]>): string[] {
   const cleanedQuery = cleanSearch(query);
-  return Object.entries(subjectsMap)
+  return Object.entries(subjectsByArea)
     .filter(([, subjects]) => subjects.some((subject) => subject.toLowerCase() === cleanedQuery))
     .map(([area]) => area);
 }

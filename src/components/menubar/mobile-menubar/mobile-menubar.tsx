@@ -26,10 +26,10 @@ export class ZanitMobileMenubar {
   @Prop() loading: boolean = false;
 
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() area?: string | undefined = undefined;
+  @Prop() area?: string;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionEnv?: SuggestionEnv | undefined = undefined;
+  @Prop() suggestionEnv?: SuggestionEnv;
 
   /** Last active item ID. */
   @State() lastCurrent: string | undefined = undefined;

@@ -12,7 +12,6 @@ export class ZanitSearchForm {
   private formElement: HTMLFormElement;
   private subjectsMap: Record<string, string[]> = {};
   private timer: NodeJS.Timeout;
-  private typingTimeout = 300;
 
   @Element() host: HTMLZanitSearchFormElement;
 
@@ -32,10 +31,10 @@ export class ZanitSearchForm {
   searchQuery: string | undefined = undefined;
 
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() area?: string | undefined = undefined;
+  @Prop() area?: string | undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionEnv?: SuggestionEnv | undefined = undefined;
+  @Prop() suggestionEnv?: SuggestionEnv | undefined;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -51,7 +50,7 @@ export class ZanitSearchForm {
   @Event() resetSearch: EventEmitter<void>;
 
   /** Emitted when a suggestion is clicked. */
-  @Event() suggestionClicked: EventEmitter<SearchSuggestion['detail']>;
+  @Event() suggestionClicked: EventEmitter<SearchSuggestion>;
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
@@ -117,8 +116,7 @@ export class ZanitSearchForm {
       console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
       console.log(this.suggestions);
       console.groupEnd();
-
-    }, this.typingTimeout);
+    }, 300);
   }
 
   private onSearchSubmit(event: Event) {

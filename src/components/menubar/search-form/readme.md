@@ -16,11 +16,11 @@
 
 ## Events
 
-| Event               | Description                           | Type                                                                                    |
-| ------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
-| `resetSearch`       |                                       | `CustomEvent<void>`                                                                     |
-| `search`            | Emitted on search form submission.    | `CustomEvent<{ query: string; area?: string; }>`                                        |
-| `suggestionClicked` | Emitted when a suggestion is clicked. | `CustomEvent<{ user_query: string; query?: string; area?: string; subject?: string; }>` |
+| Event               | Description                           | Type                                                                                                                |
+| ------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `resetSearch`       |                                       | `CustomEvent<void>`                                                                                                 |
+| `search`            | Emitted on search form submission.    | `CustomEvent<{ query: string; area?: string; }>`                                                                    |
+| `suggestionClicked` | Emitted when a suggestion is clicked. | `CustomEvent<{ label: string; url: string; user_query: string; query?: string; area?: string; subject?: string; }>` |
 
 
 ## Dependencies

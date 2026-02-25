@@ -51,10 +51,10 @@ export class ZanitMenubar {
   searchQuery: string | undefined = undefined;
 
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() area?: string | undefined = undefined;
+  @Prop() area?: string | undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionEnv?: SuggestionEnv | undefined = undefined;
+  @Prop() suggestionEnv?: SuggestionEnv | undefined;
 
   private timerId: number;
 

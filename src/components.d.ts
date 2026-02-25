@@ -20,7 +20,6 @@ export namespace Components {
     interface ZanitMenubar {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
         "area"?: string | undefined;
         /**
@@ -39,7 +38,6 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
         "suggestionEnv"?: SuggestionEnv | undefined;
     }
@@ -49,9 +47,8 @@ export namespace Components {
     interface ZanitMobileMenubar {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
-        "area"?: string | undefined;
+        "area"?: string;
         /**
           * IDs path of the current item.
           * @default []
@@ -74,14 +71,12 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
-        "suggestionEnv"?: SuggestionEnv1 | undefined;
+        "suggestionEnv"?: SuggestionEnv1;
     }
     interface ZanitSearchForm {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
         "area"?: string | undefined;
         /**
@@ -91,7 +86,6 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
         "suggestionEnv"?: SuggestionEnv | undefined;
     }
@@ -124,7 +118,7 @@ declare global {
     interface HTMLZanitSearchFormElementEventMap {
         "search": { query: string; area?: string };
         "resetSearch": void;
-        "suggestionClicked": SearchSuggestion['detail'];
+        "suggestionClicked": SearchSuggestion;
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -155,7 +149,6 @@ declare namespace LocalJSX {
     interface ZanitMenubar {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
         "area"?: string | undefined;
         /**
@@ -174,7 +167,6 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
         "suggestionEnv"?: SuggestionEnv | undefined;
     }
@@ -184,9 +176,8 @@ declare namespace LocalJSX {
     interface ZanitMobileMenubar {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
-        "area"?: string | undefined;
+        "area"?: string;
         /**
           * IDs path of the current item.
           * @default []
@@ -209,14 +200,12 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
-        "suggestionEnv"?: SuggestionEnv1 | undefined;
+        "suggestionEnv"?: SuggestionEnv1;
     }
     interface ZanitSearchForm {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-          * @default undefined
          */
         "area"?: string | undefined;
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;
@@ -227,7 +216,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when a suggestion is clicked.
          */
-        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion['detail']>) => void;
+        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion>) => void;
         /**
           * Initial search query
           * @default undefined
@@ -235,7 +224,6 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
-          * @default undefined
          */
         "suggestionEnv"?: SuggestionEnv | undefined;
     }
