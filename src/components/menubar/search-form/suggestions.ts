@@ -62,7 +62,7 @@ const buildSubjectSuggestion = (query: string, area: string): SearchSuggestion =
 };
 
 const buildUrl = (params: Record<string, string>): string => {
-  return `/ricerca?${new URLSearchParams(params).toString()}`;
+  return `ricerca?${new URLSearchParams(params).toString()}`;
 };
 
 const buildDetail = (query: string, area?: string, subject?: string) => ({

@@ -113,7 +113,11 @@ export class ZanitSearchForm {
 
     this.timer = setTimeout(() => {
       this.suggestions = buildSuggestions(query, this.subjectsMap, this.area?.toUpperCase());
-      console.log('suggestions:', this.suggestions);
+
+      console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
+      console.log(this.suggestions);
+      console.groupEnd();
+
     }, this.typingTimeout);
   }
 
