@@ -8,9 +8,9 @@ const S3_SHOP_URL: Record<string, string> = {
   prod: 'https://zanichelli-shop.s3.eu-west-1.amazonaws.com',
 };
 
-export async function getSubjectsByArea(suggestionEnv: SearchEnv): Promise<Record<string, string[]>> {
+export async function getSubjectsByArea(searchEnv: SearchEnv): Promise<Record<string, string[]>> {
   try {
-    const response = await fetch(`${S3_SHOP_URL[suggestionEnv]}/categories.json`);
+    const response = await fetch(`${S3_SHOP_URL[searchEnv]}/categories.json`);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
