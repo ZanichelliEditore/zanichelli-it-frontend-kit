@@ -11,14 +11,14 @@ Mobile menubar component.
 
 ## Properties
 
-| Property        | Attribute        | Description                                                             | Type                                       | Default     |
-| --------------- | ---------------- | ----------------------------------------------------------------------- | ------------------------------------------ | ----------- |
-| `area`          | `area`           | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string`                                   | `undefined` |
-| `currentPath`   | `current-path`   | IDs path of the current item.                                           | `string[]`                                 | `[]`        |
-| `items`         | `items`          | Menubar items.                                                          | `MenubarItem[]`                            | `[]`        |
-| `loading`       | `loading`        | Whether the menubar is loading the data.                                | `boolean`                                  | `false`     |
-| `searchQuery`   | `search-query`   | Initial search query.                                                   | `string`                                   | `undefined` |
-| `suggestionEnv` | `suggestion-env` | Environment for which to retrieve the suggestions categories for search | `SuggestionEnv.PROD \| SuggestionEnv.TEST` | `undefined` |
+| Property      | Attribute      | Description                                                             | Type                               | Default     |
+| ------------- | -------------- | ----------------------------------------------------------------------- | ---------------------------------- | ----------- |
+| `currentPath` | `current-path` | IDs path of the current item.                                           | `string[]`                         | `[]`        |
+| `items`       | `items`        | Menubar items.                                                          | `MenubarItem[]`                    | `[]`        |
+| `loading`     | `loading`      | Whether the menubar is loading the data.                                | `boolean`                          | `false`     |
+| `searchArea`  | `search-area`  | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string`                           | `undefined` |
+| `searchEnv`   | `search-env`   | Environment for which to retrieve the suggestions categories for search | `SearchEnv.PROD \| SearchEnv.TEST` | `undefined` |
+| `searchQuery` | `search-query` | Initial search query.                                                   | `string`                           | `undefined` |
 
 
 ## Dependencies

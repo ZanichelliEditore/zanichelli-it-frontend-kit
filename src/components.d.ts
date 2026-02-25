@@ -6,11 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { MenubarItem, SearchSuggestion } from "./utils";
-import { SuggestionEnv } from "./utils/subjects.api";
-import { SuggestionEnv as SuggestionEnv1 } from ".";
+import { SearchEnv } from "./utils/subjects.api";
 export { MenubarItem, SearchSuggestion } from "./utils";
-export { SuggestionEnv } from "./utils/subjects.api";
-export { SuggestionEnv as SuggestionEnv1 } from ".";
+export { SearchEnv } from "./utils/subjects.api";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -18,10 +16,6 @@ export namespace Components {
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitMenubar {
-        /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-         */
-        "area"?: string | undefined;
         /**
           * Path of the current item.
           * @default undefined
@@ -32,23 +26,23 @@ export namespace Components {
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv | undefined;
+        /**
           * Initial search query.
           * @default undefined
          */
         "searchQuery": string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     /**
      * Mobile menubar component.
      */
     interface ZanitMobileMenubar {
-        /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-         */
-        "area"?: string;
         /**
           * IDs path of the current item.
           * @default []
@@ -65,29 +59,33 @@ export namespace Components {
          */
         "loading": boolean;
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
         "searchQuery": string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv1;
     }
     interface ZanitSearchForm {
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
-        "area"?: string | undefined;
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv | undefined;
         /**
           * Initial search query
           * @default undefined
          */
         "searchQuery": string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv | undefined;
     }
 }
 export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
@@ -148,10 +146,6 @@ declare namespace LocalJSX {
      */
     interface ZanitMenubar {
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-         */
-        "area"?: string | undefined;
-        /**
           * Path of the current item.
           * @default undefined
          */
@@ -161,23 +155,23 @@ declare namespace LocalJSX {
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv | undefined;
+        /**
           * Initial search query.
           * @default undefined
          */
         "searchQuery"?: string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     /**
      * Mobile menubar component.
      */
     interface ZanitMobileMenubar {
-        /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-         */
-        "area"?: string;
         /**
           * IDs path of the current item.
           * @default []
@@ -194,20 +188,20 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
         "searchQuery"?: string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv1;
     }
     interface ZanitSearchForm {
-        /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
-         */
-        "area"?: string | undefined;
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;
         /**
           * Emitted on search form submission.
@@ -218,14 +212,18 @@ declare namespace LocalJSX {
          */
         "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion>) => void;
         /**
+          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for which to retrieve the suggestions categories for search
+         */
+        "searchEnv"?: SearchEnv | undefined;
+        /**
           * Initial search query
           * @default undefined
          */
         "searchQuery"?: string | undefined;
-        /**
-          * Environment for which to retrieve the suggestions categories for search
-         */
-        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;

@@ -1,6 +1,6 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { containsTarget, SearchSuggestion } from '../../../utils';
-import { getSubjectsByArea, SuggestionEnv } from '../../../utils/subjects.api';
+import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
 import { buildSuggestions } from './suggestions';
 
 @Component({
@@ -31,10 +31,10 @@ export class ZanitSearchForm {
   searchQuery: string | undefined = undefined;
 
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() area?: string | undefined;
+  @Prop() searchArea?: string | undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionEnv?: SuggestionEnv | undefined;
+  @Prop() searchEnv?: SearchEnv | undefined;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -55,7 +55,7 @@ export class ZanitSearchForm {
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    if (this.suggestionEnv) this.subjectsMap = await getSubjectsByArea(this.suggestionEnv);
+    if (this.searchEnv) this.subjectsMap = await getSubjectsByArea(this.searchEnv);
   }
 
   /** Close open searchbar when clicking outside. */
@@ -111,7 +111,7 @@ export class ZanitSearchForm {
     }
 
     this.timer = setTimeout(() => {
-      this.suggestions = buildSuggestions(query, this.subjectsMap, this.area?.toUpperCase());
+      this.suggestions = buildSuggestions(query, this.subjectsMap, this.searchArea?.toUpperCase());
 
       console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
       console.log(this.suggestions);
@@ -126,7 +126,7 @@ export class ZanitSearchForm {
     }
 
     this.showSearchbar = false;
-    const searchEv = this.search.emit({ query: this._searchQuery, area: this.area });
+    const searchEv = this.search.emit({ query: this._searchQuery, area: this.searchArea });
     // do not submit the form if the event default behavior was prevented
     if (searchEv.defaultPrevented) {
       return;

@@ -1,16 +1,16 @@
-export enum SuggestionEnv {
+export enum SearchEnv {
   TEST = 'test',
   PROD = 'prod',
 }
 
-const S3_CATEGORIES_URL: Record<string, string> = {
+const S3_SHOP_URL: Record<string, string> = {
   test: 'https://zanichelli-shop-test.s3.eu-west-1.amazonaws.com',
   prod: 'https://zanichelli-shop.s3.eu-west-1.amazonaws.com',
 };
 
-export async function getSubjectsByArea(suggestionEnv: SuggestionEnv): Promise<Record<string, string[]>> {
+export async function getSubjectsByArea(suggestionEnv: SearchEnv): Promise<Record<string, string[]>> {
   try {
-    const response = await fetch(`${S3_CATEGORIES_URL[suggestionEnv]}/categories.json`);
+    const response = await fetch(`${S3_SHOP_URL[suggestionEnv]}/categories.json`);
     if (!response.ok) {
       throw new Error(`HTTP ${response.status}`);
     }
