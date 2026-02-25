@@ -17,6 +17,7 @@ export function buildSuggestions(
 ): SearchSuggestion[] {
   const matchingSubjectAreas = findSubjectAreas(query, subjectsByArea);
   const hasSubject = matchingSubjectAreas.length > 0;
+  const subject = hasSubject ? query : undefined;
 
   const suggestions: SearchSuggestion[] = [];
 
@@ -32,11 +33,11 @@ export function buildSuggestions(
           .filter((area) => area !== selectedArea)
           .sort((a, b) => AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b)),
       ];
-      orderedSubjectAreas.forEach((area) => suggestions.push(buildSubjectSuggestion(query, area)));
+      orderedSubjectAreas.forEach((area) => suggestions.push(buildSubjectSuggestion(query, area, subject)));
     } else {
       matchingSubjectAreas
         .sort((a, b) => AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b))
-        .forEach((subjectArea) => suggestions.push(buildSubjectSuggestion(query, subjectArea)));
+        .forEach((subjectArea) => suggestions.push(buildSubjectSuggestion(query, subjectArea, subject)));
     }
   }
 
@@ -53,11 +54,11 @@ const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => 
   };
 };
 
-const buildSubjectSuggestion = (query: string, area: string): SearchSuggestion => {
+const buildSubjectSuggestion = (query: string, area: string, subject?: string): SearchSuggestion => {
   return {
     label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area]}`,
     url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
-    ...buildDetail(query, area, query.toUpperCase()),
+    ...buildDetail(query, area, subject.toUpperCase()),
   };
 };
 
