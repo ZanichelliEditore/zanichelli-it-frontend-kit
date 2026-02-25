@@ -72,7 +72,6 @@ const buildDetail = (query: string, area?: string, subject?: string) => ({
   ...(subject ? { subject } : {}),
 });
 
-/** Find subject existing in areas */
 function findSubjectAreas(query: string, subjectsMap: Record<string, string[]>): string[] {
   const cleanedQuery = cleanSearch(query);
   return Object.entries(subjectsMap)
