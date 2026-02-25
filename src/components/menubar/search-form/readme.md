@@ -7,19 +7,20 @@
 
 ## Properties
 
-| Property         | Attribute         | Description                                                             | Type     | Default     |
-| ---------------- | ----------------- | ----------------------------------------------------------------------- | -------- | ----------- |
-| `area`           | `area`            | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string` | `undefined` |
-| `searchQuery`    | `search-query`    | Initial search query                                                    | `string` | `undefined` |
-| `suggestionsEnv` | `suggestions-env` | Environment for which to retrieve the suggestions categories for search | `string` | `undefined` |
+| Property        | Attribute        | Description                                                             | Type                                       | Default     |
+| --------------- | ---------------- | ----------------------------------------------------------------------- | ------------------------------------------ | ----------- |
+| `area`          | `area`           | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string`                                   | `undefined` |
+| `searchQuery`   | `search-query`   | Initial search query                                                    | `string`                                   | `undefined` |
+| `suggestionEnv` | `suggestion-env` | Environment for which to retrieve the suggestions categories for search | `SuggestionEnv.PROD \| SuggestionEnv.TEST` | `undefined` |
 
 
 ## Events
 
-| Event         | Description                        | Type                                             |
-| ------------- | ---------------------------------- | ------------------------------------------------ |
-| `resetSearch` |                                    | `CustomEvent<void>`                              |
-| `search`      | Emitted on search form submission. | `CustomEvent<{ query: string; area?: string; }>` |
+| Event               | Description                           | Type                                                                                    |
+| ------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
+| `resetSearch`       |                                       | `CustomEvent<void>`                                                                     |
+| `search`            | Emitted on search form submission.    | `CustomEvent<{ query: string; area?: string; }>`                                        |
+| `suggestionClicked` | Emitted when a suggestion is clicked. | `CustomEvent<{ user_query: string; query?: string; area?: string; subject?: string; }>` |
 
 
 ## Dependencies

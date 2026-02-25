@@ -1,7 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
 import { containsTarget, SearchSuggestion } from '../../../utils';
-import { getSubjectsByArea } from '../../../utils/subjects.api';
-import { buildSuggestions } from './buildSuggestions';
+import { getSubjectsByArea, SuggestionEnv } from '../../../utils/subjects.api';
+import { buildSuggestions } from './suggestions';
 
 @Component({
   tag: 'zanit-search-form',
@@ -11,6 +11,8 @@ import { buildSuggestions } from './buildSuggestions';
 export class ZanitSearchForm {
   private formElement: HTMLFormElement;
   private subjectsMap: Record<string, string[]> = {};
+  private timer: NodeJS.Timeout;
+  private typingTimeout = 300;
 
   @Element() host: HTMLZanitSearchFormElement;
 
@@ -33,7 +35,7 @@ export class ZanitSearchForm {
   @Prop() area?: string | undefined = undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionsEnv?: 'test' | 'prod' | string;
+  @Prop() suggestionEnv?: SuggestionEnv | undefined = undefined;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -43,22 +45,18 @@ export class ZanitSearchForm {
     }
   }
 
-  @Watch('_searchQuery')
-  onQueryChange() {
-    this.suggestions = buildSuggestions(this._searchQuery, this.subjectsMap, this.area?.toUpperCase());
-    console.log('suggestions:', this.suggestions);
-  }
-
   /** Emitted on search form submission. */
   @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
 
   @Event() resetSearch: EventEmitter<void>;
-  @Event() suggestionClicked: EventEmitter<SearchSuggestion>;
+
+  /** Emitted when a suggestion is clicked. */
+  @Event() suggestionClicked: EventEmitter<SearchSuggestion['detail']>;
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    if (this.suggestionsEnv) this.subjectsMap = await getSubjectsByArea(this.suggestionsEnv);
+    if (this.suggestionEnv) this.subjectsMap = await getSubjectsByArea(this.suggestionEnv);
   }
 
   /** Close open searchbar when clicking outside. */
@@ -104,10 +102,22 @@ export class ZanitSearchForm {
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
+    this.updateSuggestions(this._searchQuery);
+  }
+
+  private updateSuggestions(query: string) {
+    clearTimeout(this.timer);
+    if (query.trim().length < 3) {
+      return;
+    }
+
+    this.timer = setTimeout(() => {
+      this.suggestions = buildSuggestions(query, this.subjectsMap, this.area?.toUpperCase());
+      console.log('suggestions:', this.suggestions);
+    }, this.typingTimeout);
   }
 
   private onSearchSubmit(event: Event) {
-    console.log('subjectsMap:', this.subjectsMap);
     event.preventDefault();
     if (!this._searchQuery) {
       return;

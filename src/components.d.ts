@@ -6,7 +6,9 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { MenubarItem, SearchSuggestion } from "./utils";
+import { SuggestionEnv } from "./utils/subjects.api";
 export { MenubarItem, SearchSuggestion } from "./utils";
+export { SuggestionEnv } from "./utils/subjects.api";
 export namespace Components {
     /**
      * Main menubar component. Each item can have a menu with subitems
@@ -35,8 +37,9 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
          */
-        "suggestionsEnv"?: 'test' | 'prod' | string;
+        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     /**
      * Mobile menubar component.
@@ -76,8 +79,9 @@ export namespace Components {
         "searchQuery": string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
          */
-        "suggestionsEnv"?: 'test' | 'prod' | string;
+        "suggestionEnv"?: SuggestionEnv | undefined;
     }
 }
 export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
@@ -108,7 +112,7 @@ declare global {
     interface HTMLZanitSearchFormElementEventMap {
         "search": { query: string; area?: string };
         "resetSearch": void;
-        "suggestionClicked": SearchSuggestion;
+        "suggestionClicked": SearchSuggestion['detail'];
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -158,8 +162,9 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
          */
-        "suggestionsEnv"?: 'test' | 'prod' | string;
+        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     /**
      * Mobile menubar component.
@@ -197,7 +202,10 @@ declare namespace LocalJSX {
           * Emitted on search form submission.
          */
         "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string; area?: string }>) => void;
-        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion>) => void;
+        /**
+          * Emitted when a suggestion is clicked.
+         */
+        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion['detail']>) => void;
         /**
           * Initial search query
           * @default undefined
@@ -205,8 +213,9 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default undefined
          */
-        "suggestionsEnv"?: 'test' | 'prod' | string;
+        "suggestionEnv"?: SuggestionEnv | undefined;
     }
     interface IntrinsicElements {
         "zanit-menubar": ZanitMenubar;

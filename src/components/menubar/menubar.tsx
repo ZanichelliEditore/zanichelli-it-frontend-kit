@@ -1,6 +1,7 @@
 import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { MenubarItem, containsTarget, moveFocus } from '../../utils';
 import { Menu } from './menu/menu';
+import { SuggestionEnv } from '../../utils/subjects.api';
 
 /**
  * Main menubar component. Each item can have a menu with subitems
@@ -53,7 +54,7 @@ export class ZanitMenubar {
   @Prop() area?: string | undefined = undefined;
 
   /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() suggestionsEnv?: 'test' | 'prod' | string;
+  @Prop() suggestionEnv?: SuggestionEnv | undefined = undefined;
 
   private timerId: number;
 
@@ -526,7 +527,7 @@ export class ZanitMenubar {
             <zanit-search-form
               searchQuery={this.searchQuery}
               area={this.area}
-              suggestionsEnv={this.suggestionsEnv}
+              suggestionEnv={this.suggestionEnv}
               onResetSearch={() => (this.searchQuery = undefined)}
             />
           </div>
