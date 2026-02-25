@@ -10,7 +10,7 @@ import { buildSuggestions } from './suggestions';
 })
 export class ZanitSearchForm {
   private formElement: HTMLFormElement;
-  private subjectsMap: Record<string, string[]> = {};
+  private subjectsByArea: Record<string, string[]> = {};
   private timer: NodeJS.Timeout;
 
   @Element() host: HTMLZanitSearchFormElement;
@@ -55,7 +55,7 @@ export class ZanitSearchForm {
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    if (this.searchEnv) this.subjectsMap = await getSubjectsByArea(this.searchEnv);
+    if (this.searchEnv) this.subjectsByArea = await getSubjectsByArea(this.searchEnv);
   }
 
   /** Close open searchbar when clicking outside. */
@@ -111,7 +111,7 @@ export class ZanitSearchForm {
     }
 
     this.timer = setTimeout(() => {
-      this.suggestions = buildSuggestions(query, this.subjectsMap, this.searchArea?.toUpperCase());
+      this.suggestions = buildSuggestions(query, this.subjectsByArea, this.searchArea?.toUpperCase());
 
       console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
       console.log(this.suggestions);
