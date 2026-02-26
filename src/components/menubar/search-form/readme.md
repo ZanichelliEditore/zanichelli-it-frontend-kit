@@ -7,11 +7,11 @@
 
 ## Properties
 
-| Property      | Attribute      | Description                                                             | Type                               | Default     |
-| ------------- | -------------- | ----------------------------------------------------------------------- | ---------------------------------- | ----------- |
-| `searchArea`  | `search-area`  | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string`                           | `undefined` |
-| `searchEnv`   | `search-env`   | Environment for which to retrieve the suggestions categories for search | `SearchEnv.PROD \| SearchEnv.TEST` | `undefined` |
-| `searchQuery` | `search-query` | Initial search query                                                    | `string`                           | `undefined` |
+| Property      | Attribute      | Description                                                             | Type                                                | Default     |
+| ------------- | -------------- | ----------------------------------------------------------------------- | --------------------------------------------------- | ----------- |
+| `searchArea`  | `search-area`  | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").   | `string`                                            | `undefined` |
+| `searchEnv`   | `search-env`   | Environment for which to retrieve the suggestions categories for search | `SearchEnv.DEV \| SearchEnv.PROD \| SearchEnv.TEST` | `undefined` |
+| `searchQuery` | `search-query` | Initial search query                                                    | `string`                                            | `undefined` |
 
 
 ## Events
