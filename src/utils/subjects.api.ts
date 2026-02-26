@@ -1,9 +1,11 @@
 export enum SearchEnv {
+  DEV = 'dev',
   TEST = 'test',
   PROD = 'prod',
 }
 
 const S3_SHOP_URL: Record<string, string> = {
+  dev: 'https://zanichelli-shop-dev.s3.eu-west-1.amazonaws.com',
   test: 'https://zanichelli-shop-test.s3.eu-west-1.amazonaws.com',
   prod: 'https://zanichelli-shop.s3.eu-west-1.amazonaws.com',
 };
