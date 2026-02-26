@@ -80,8 +80,8 @@ function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]
     .map(([area]) => area);
 }
 
-/** Clear search string: lowercase, remove multiple spaces, trim */
-const cleanSearch = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
+/** Clear search string: lowercase, remove multiple spaces */
+const cleanSearch = (s: string) => s.toLowerCase().replace(/\s+/g, ' ');
 
 const getAreaOrder = (area: string) => {
   const index = AREA_ORDER.indexOf(area);
