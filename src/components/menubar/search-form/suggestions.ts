@@ -56,7 +56,7 @@ const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => 
 
 const buildSubjectSuggestion = (query: string, area: string, subject?: string): SearchSuggestion => {
   return {
-    label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area]}`,
+    label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area] ?? area}`,
     url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
     ...buildDetail(query, area, subject.toUpperCase()),
   };
