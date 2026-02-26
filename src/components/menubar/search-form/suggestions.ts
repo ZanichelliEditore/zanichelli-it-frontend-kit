@@ -31,12 +31,12 @@ export function buildSuggestions(
         ...matchingSubjectAreas.filter((area) => area === selectedArea),
         ...matchingSubjectAreas
           .filter((area) => area !== selectedArea)
-          .sort((a, b) => AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b)),
+          .sort((a, b) => getAreaOrder(a) - getAreaOrder(b)),
       ];
       orderedSubjectAreas.forEach((area) => suggestions.push(buildSubjectSuggestion(query, area, subject)));
     } else {
       matchingSubjectAreas
-        .sort((a, b) => AREA_ORDER.indexOf(a) - AREA_ORDER.indexOf(b))
+        .sort((a, b) => getAreaOrder(a) - getAreaOrder(b))
         .forEach((subjectArea) => suggestions.push(buildSubjectSuggestion(query, subjectArea, subject)));
     }
   }
@@ -82,3 +82,8 @@ function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]
 
 /** Clear search string: lowercase, remove multiple spaces, trim */
 const cleanSearch = (s: string) => s.toLowerCase().replace(/\s+/g, ' ').trim();
+
+const getAreaOrder = (area: string) => {
+  const index = AREA_ORDER.indexOf(area);
+  return index >= 0 ? index : 100;
+};
