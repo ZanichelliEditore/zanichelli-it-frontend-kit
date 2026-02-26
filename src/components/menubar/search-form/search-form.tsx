@@ -144,7 +144,7 @@ export class ZanitSearchForm {
 
         <button
           class="searchbar-button"
-          aria-label="Esegui ricerca"
+          aria-label={this.showSearchbar ? 'Esegui ricerca' : 'Apri il campo di ricerca'}
           aria-controls="searchbar-input"
           type={this.showSearchbar ? 'submit' : 'button'}
           onClick={() => this.openSearchbar()}
