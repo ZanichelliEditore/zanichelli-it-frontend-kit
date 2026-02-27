@@ -7,7 +7,9 @@ import { containsTarget, moveFocus } from '../../../utils';
 @Component({
   tag: 'zanit-mobile-menubar',
   styleUrls: ['mobile-menubar.css', '../menu/menu.css'],
-  shadow: true,
+  shadow: {
+    delegatesFocus: true,
+  },
 })
 export class ZanitMobileMenubar {
   @Element() host: HTMLZanitMobileMenubarElement;
