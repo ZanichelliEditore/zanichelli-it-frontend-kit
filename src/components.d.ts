@@ -5,9 +5,9 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenubarItem, SearchSuggestion } from "./utils";
+import { MenubarItem } from "./utils";
 import { SearchEnv } from "./utils/subjects.api";
-export { MenubarItem, SearchSuggestion } from "./utils";
+export { MenubarItem } from "./utils";
 export { SearchEnv } from "./utils/subjects.api";
 export namespace Components {
     /**
@@ -116,7 +116,7 @@ declare global {
     interface HTMLZanitSearchFormElementEventMap {
         "search": { query: string; area?: string };
         "resetSearch": void;
-        "suggestionClicked": SearchSuggestion;
+        "suggestionClicked": { user_query: string; query?: string; area?: string; subject?: string };
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -210,7 +210,7 @@ declare namespace LocalJSX {
         /**
           * Emitted when a suggestion is clicked.
          */
-        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<SearchSuggestion>) => void;
+        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<{ user_query: string; query?: string; area?: string; subject?: string }>) => void;
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */

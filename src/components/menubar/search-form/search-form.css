@@ -111,6 +111,20 @@ button {
   --z-icon-height: var(--searchbar-button-icon-width);
 }
 
+.suggestions {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: var(--shadow-1);
+  display: flex;
+  padding: var(--space-unit) calc(var(--space-unit) * 2);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-unit);
+}
+
 @media (width < 1152px) {
   .searchbar .searchbar-button > .searchbar-button-label {
     display: none;
@@ -139,6 +153,10 @@ button {
 
   .searchbar .searchbar-button {
     padding: 8px var(--searchbar-button-x-padding);
+  }
+
+  .suggestions {
+    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 3);
   }
 }
 

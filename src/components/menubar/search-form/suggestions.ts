@@ -1,5 +1,3 @@
-import { SearchSuggestion } from '../../../utils/types';
-
 enum AREA_LABELS {
   SCUOLA = 'Scuola',
   UNIVERSITÀ = 'Università',
@@ -9,6 +7,15 @@ enum AREA_LABELS {
 }
 
 const AREA_ORDER = Object.keys(AREA_LABELS);
+
+export type SearchSuggestion = {
+  label: string;
+  url: string;
+  user_query: string;
+  query?: string;
+  area?: string;
+  subject?: string;
+};
 
 export function buildSuggestions(
   query: string,
@@ -47,8 +54,8 @@ export function buildSuggestions(
 const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => {
   return {
     label: area
-      ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area] ?? area}`
-      : `Cerca la parola ${query} in tutto il sito`,
+      ? `Cerca la parola <b>${query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`
+      : `Cerca la parola <b>${query}</b> in tutto il sito`,
     url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
     ...buildDetail(query, area),
   };
@@ -56,7 +63,7 @@ const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => 
 
 const buildSubjectSuggestion = (query: string, area: string, subject?: string): SearchSuggestion => {
   return {
-    label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area] ?? area}`,
+    label: `Cerca la materia <b>${query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`,
     url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
     ...buildDetail(query, area, subject.toUpperCase()),
   };

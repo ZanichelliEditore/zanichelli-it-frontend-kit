@@ -1,7 +1,7 @@
-import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { containsTarget, SearchSuggestion } from '../../../utils';
+import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import { containsTarget } from '../../../utils';
 import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
-import { buildSuggestions } from './suggestions';
+import { buildSuggestions, SearchSuggestion } from './suggestions';
 
 @Component({
   tag: 'zanit-search-form',
@@ -44,13 +44,24 @@ export class ZanitSearchForm {
     }
   }
 
+  @Watch('showSearchbar')
+  onShowSearchbarChange() {
+    if (this.showSearchbar) {
+      this.updateSuggestions(this._searchQuery ?? '');
+    } else {
+      console.log('reset suggestions');
+      this.suggestions = [];
+    }
+  }
+
   /** Emitted on search form submission. */
   @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
 
   @Event() resetSearch: EventEmitter<void>;
 
   /** Emitted when a suggestion is clicked. */
-  @Event() suggestionClicked: EventEmitter<SearchSuggestion>;
+  @Event({ cancelable: true })
+  suggestionClicked: EventEmitter<{ user_query: string; query?: string; area?: string; subject?: string }>;
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
@@ -61,7 +72,7 @@ export class ZanitSearchForm {
   /** Close open searchbar when clicking outside. */
   @Listen('click', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
-    if (this.showSearchbar && this.formElement && !containsTarget(this.formElement, event)) {
+    if (this.showSearchbar && this.host && !containsTarget(this.host, event)) {
       this.showSearchbar = false;
     }
   }
@@ -135,54 +146,81 @@ export class ZanitSearchForm {
     this.formElement.submit();
   }
 
+  private renderSuggestions() {
+    if (!this.suggestions.length) {
+      return null;
+    }
+
+    return (
+      <div class="suggestions">
+        {this.suggestions.map((suggestion, k) => (
+          <span
+            key={k}
+            innerHTML={suggestion.label}
+            onClick={() => {
+              const ev = this.suggestionClicked.emit(suggestion);
+              if (!ev.defaultPrevented) {
+                window.location.href = suggestion.url;
+              }
+            }}
+          />
+        ))}
+      </div>
+    );
+  }
+
   render() {
     return (
-      <form
-        class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
-        ref={(el) => (this.formElement = el)}
-        role="search"
-        aria-label="Cerca nel sito"
-        method="get"
-        action="/ricerca"
-        onSubmit={(event) => this.onSearchSubmit(event)}
-        onReset={() => this.resetSearchQuery()}
-      >
-        <div
-          class="input-wrapper"
-          role="none"
+      <Host>
+        <form
+          class={{ 'searchbar': true, 'searchbar-open': this.showSearchbar }}
+          ref={(el) => (this.formElement = el)}
+          role="search"
+          aria-label="Cerca nel sito"
+          method="get"
+          action="/ricerca"
+          onSubmit={(event) => this.onSearchSubmit(event)}
+          onReset={() => this.resetSearchQuery()}
         >
-          {this.searchQuery && (
-            <button
-              type="reset"
-              aria-label="Svuota campo di ricerca"
+          <div
+            class="input-wrapper"
+            role="none"
+          >
+            {this.searchQuery && (
+              <button
+                type="reset"
+                aria-label="Svuota campo di ricerca"
+                disabled={!this.showSearchbar}
+              >
+                <z-icon name="multiply-circled" />
+              </button>
+            )}
+            <input
+              id="searchbar-input"
+              name="q"
+              type="search"
               disabled={!this.showSearchbar}
-            >
-              <z-icon name="multiply-circled" />
-            </button>
-          )}
-          <input
-            id="searchbar-input"
-            name="q"
-            type="search"
-            disabled={!this.showSearchbar}
-            placeholder="Cerca per parola chiave o ISBN"
-            onInput={(event) => this.handleInputChange(event)}
-            value={this.searchQuery}
-            required
-          ></input>
-        </div>
+              placeholder="Cerca per parola chiave o ISBN"
+              onInput={(event) => this.handleInputChange(event)}
+              value={this.searchQuery}
+              required
+              autocomplete="off"
+            ></input>
+          </div>
 
-        <button
-          class="searchbar-button"
-          aria-label="Esegui ricerca"
-          aria-controls="searchbar-input"
-          type={this.showSearchbar ? 'submit' : 'button'}
-          onClick={() => this.openSearchbar()}
-        >
-          {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
-          <z-icon name="search"></z-icon>
-        </button>
-      </form>
+          <button
+            class="searchbar-button"
+            aria-label="Esegui ricerca"
+            aria-controls="searchbar-input"
+            type={this.showSearchbar ? 'submit' : 'button'}
+            onClick={() => this.openSearchbar()}
+          >
+            {this.showSearchbar ? null : <span class="searchbar-button-label">Cerca</span>}
+            <z-icon name="search"></z-icon>
+          </button>
+        </form>
+        <div class="suggestions-wrapper">{this.renderSuggestions()}</div>
+      </Host>
     );
   }
 }
