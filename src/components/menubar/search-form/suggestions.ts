@@ -24,7 +24,7 @@ export function buildSuggestions(
 ): SearchSuggestion[] {
   const matchingSubjectAreas = findSubjectAreas(query, subjectsByArea);
   const hasSubject = matchingSubjectAreas.length > 0;
-  const subject = hasSubject ? query : undefined;
+  const subject = hasSubject ? query.toUpperCase() : undefined;
 
   const suggestions: SearchSuggestion[] = [];
 
@@ -51,21 +51,21 @@ export function buildSuggestions(
   return suggestions;
 }
 
-const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => {
+const buildWordSuggestion = (user_query: string, area?: string): SearchSuggestion => {
   return {
     label: area
-      ? `Cerca la parola <b>${query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`
-      : `Cerca la parola <b>${query}</b> in tutto il sito`,
-    url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
-    ...buildDetail(query, area),
+      ? `Cerca la parola <b>${user_query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`
+      : `Cerca la parola <b>${user_query}</b> in tutto il sito`,
+    url: buildUrl({ q: user_query, ...(area ? { area } : {}), user_query }),
+    ...buildDetail(user_query, user_query, area),
   };
 };
 
-const buildSubjectSuggestion = (query: string, area: string, subject?: string): SearchSuggestion => {
+const buildSubjectSuggestion = (user_query: string, area: string, subject: string): SearchSuggestion => {
   return {
-    label: `Cerca la materia <b>${query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`,
-    url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
-    ...buildDetail(query, area, subject.toUpperCase()),
+    label: `Cerca la materia <b>${user_query}</b> nel catalogo <b>${AREA_LABELS[area] ?? area}</b>`,
+    url: buildUrl({ area, materia: subject, user_query }),
+    ...buildDetail(user_query, undefined, area, subject),
   };
 };
 
@@ -73,9 +73,9 @@ const buildUrl = (params: Record<string, string>): string => {
   return `ricerca?${new URLSearchParams(params).toString()}`;
 };
 
-const buildDetail = (query: string, area?: string, subject?: string) => ({
-  user_query: query,
-  query,
+const buildDetail = (user_query: string, query?: string, area?: string, subject?: string) => ({
+  user_query,
+  ...(query ? { query } : {}),
   ...(area ? { area } : {}),
   ...(subject ? { subject } : {}),
 });

@@ -31,8 +31,9 @@ export namespace Components {
         "searchArea"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default SearchEnv.PROD
          */
-        "searchEnv"?: SearchEnv | undefined;
+        "searchEnv": SearchEnv;
         /**
           * Initial search query.
           * @default undefined
@@ -160,8 +161,9 @@ declare namespace LocalJSX {
         "searchArea"?: string | undefined;
         /**
           * Environment for which to retrieve the suggestions categories for search
+          * @default SearchEnv.PROD
          */
-        "searchEnv"?: SearchEnv | undefined;
+        "searchEnv"?: SearchEnv;
         /**
           * Initial search query.
           * @default undefined

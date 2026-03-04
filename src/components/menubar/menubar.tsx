@@ -50,12 +50,11 @@ export class ZanitMenubar {
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
 
+  /** Environment for which to retrieve the suggestions categories for search */
+  @Prop() searchEnv: SearchEnv = SearchEnv.PROD;
+
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
   @Prop() searchArea?: string | undefined;
-
-  // TODO: we want suggestions to always be active?
-  /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() searchEnv?: SearchEnv | undefined;
 
   private timerId: number;
 
