@@ -165,7 +165,18 @@ export class ZanitSearchForm {
       return;
     }
 
+    if (this.activeSuggestion) {
+      const suggestion = this.suggestions.find((s) => s.id === this.activeSuggestion);
+      if (suggestion) {
+        this.submitSuggestionSearch(suggestion);
+        this.showSuggestions = false;
+        return;
+      }
+    }
+
     this.showSearchbar = false;
+    this.showSuggestions = false;
+
     const searchEv = this.search.emit({ query: this._searchQuery, area: this.searchArea });
     // do not submit the form if the event default behavior was prevented
     if (searchEv.defaultPrevented) {
@@ -173,6 +184,18 @@ export class ZanitSearchForm {
     }
 
     this.formElement.submit();
+  }
+
+  private submitSuggestionSearch(suggestion: SearchSuggestion) {
+    const ev = this.search.emit({
+      user_query: suggestion.user_query,
+      query: suggestion.query,
+      area: suggestion.area,
+      subject: suggestion.subject,
+    });
+    if (!ev.defaultPrevented) {
+      window.location.href = suggestion.url;
+    }
   }
 
   private handleSuggestionsNav(event: KeyboardEvent) {
@@ -222,28 +245,15 @@ export class ZanitSearchForm {
         aria-label="Seleziona tra i suggerimenti"
       >
         {this.suggestions.map((suggestion, k) => {
-          const currId = `suggestion-${k}`;
           return (
             <span
               key={k}
-              innerHTML={suggestion.label}
-              id={currId}
-              class={`suggestion ${this.activeSuggestion === currId ? `active` : ``}`}
+              innerHTML={suggestion.html_label}
+              id={suggestion.id}
+              class={`suggestion ${this.activeSuggestion === suggestion.id ? `active` : ``}`}
               role="option"
-              // TODO: pulire html
               aria-label={suggestion.label}
-              onClick={() => {
-                const ev = this.search.emit({
-                  user_query: suggestion.user_query,
-                  query: suggestion.query,
-                  area: suggestion.area,
-                  subject: suggestion.subject,
-                });
-                if (!ev.defaultPrevented) {
-                  window.location.href = suggestion.url;
-                }
-              }}
-              onKeyDown={() => console.log('key down')}
+              onClick={() => this.submitSuggestionSearch(suggestion)}
             />
           );
         })}
@@ -302,7 +312,6 @@ export class ZanitSearchForm {
 
                 this.handleSuggestionsNav(e);
               }}
-              ref={(el) => (this.inputElement = el)}
             />
           </div>
 
