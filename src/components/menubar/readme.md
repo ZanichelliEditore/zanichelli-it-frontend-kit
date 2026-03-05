@@ -10,13 +10,13 @@ When a main menubar item is the current active one, a sub-menubar is shown and e
 
 ## Properties
 
-| Property      | Attribute      | Description                                                                                                   | Type                                                       | Default     |
-| ------------- | -------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------- |
-| `current`     | `current`      | Path of the current item.                                                                                     | `string`                                                   | `undefined` |
-| `data`        | `data`         | The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined` |
-| `searchArea`  | `search-area`  | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").                                         | `string`                                                   | `undefined` |
-| `searchEnv`   | `search-env`   | Environment for which to retrieve the suggestions categories for search                                       | `SearchEnv.DEV \| SearchEnv.PROD \| SearchEnv.TEST`        | `undefined` |
-| `searchQuery` | `search-query` | Initial search query.                                                                                         | `string`                                                   | `undefined` |
+| Property      | Attribute      | Description                                                                                                   | Type                                                       | Default          |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ---------------- |
+| `current`     | `current`      | Path of the current item.                                                                                     | `string`                                                   | `undefined`      |
+| `data`        | `data`         | The data to build the menu (as an array of `MenubarItem` or a JSON array) or the url to fetch to retrieve it. | `MenubarItem[] \| Promise<MenubarItem[]> \| URL \| string` | `undefined`      |
+| `searchArea`  | `search-area`  | The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").                                         | `string`                                                   | `undefined`      |
+| `searchEnv`   | `search-env`   | Environment for which to retrieve the suggestions categories for search                                       | `SearchEnv.DEV \| SearchEnv.PROD \| SearchEnv.TEST`        | `SearchEnv.PROD` |
+| `searchQuery` | `search-query` | Initial search query.                                                                                         | `string`                                                   | `undefined`      |
 
 
 ## Dependencies

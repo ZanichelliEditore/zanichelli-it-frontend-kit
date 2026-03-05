@@ -238,25 +238,27 @@ export class ZanitSearchForm {
 
   private renderSuggestions() {
     return (
-      <div
-        id="search-suggestions"
-        class={`suggestions ${!this.showSuggestions || !this.suggestions.length ? `hidden` : ``}`}
-        role="listbox"
-        aria-label="Seleziona tra i suggerimenti"
-      >
-        {this.suggestions.map((suggestion, k) => {
-          return (
-            <span
-              key={k}
-              innerHTML={suggestion.html_label}
-              id={suggestion.id}
-              class={`suggestion ${this.activeSuggestion === suggestion.id ? `active` : ``}`}
-              role="option"
-              aria-label={suggestion.label}
-              onClick={() => this.submitSuggestionSearch(suggestion)}
-            />
-          );
-        })}
+      <div class="suggestions-wrapper">
+        <div
+          id="search-suggestions"
+          class={`suggestions ${!this.showSuggestions || !this.suggestions.length ? `hidden` : ``}`}
+          role="listbox"
+          aria-label="Seleziona tra i suggerimenti"
+        >
+          {this.suggestions.map((suggestion, k) => {
+            return (
+              <span
+                key={k}
+                innerHTML={suggestion.html_label}
+                id={suggestion.id}
+                class={`suggestion ${this.activeSuggestion === suggestion.id ? `active` : ``}`}
+                role="option"
+                aria-label={suggestion.label}
+                onClick={() => this.submitSuggestionSearch(suggestion)}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }

@@ -111,18 +111,23 @@ button {
   --z-icon-height: var(--searchbar-button-icon-width);
 }
 
-.suggestions {
-  position: absolute;
+.suggestions-wrapper {
+  position: fixed;
   top: 50px;
   left: 0;
   width: 100%;
   background: white;
   box-shadow: var(--shadow-1);
+}
+
+.suggestions {
   display: flex;
-  padding: var(--space-unit) calc(var(--space-unit) * 2);
+  padding: var(--space-unit) var(--space-unit);
   flex-direction: column;
   align-items: flex-start;
   gap: var(--space-unit);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .suggestions.hidden {
@@ -168,7 +173,7 @@ button {
   }
 
   .suggestions {
-    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 3);
+    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 2);
   }
 }
 
@@ -181,5 +186,10 @@ button {
 @media (width >= 1366px) {
   .searchbar .searchbar-button {
     border-right: 1px solid #000;
+  }
+
+  .suggestions {
+    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 3);
+    max-width: 1366px;
   }
 }
