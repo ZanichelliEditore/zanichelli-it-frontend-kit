@@ -241,7 +241,10 @@ export class ZanitSearchForm {
 
   private renderSuggestions() {
     return (
-      <div class={{ 'suggestions-wrapper': true, 'hidden': !this.showSuggestions || !this.suggestions.length }}>
+      <div
+        class={{ 'suggestions-wrapper': true, 'hidden': !this.showSuggestions || !this.suggestions.length }}
+        onPointerOver={(e) => e.preventDefault()}
+      >
         <div
           id="search-suggestions"
           class="suggestions"
