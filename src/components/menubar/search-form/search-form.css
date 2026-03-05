@@ -23,6 +23,7 @@ button {
   --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 1px);
 
   position: absolute;
+  z-index: 5;
   top: 0;
   right: 0;
   display: flex;
@@ -112,12 +113,19 @@ button {
 }
 
 .suggestions-wrapper {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  width: 100%;
-  background: white;
+  position: absolute;
+  z-index: 4;
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+  top: 48px;
+  background: #fff;
   box-shadow: var(--shadow-1);
+  border-top: 1px solid var(--gray300);
+}
+
+.suggestions-wrapper.hidden {
+  display: none;
 }
 
 .suggestions {
@@ -128,10 +136,6 @@ button {
   gap: var(--space-unit);
   width: 100%;
   margin: 0 auto;
-}
-
-.suggestions.hidden {
-  display: none;
 }
 
 .suggestion {
@@ -170,6 +174,11 @@ button {
 
   .searchbar .searchbar-button {
     padding: 8px var(--searchbar-button-x-padding);
+  }
+
+  .suggestions-wrapper {
+    top: 50px;
+    border-top: none;
   }
 
   .suggestions {

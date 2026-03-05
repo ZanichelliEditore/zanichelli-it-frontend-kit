@@ -52,10 +52,8 @@ export class ZanitSearchForm {
 
   @Watch('showSearchbar')
   onShowSearchbarChange() {
-    if (this.showSearchbar) {
-      this.updateSuggestions();
-    } else {
-      this.resetSuggestions();
+    if (!this.showSearchbar) {
+      this.showSuggestions = false;
     }
   }
 
@@ -238,10 +236,10 @@ export class ZanitSearchForm {
 
   private renderSuggestions() {
     return (
-      <div class="suggestions-wrapper">
+      <div class={{ 'suggestions-wrapper': true, 'hidden': !this.showSuggestions || !this.suggestions.length }}>
         <div
           id="search-suggestions"
-          class={`suggestions ${!this.showSuggestions || !this.suggestions.length ? `hidden` : ``}`}
+          class="suggestions"
           role="listbox"
           aria-label="Seleziona tra i suggerimenti"
         >
@@ -251,7 +249,7 @@ export class ZanitSearchForm {
                 key={k}
                 innerHTML={suggestion.html_label}
                 id={suggestion.id}
-                class={`suggestion ${this.activeSuggestion === suggestion.id ? `active` : ``}`}
+                class={{ suggestion: true, active: this.activeSuggestion === suggestion.id }}
                 role="option"
                 aria-label={suggestion.label}
                 onClick={() => this.submitSuggestionSearch(suggestion)}
@@ -309,7 +307,6 @@ export class ZanitSearchForm {
               aria-hidden={!this.showSearchbar ? 'true' : undefined}
               tabIndex={!this.showSearchbar ? -1 : 0}
               onInput={(event) => this.handleInputChange(event)}
-              onFocus={() => this.updateSuggestions()}
               onKeyDown={(e) => {
                 // INFO: prevent ESC from clearing input
                 if (e.key === 'Escape') {
