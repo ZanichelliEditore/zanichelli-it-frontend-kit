@@ -11,7 +11,9 @@ import { SearchEnv } from '../../utils/subjects.api';
 @Component({
   tag: 'zanit-menubar',
   styleUrls: ['menubar.css', 'menu/menu.css'],
-  shadow: true,
+  shadow: {
+    delegatesFocus: true,
+  },
 })
 export class ZanitMenubar {
   @Element() host: HTMLZanitMenubarElement;
