@@ -26,6 +26,12 @@ export class ZanitSearchForm {
   /** Search suggestions to show in the autocomplete dropdown. */
   @State() suggestions: SearchSuggestion[] = [];
 
+  /** Active suggestion - used for keyboard navigation */
+  @State() activeSuggestion: string = '';
+
+  /** Show suggestions list */
+  @State() showSuggestions: boolean = false;
+
   /** Initial search query */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
@@ -44,18 +50,18 @@ export class ZanitSearchForm {
     }
   }
 
-  @Watch('_searchQuery')
-  onSearchQueryStateChange() {
-    this.updateSuggestions(this._searchQuery ?? '');
-  }
-
   @Watch('showSearchbar')
   onShowSearchbarChange() {
     if (this.showSearchbar) {
-      this.updateSuggestions(this._searchQuery ?? '');
+      this.updateSuggestions();
     } else {
       this.resetSuggestions();
     }
+  }
+
+  @Watch('showSuggestions')
+  onShowSuggestionsChange() {
+    this.activeSuggestion = '';
   }
 
   /** Emitted on search form submission. */
@@ -72,7 +78,6 @@ export class ZanitSearchForm {
     this.subjectsByArea = await getSubjectsByArea(this.searchEnv);
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    this.updateSuggestions('');
   }
 
   /** Close open searchbar when clicking outside. */
@@ -88,7 +93,11 @@ export class ZanitSearchForm {
   handleKeydown(event: KeyboardEvent) {
     switch (event.key) {
       case 'Escape':
-        this.showSearchbar = false;
+        if (this.showSuggestions) {
+          this.showSuggestions = false;
+        } else {
+          this.showSearchbar = false;
+        }
         break;
       case 'Tab':
         if (containsTarget(this.host, event)) {
@@ -116,25 +125,37 @@ export class ZanitSearchForm {
 
   private resetSuggestions() {
     this.suggestions = [];
+    this.showSuggestions = false;
   }
 
-  private handleInputChange(event: Event) {
+  private handleInputChange(event: InputEvent) {
+    // INFO: handle ESC
+    if (event.data === '') {
+      event.preventDefault();
+      return;
+    }
+
     this._searchQuery = (event.target as HTMLInputElement).value;
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
+
+    this.updateSuggestions();
   }
 
-  private updateSuggestions(query: string) {
+  private updateSuggestions() {
     clearTimeout(this.timer);
 
-    if (query.trim().length < 3) {
+    const query = (this._searchQuery || '').trim();
+
+    if (query.length < 3) {
       this.resetSuggestions();
       return;
     }
 
     this.timer = setTimeout(() => {
-      this.suggestions = buildSuggestions(query.trim(), this.subjectsByArea, this.searchArea?.toUpperCase());
+      this.suggestions = buildSuggestions(query, this.subjectsByArea, this.searchArea?.toUpperCase());
+      this.showSuggestions = true;
     }, 300);
   }
 
@@ -154,30 +175,78 @@ export class ZanitSearchForm {
     this.formElement.submit();
   }
 
-  private renderSuggestions() {
+  private handleSuggestionsNav(event: KeyboardEvent) {
     if (!this.suggestions.length) {
-      return null;
+      return;
     }
 
+    if (!['ArrowDown', 'ArrowUp'].includes(event.key)) {
+      return;
+    }
+
+    const options = Array.from(this.host.shadowRoot.querySelectorAll("[role='option']")).map((o) => o.id);
+
+    if (!options.length) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!this.showSuggestions) {
+      this.showSuggestions = true;
+    }
+
+    let nextId = null;
+    const firstId = options[0];
+    const lastId = options[options.length - 1];
+    const currOption = options.indexOf(this.activeSuggestion);
+    if (currOption < 0) {
+      nextId = event.key === 'ArrowDown' ? firstId : lastId;
+    } else {
+      if (event.key === 'ArrowDown') {
+        nextId = options[currOption + 1] || lastId;
+      } else {
+        nextId = options[currOption - 1] || firstId;
+      }
+    }
+    this.activeSuggestion = nextId;
+  }
+
+  private renderSuggestions() {
     return (
-      <div class="suggestions">
-        {this.suggestions.map((suggestion, k) => (
-          <span
-            key={k}
-            innerHTML={suggestion.label}
-            onClick={() => {
-              const ev = this.search.emit({
-                user_query: suggestion.user_query,
-                query: suggestion.query,
-                area: suggestion.area,
-                subject: suggestion.subject,
-              });
-              if (!ev.defaultPrevented) {
-                window.location.href = suggestion.url;
-              }
-            }}
-          />
-        ))}
+      <div
+        id="search-suggestions"
+        class={`suggestions ${!this.showSuggestions || !this.suggestions.length ? `hidden` : ``}`}
+        role="listbox"
+        aria-label="Seleziona tra i suggerimenti"
+      >
+        {this.suggestions.map((suggestion, k) => {
+          const currId = `suggestion-${k}`;
+          return (
+            <span
+              key={k}
+              innerHTML={suggestion.label}
+              id={currId}
+              class={`suggestion ${this.activeSuggestion === currId ? `active` : ``}`}
+              role="option"
+              // TODO: pulire html
+              aria-label={suggestion.label}
+              onClick={() => {
+                const ev = this.search.emit({
+                  user_query: suggestion.user_query,
+                  query: suggestion.query,
+                  area: suggestion.area,
+                  subject: suggestion.subject,
+                });
+                if (!ev.defaultPrevented) {
+                  window.location.href = suggestion.url;
+                }
+              }}
+              onKeyDown={() => console.log('key down')}
+            />
+          );
+        })}
       </div>
     );
   }
@@ -214,11 +283,27 @@ export class ZanitSearchForm {
               type="search"
               disabled={!this.showSearchbar}
               placeholder="Cerca per parola chiave o ISBN"
-              onInput={(event) => this.handleInputChange(event)}
               value={this.searchQuery}
               required
               autocomplete="off"
-            ></input>
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={this.suggestions.length ? 'true' : 'false'}
+              aria-controls="search-suggestions"
+              aria-activedescendant={this.activeSuggestion}
+              aria-label="Cerca per parola chiave o ISBN"
+              onInput={(event) => this.handleInputChange(event)}
+              onFocus={() => this.updateSuggestions()}
+              onKeyDown={(e) => {
+                // INFO: prevent ESC from clearing input
+                if (e.key === 'Escape') {
+                  e.preventDefault();
+                }
+
+                this.handleSuggestionsNav(e);
+              }}
+              ref={(el) => (this.inputElement = el)}
+            />
           </div>
 
           <button
@@ -232,7 +317,7 @@ export class ZanitSearchForm {
             <z-icon name="search"></z-icon>
           </button>
         </form>
-        <div class="suggestions-wrapper">{this.renderSuggestions()}</div>
+        {this.renderSuggestions()}
       </Host>
     );
   }

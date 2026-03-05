@@ -125,6 +125,18 @@ button {
   gap: var(--space-unit);
 }
 
+.suggestions.hidden {
+  display: none;
+}
+
+.suggestion {
+  cursor: pointer;
+}
+
+.suggestion.active {
+  box-shadow: var(--shadow-focus-primary);
+}
+
 @media (width < 1152px) {
   .searchbar .searchbar-button > .searchbar-button-label {
     display: none;
