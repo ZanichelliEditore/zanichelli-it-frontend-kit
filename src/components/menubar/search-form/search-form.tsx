@@ -201,6 +201,11 @@ export class ZanitSearchForm {
       return;
     }
 
+    if (event.key === 'Tab') {
+      this.showSuggestions = false;
+      return;
+    }
+
     if (!['ArrowDown', 'ArrowUp'].includes(event.key)) {
       return;
     }
