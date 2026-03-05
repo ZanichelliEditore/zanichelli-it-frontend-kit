@@ -44,29 +44,35 @@ export class ZanitSearchForm {
     }
   }
 
+  @Watch('_searchQuery')
+  onSearchQueryStateChange() {
+    this.updateSuggestions(this._searchQuery ?? '');
+  }
+
   @Watch('showSearchbar')
   onShowSearchbarChange() {
     if (this.showSearchbar) {
       this.updateSuggestions(this._searchQuery ?? '');
     } else {
-      console.log('reset suggestions');
-      this.suggestions = [];
+      this.resetSuggestions();
     }
   }
 
   /** Emitted on search form submission. */
-  @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
+  @Event({ cancelable: true }) search: EventEmitter<{
+    query?: string;
+    area?: string;
+    subject?: string;
+    user_query?: string;
+  }>;
 
   @Event() resetSearch: EventEmitter<void>;
 
-  /** Emitted when a suggestion is clicked. */
-  @Event({ cancelable: true })
-  suggestionClicked: EventEmitter<{ user_query: string; query?: string; area?: string; subject?: string }>;
-
   async connectedCallback() {
+    this.subjectsByArea = await getSubjectsByArea(this.searchEnv);
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
-    if (this.searchEnv) this.subjectsByArea = await getSubjectsByArea(this.searchEnv);
+    this.updateSuggestions('');
   }
 
   /** Close open searchbar when clicking outside. */
@@ -104,7 +110,12 @@ export class ZanitSearchForm {
 
   private resetSearchQuery() {
     this.searchQuery = undefined;
+    this.resetSuggestions();
     this.resetSearch.emit();
+  }
+
+  private resetSuggestions() {
+    this.suggestions = [];
   }
 
   private handleInputChange(event: Event) {
@@ -112,21 +123,18 @@ export class ZanitSearchForm {
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
-    this.updateSuggestions(this._searchQuery);
   }
 
   private updateSuggestions(query: string) {
     clearTimeout(this.timer);
+
     if (query.trim().length < 3) {
+      this.resetSuggestions();
       return;
     }
 
     this.timer = setTimeout(() => {
       this.suggestions = buildSuggestions(query.trim(), this.subjectsByArea, this.searchArea?.toUpperCase());
-
-      console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
-      console.log(this.suggestions);
-      console.groupEnd();
     }, 300);
   }
 
@@ -158,7 +166,12 @@ export class ZanitSearchForm {
             key={k}
             innerHTML={suggestion.label}
             onClick={() => {
-              const ev = this.suggestionClicked.emit(suggestion);
+              const ev = this.search.emit({
+                user_query: suggestion.user_query,
+                query: suggestion.query,
+                area: suggestion.area,
+                subject: suggestion.subject,
+              });
               if (!ev.defaultPrevented) {
                 window.location.href = suggestion.url;
               }

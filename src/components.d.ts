@@ -115,9 +115,13 @@ declare global {
         new (): HTMLZanitMobileMenubarElement;
     };
     interface HTMLZanitSearchFormElementEventMap {
-        "search": { query: string; area?: string };
+        "search": {
+    query?: string;
+    area?: string;
+    subject?: string;
+    user_query?: string;
+  };
         "resetSearch": void;
-        "suggestionClicked": { user_query: string; query?: string; area?: string; subject?: string };
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
         addEventListener<K extends keyof HTMLZanitSearchFormElementEventMap>(type: K, listener: (this: HTMLZanitSearchFormElement, ev: ZanitSearchFormCustomEvent<HTMLZanitSearchFormElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -208,11 +212,12 @@ declare namespace LocalJSX {
         /**
           * Emitted on search form submission.
          */
-        "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string; area?: string }>) => void;
-        /**
-          * Emitted when a suggestion is clicked.
-         */
-        "onSuggestionClicked"?: (event: ZanitSearchFormCustomEvent<{ user_query: string; query?: string; area?: string; subject?: string }>) => void;
+        "onSearch"?: (event: ZanitSearchFormCustomEvent<{
+    query?: string;
+    area?: string;
+    subject?: string;
+    user_query?: string;
+  }>) => void;
         /**
           * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
