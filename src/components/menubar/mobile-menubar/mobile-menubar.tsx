@@ -2,6 +2,7 @@ import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core
 import { MenubarItem, MenuItem } from '../../../utils';
 import { Menu } from '../menu/menu';
 import { containsTarget, moveFocus } from '../../../utils';
+import { SearchEnv } from '../../../utils/subjects.api';
 
 /** Mobile menubar component. */
 @Component({
@@ -25,6 +26,12 @@ export class ZanitMobileMenubar {
 
   /** Whether the menubar is loading the data. */
   @Prop() loading: boolean = false;
+
+  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() searchArea?: string;
+
+  /** Environment for which to retrieve the suggestions categories for search */
+  @Prop() searchEnv?: SearchEnv;
 
   /** Last active item ID. */
   @State() lastCurrent: string | undefined = undefined;
@@ -205,6 +212,8 @@ export class ZanitMobileMenubar {
         <zanit-search-form
           searchQuery={this.searchQuery}
           onResetSearch={() => (this.searchQuery = undefined)}
+          searchArea={this.searchArea}
+          searchEnv={this.searchEnv}
         />
 
         {this.open && (

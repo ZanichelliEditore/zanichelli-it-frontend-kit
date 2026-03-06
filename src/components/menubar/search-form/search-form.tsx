@@ -1,5 +1,7 @@
 import { Component, Element, Event, EventEmitter, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { containsTarget } from '../../../utils';
+import { containsTarget, SearchSuggestion } from '../../../utils';
+import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
+import { buildSuggestions } from './suggestions';
 
 @Component({
   tag: 'zanit-search-form',
@@ -8,6 +10,8 @@ import { containsTarget } from '../../../utils';
 })
 export class ZanitSearchForm {
   private formElement: HTMLFormElement;
+  private subjectsByArea: Record<string, string[]> = {};
+  private timer: NodeJS.Timeout;
 
   @Element() host: HTMLZanitSearchFormElement;
 
@@ -19,9 +23,18 @@ export class ZanitSearchForm {
   @State()
   _searchQuery: string | undefined = undefined;
 
+  /** Search suggestions to show in the autocomplete dropdown. */
+  @State() suggestions: SearchSuggestion[] = [];
+
   /** Initial search query */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
+
+  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() searchArea?: string | undefined;
+
+  /** Environment for which to retrieve the suggestions categories for search */
+  @Prop() searchEnv?: SearchEnv | undefined;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -32,13 +45,17 @@ export class ZanitSearchForm {
   }
 
   /** Emitted on search form submission. */
-  @Event({ cancelable: true }) search: EventEmitter<{ query: string }>;
+  @Event({ cancelable: true }) search: EventEmitter<{ query: string; area?: string }>;
 
   @Event() resetSearch: EventEmitter<void>;
+
+  /** Emitted when a suggestion is clicked. */
+  @Event() suggestionClicked: EventEmitter<SearchSuggestion>;
 
   async connectedCallback() {
     this.showSearchbar = !!this.searchQuery;
     this._searchQuery = this.searchQuery;
+    if (this.searchEnv) this.subjectsByArea = await getSubjectsByArea(this.searchEnv);
   }
 
   /** Close open searchbar when clicking outside. */
@@ -84,6 +101,22 @@ export class ZanitSearchForm {
     if (!this._searchQuery) {
       this.searchQuery = undefined;
     }
+    this.updateSuggestions(this._searchQuery);
+  }
+
+  private updateSuggestions(query: string) {
+    clearTimeout(this.timer);
+    if (query.trim().length < 3) {
+      return;
+    }
+
+    this.timer = setTimeout(() => {
+      this.suggestions = buildSuggestions(query.trim(), this.subjectsByArea, this.searchArea?.toUpperCase());
+
+      console.group('%cSearch Suggestions', 'color: #7570d1; font-weight: bold;');
+      console.log(this.suggestions);
+      console.groupEnd();
+    }, 300);
   }
 
   private onSearchSubmit(event: Event) {
@@ -93,7 +126,7 @@ export class ZanitSearchForm {
     }
 
     this.showSearchbar = false;
-    const searchEv = this.search.emit({ query: this._searchQuery });
+    const searchEv = this.search.emit({ query: this._searchQuery, area: this.searchArea });
     // do not submit the form if the event default behavior was prevented
     if (searchEv.defaultPrevented) {
       return;
