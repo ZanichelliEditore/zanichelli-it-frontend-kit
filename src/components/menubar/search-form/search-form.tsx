@@ -39,7 +39,7 @@ export class ZanitSearchForm {
   /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
   @Prop() searchArea?: string | undefined;
 
-  /** Environment for which to retrieve the suggestions categories for search */
+  /** Environment for search suggestions */
   @Prop() searchEnv?: SearchEnv | undefined;
 
   @Watch('searchQuery')
@@ -129,12 +129,6 @@ export class ZanitSearchForm {
   }
 
   private handleInputChange(event: InputEvent) {
-    // INFO: handle ESC
-    if (event.data === '') {
-      event.preventDefault();
-      return;
-    }
-
     this._searchQuery = (event.target as HTMLInputElement).value;
     if (!this._searchQuery) {
       this.searchQuery = undefined;
@@ -154,6 +148,7 @@ export class ZanitSearchForm {
     }
 
     this.timer = setTimeout(() => {
+      this.resetSuggestions();
       this.suggestions = buildSuggestions(query, this.subjectsByArea, this.searchArea?.toUpperCase());
       this.showSuggestions = true;
     }, 300);
@@ -279,6 +274,14 @@ export class ZanitSearchForm {
           onSubmit={(event) => this.onSearchSubmit(event)}
           onReset={() => this.resetSearchQuery()}
         >
+          {!!this.searchArea && (
+            <input
+              type="hidden"
+              name="area"
+              value={this.searchArea}
+            />
+          )}
+
           <div
             class="input-wrapper"
             role="none"

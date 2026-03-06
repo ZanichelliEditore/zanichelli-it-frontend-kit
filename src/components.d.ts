@@ -79,7 +79,7 @@ export namespace Components {
          */
         "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
          */
         "searchEnv"?: SearchEnv | undefined;
         /**
@@ -213,7 +213,7 @@ declare namespace LocalJSX {
          */
         "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
          */
         "searchEnv"?: SearchEnv | undefined;
         /**
