@@ -249,9 +249,10 @@ export class ZanitSearchForm {
                 key={k}
                 innerHTML={suggestion.html_label}
                 id={suggestion.id}
-                class={{ suggestion: true, active: this.activeSuggestion === suggestion.id }}
+                class="suggestion"
                 role="option"
                 aria-label={suggestion.label}
+                aria-selected={this.activeSuggestion === suggestion.id ? 'true' : undefined}
                 onClick={() => this.submitSuggestionSearch(suggestion)}
               />
             );

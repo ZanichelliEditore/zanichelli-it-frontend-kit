@@ -121,7 +121,7 @@ button {
   top: 48px;
   background: #fff;
   box-shadow: var(--shadow-1);
-  border-top: 1px solid var(--gray300);
+  border-top: 1px solid var(--gray200);
 }
 
 .suggestions-wrapper.hidden {
@@ -130,20 +130,21 @@ button {
 
 .suggestions {
   display: flex;
-  padding: var(--space-unit) var(--space-unit);
+  padding: calc(var(--space-unit) / 2) 0;
   flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-unit);
+  align-items: stretch;
   width: 100%;
   margin: 0 auto;
 }
 
 .suggestion {
   cursor: pointer;
+  padding: calc(var(--space-unit) / 2) var(--space-unit);
 }
 
-.suggestion.active {
-  box-shadow: var(--shadow-focus-primary);
+.suggestion:hover,
+.suggestion[aria-selected='true'] {
+  background: var(--gray100);
 }
 
 @media (width < 1152px) {
@@ -176,13 +177,12 @@ button {
     padding: 8px var(--searchbar-button-x-padding);
   }
 
-  .suggestions-wrapper {
-    top: 50px;
-    border-top: none;
+  .suggestions {
+    padding: var(--space-unit) 0;
   }
 
-  .suggestions {
-    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 2);
+  .suggestion {
+    padding: var(--space-unit) calc(var(--space-unit) * 2);
   }
 }
 
@@ -198,7 +198,16 @@ button {
   }
 
   .suggestions {
-    padding: calc(var(--space-unit) * 2) calc(var(--space-unit) * 3);
+    padding: var(--space-unit) 0;
     max-width: 1366px;
+  }
+
+  .suggestion {
+    padding: var(--space-unit) calc(var(--space-unit) * 3);
+  }
+
+  .suggestion:hover,
+  .suggestion[aria-selected='true'] {
+    background: linear-gradient(to right, transparent, var(--gray100) 40px 1200px, transparent);
   }
 }
