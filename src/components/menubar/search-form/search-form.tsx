@@ -1,5 +1,5 @@
 import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
-import { containsTarget } from '../../../utils';
+import { containsTarget, isArrowDownKey, isArrowUpKey, isEscKey, isTabKey, SearchEvent } from '../../../utils';
 import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
 import { buildSuggestions, SearchSuggestion } from './suggestions';
 
@@ -63,12 +63,7 @@ export class ZanitSearchForm {
   }
 
   /** Emitted on search form submission. */
-  @Event({ cancelable: true }) search: EventEmitter<{
-    query?: string;
-    area?: string;
-    subject?: string;
-    user_query?: string;
-  }>;
+  @Event({ cancelable: true }) search: EventEmitter<SearchEvent>;
 
   @Event() resetSearch: EventEmitter<void>;
 
@@ -86,24 +81,31 @@ export class ZanitSearchForm {
     }
   }
 
-  /** Close the menu when pressing Escape or Tab. */
+  /** Close the searchbar/suggestions when pressing Escape. */
   @Listen('keydown', { passive: true })
-  handleKeydown(event: KeyboardEvent) {
-    switch (event.key) {
-      case 'Escape':
-        if (this.showSuggestions) {
-          this.showSuggestions = false;
-        } else {
-          this.showSearchbar = false;
-        }
-        break;
-      case 'Tab':
-        if (containsTarget(this.host, event)) {
-          break;
-        }
+  handleEsc(event: KeyboardEvent) {
+    if (!isEscKey(event)) {
+      return;
+    }
 
-        this.showSearchbar = false;
-        break;
+    if (this.showSuggestions) {
+      this.showSuggestions = false;
+    } else {
+      this.showSearchbar = false;
+    }
+  }
+
+  /** Close the searchbar/suggestions when pressing Tab. */
+  @Listen('keyup', { target: 'document', passive: true })
+  handleTab(event: KeyboardEvent) {
+    if (!isTabKey(event)) {
+      return;
+    }
+
+    this.showSuggestions = false;
+
+    if (!containsTarget(this.host, event)) {
+      this.showSearchbar = false;
     }
   }
 
@@ -197,16 +199,11 @@ export class ZanitSearchForm {
   }
 
   private handleSuggestionsNav(event: KeyboardEvent) {
+    if (!isArrowDownKey(event) && !isArrowUpKey(event)) {
+      return;
+    }
+
     if (!this.suggestions.length) {
-      return;
-    }
-
-    if (event.key === 'Tab') {
-      this.showSuggestions = false;
-      return;
-    }
-
-    if (!['ArrowDown', 'ArrowUp'].includes(event.key)) {
       return;
     }
 
@@ -228,9 +225,9 @@ export class ZanitSearchForm {
     const lastId = options[options.length - 1];
     const currOption = options.indexOf(this.activeSuggestion);
     if (currOption < 0) {
-      nextId = event.key === 'ArrowDown' ? firstId : lastId;
+      nextId = isArrowDownKey(event) ? firstId : lastId;
     } else {
-      if (event.key === 'ArrowDown') {
+      if (isArrowDownKey(event)) {
         nextId = options[currOption + 1] || lastId;
       } else {
         nextId = options[currOption - 1] || firstId;
@@ -317,7 +314,7 @@ export class ZanitSearchForm {
               onInput={(event) => this.handleInputChange(event)}
               onKeyDown={(e) => {
                 // INFO: prevent ESC from clearing input
-                if (e.key === 'Escape') {
+                if (isEscKey(e)) {
                   e.preventDefault();
                 }
 
@@ -337,6 +334,7 @@ export class ZanitSearchForm {
             <z-icon name="search"></z-icon>
           </button>
         </form>
+
         {this.renderSuggestions()}
       </Host>
     );
