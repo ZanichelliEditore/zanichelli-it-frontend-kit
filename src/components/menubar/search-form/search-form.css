@@ -140,6 +140,12 @@ button {
 .suggestion {
   cursor: pointer;
   padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.suggestion strong {
+  font-size: 1.125rem;
 }
 
 .suggestion:hover,
