@@ -36,11 +36,11 @@ export class ZanitSearchForm {
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
 
-  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() searchArea?: string | undefined;
-
   /** Environment for search suggestions */
-  @Prop() searchEnv?: SearchEnv | undefined;
+  @Prop() searchEnv: SearchEnv = SearchEnv.PROD;
+
+  /** Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() searchArea?: string | undefined;
 
   @Watch('searchQuery')
   onSearchQueryChange() {
@@ -48,6 +48,12 @@ export class ZanitSearchForm {
     if (this.searchQuery) {
       this.openSearchbar();
     }
+    this.resetSuggestions();
+  }
+
+  @Watch('searchArea')
+  onSearchAreaChange() {
+    this.resetSuggestions();
   }
 
   @Watch('showSearchbar')
@@ -119,7 +125,6 @@ export class ZanitSearchForm {
 
   private resetSearchQuery() {
     this.searchQuery = undefined;
-    this.resetSuggestions();
     this.resetSearch.emit();
   }
 

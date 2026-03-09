@@ -130,7 +130,7 @@ button {
 
 .suggestions {
   display: flex;
-  padding: calc(var(--space-unit) / 2) 0;
+  padding: var(--space-unit);
   flex-direction: column;
   align-items: stretch;
   width: 100%;
@@ -139,7 +139,7 @@ button {
 
 .suggestion {
   cursor: pointer;
-  padding: calc(var(--space-unit) / 2) var(--space-unit);
+  padding: calc(var(--space-unit) * 0.75) var(--space-unit);
 }
 
 .suggestion:hover,
@@ -178,10 +178,6 @@ button {
   }
 
   .suggestions {
-    padding: var(--space-unit) 0;
-  }
-
-  .suggestion {
     padding: var(--space-unit) calc(var(--space-unit) * 2);
   }
 }
@@ -198,16 +194,7 @@ button {
   }
 
   .suggestions {
-    padding: var(--space-unit) 0;
-    max-width: 1366px;
-  }
-
-  .suggestion {
     padding: var(--space-unit) calc(var(--space-unit) * 3);
-  }
-
-  .suggestion:hover,
-  .suggestion[aria-selected='true'] {
-    background: linear-gradient(to right, transparent, var(--gray100) 40px 1200px, transparent);
+    max-width: 1366px;
   }
 }

@@ -52,10 +52,10 @@ export class ZanitMenubar {
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
 
-  /** Environment for which to retrieve the suggestions categories for search */
+  /** Environment for search suggestions */
   @Prop() searchEnv: SearchEnv = SearchEnv.PROD;
 
-  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  /** Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
   @Prop() searchArea?: string | undefined;
 
   private timerId: number;

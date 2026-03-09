@@ -26,11 +26,11 @@ export namespace Components {
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
         "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
           * @default SearchEnv.PROD
          */
         "searchEnv": SearchEnv;
@@ -60,13 +60,14 @@ export namespace Components {
          */
         "loading": boolean;
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
-        "searchArea"?: string;
+        "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
          */
-        "searchEnv"?: SearchEnv;
+        "searchEnv": SearchEnv;
         /**
           * Initial search query.
           * @default undefined
@@ -75,13 +76,14 @@ export namespace Components {
     }
     interface ZanitSearchForm {
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
         "searchArea"?: string | undefined;
         /**
           * Environment for search suggestions
+          * @default SearchEnv.PROD
          */
-        "searchEnv"?: SearchEnv | undefined;
+        "searchEnv": SearchEnv;
         /**
           * Initial search query
           * @default undefined
@@ -155,11 +157,11 @@ declare namespace LocalJSX {
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
         "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
           * @default SearchEnv.PROD
          */
         "searchEnv"?: SearchEnv;
@@ -189,11 +191,12 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
-        "searchArea"?: string;
+        "searchArea"?: string | undefined;
         /**
-          * Environment for which to retrieve the suggestions categories for search
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
          */
         "searchEnv"?: SearchEnv;
         /**
@@ -209,13 +212,14 @@ declare namespace LocalJSX {
          */
         "onSearch"?: (event: ZanitSearchFormCustomEvent<SearchEvent>) => void;
         /**
-          * The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
          */
         "searchArea"?: string | undefined;
         /**
           * Environment for search suggestions
+          * @default SearchEnv.PROD
          */
-        "searchEnv"?: SearchEnv | undefined;
+        "searchEnv"?: SearchEnv;
         /**
           * Initial search query
           * @default undefined
