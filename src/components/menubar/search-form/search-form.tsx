@@ -175,7 +175,6 @@ export class ZanitSearchForm {
     }
 
     this.showSearchbar = false;
-    this.showSuggestions = false;
 
     const searchEv = this.search.emit({ query: this._searchQuery, area: this.searchArea });
     // do not submit the form if the event default behavior was prevented
@@ -207,7 +206,7 @@ export class ZanitSearchForm {
       return;
     }
 
-    const options = Array.from(this.host.shadowRoot.querySelectorAll("[role='option']")).map((o) => o.id);
+    const options = this.suggestions.map((o) => o.id);
 
     if (!options.length) {
       return;
@@ -314,7 +313,7 @@ export class ZanitSearchForm {
               autocomplete="off"
               role="combobox"
               aria-autocomplete="list"
-              aria-expanded={this.suggestions.length ? 'true' : 'false'}
+              aria-expanded={this.showSuggestions ? 'true' : 'false'}
               aria-controls="search-suggestions"
               aria-activedescendant={this.activeSuggestion}
               aria-label="Cerca per parola chiave o ISBN"

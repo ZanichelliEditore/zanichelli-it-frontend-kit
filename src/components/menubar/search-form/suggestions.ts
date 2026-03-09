@@ -94,7 +94,7 @@ const buildLabel = (user_query: string, area?: string, isSubject: boolean = fals
   const openStrong = isHtml ? `<strong>` : ``;
   const closeStrong = isHtml ? `</strong>` : ``;
 
-  return `Cerca la ${isSubject ? `materia` : `parola`} ${openStrong}${user_query}${closeStrong} ${area ? `nel catalogo ${openStrong}${AREA_LABELS[area] ?? area}` : `in tutto il sito`}${closeStrong}`;
+  return `Cerca la ${isSubject ? `materia` : `parola`} ${openStrong}${user_query}${closeStrong} ${area ? `nel catalogo ${openStrong}${AREA_LABELS[area] ?? area}${closeStrong}` : `in tutto il sito`}`;
 };
 
 function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]>): string[] {
