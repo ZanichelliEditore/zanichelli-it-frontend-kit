@@ -82,6 +82,7 @@ button {
 .width-limiter > ul,
 .sub-menubar > ul {
   position: relative;
+  z-index: 3;
   display: flex;
   width: 100%;
   align-items: center;

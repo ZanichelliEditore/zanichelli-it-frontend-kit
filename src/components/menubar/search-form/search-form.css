@@ -23,6 +23,7 @@ button {
   --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 1px);
 
   position: absolute;
+  z-index: 5;
   top: 0;
   right: 0;
   display: flex;
@@ -111,6 +112,47 @@ button {
   --z-icon-height: var(--searchbar-button-icon-width);
 }
 
+.suggestions-wrapper {
+  position: absolute;
+  z-index: 4;
+  width: 100vw;
+  margin-left: -50vw;
+  left: 50%;
+  top: 48px;
+  background: #fff;
+  box-shadow: var(--shadow-1);
+  border-top: 1px solid var(--gray200);
+}
+
+.suggestions-wrapper.hidden {
+  display: none;
+}
+
+.suggestions {
+  display: flex;
+  padding: var(--space-unit);
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.suggestion {
+  cursor: pointer;
+  padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.suggestion strong {
+  font-size: 1.125rem;
+}
+
+.suggestion:hover,
+.suggestion[aria-selected='true'] {
+  background: var(--gray100);
+}
+
 @media (width < 1152px) {
   .searchbar .searchbar-button > .searchbar-button-label {
     display: none;
@@ -140,6 +182,10 @@ button {
   .searchbar .searchbar-button {
     padding: 8px var(--searchbar-button-x-padding);
   }
+
+  .suggestions {
+    padding: var(--space-unit) calc(var(--space-unit) * 2);
+  }
 }
 
 @media (width >= 1152px) {
@@ -151,5 +197,10 @@ button {
 @media (width >= 1366px) {
   .searchbar .searchbar-button {
     border-right: 1px solid #000;
+  }
+
+  .suggestions {
+    padding: var(--space-unit) calc(var(--space-unit) * 3);
+    max-width: 1366px;
   }
 }

@@ -27,11 +27,11 @@ export class ZanitMobileMenubar {
   /** Whether the menubar is loading the data. */
   @Prop() loading: boolean = false;
 
-  /** The currently active area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
-  @Prop() searchArea?: string;
+  /** Environment for search suggestions */
+  @Prop() searchEnv: SearchEnv = SearchEnv.PROD;
 
-  /** Environment for which to retrieve the suggestions categories for search */
-  @Prop() searchEnv?: SearchEnv;
+  /** Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() searchArea?: string | undefined;
 
   /** Last active item ID. */
   @State() lastCurrent: string | undefined = undefined;

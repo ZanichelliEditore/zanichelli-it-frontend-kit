@@ -1,5 +1,3 @@
-import { SearchSuggestion } from '../../../utils/types';
-
 enum AREA_LABELS {
   SCUOLA = 'Scuola',
   UNIVERSITÀ = 'Università',
@@ -10,6 +8,17 @@ enum AREA_LABELS {
 
 const AREA_ORDER = Object.keys(AREA_LABELS);
 
+export type SearchSuggestion = {
+  id: string;
+  label: string;
+  html_label: string;
+  url: string;
+  user_query: string;
+  query?: string;
+  area?: string;
+  subject?: string;
+};
+
 export function buildSuggestions(
   query: string,
   subjectsByArea: Record<string, string[]>,
@@ -17,7 +26,7 @@ export function buildSuggestions(
 ): SearchSuggestion[] {
   const matchingSubjectAreas = findSubjectAreas(query, subjectsByArea);
   const hasSubject = matchingSubjectAreas.length > 0;
-  const subject = hasSubject ? query : undefined;
+  const subject = hasSubject ? query.toUpperCase() : undefined;
 
   const suggestions: SearchSuggestion[] = [];
 
@@ -44,34 +53,49 @@ export function buildSuggestions(
   return suggestions;
 }
 
-const buildWordSuggestion = (query: string, area?: string): SearchSuggestion => {
+const buildWordSuggestion = (user_query: string, area?: string): SearchSuggestion => {
   return {
-    label: area
-      ? `Cerca la parola ${query} nel catalogo ${AREA_LABELS[area] ?? area}`
-      : `Cerca la parola ${query} in tutto il sito`,
-    url: buildUrl({ q: query, ...(area ? { area } : {}), user_query: query }),
-    ...buildDetail(query, area),
+    id: buildId(`word-${user_query}-${area}`),
+    label: buildLabel(user_query, area, false, false),
+    html_label: buildLabel(user_query, area, false, true),
+    url: buildUrl({ q: user_query, ...(area ? { area } : {}), user_query }),
+    ...buildDetail(user_query, user_query, area),
   };
 };
 
-const buildSubjectSuggestion = (query: string, area: string, subject?: string): SearchSuggestion => {
+const buildSubjectSuggestion = (user_query: string, area: string, subject: string): SearchSuggestion => {
   return {
-    label: `Cerca la materia ${query} nel catalogo ${AREA_LABELS[area] ?? area}`,
-    url: buildUrl({ area, materia: query.toUpperCase(), user_query: query }),
-    ...buildDetail(query, area, subject.toUpperCase()),
+    id: buildId(`subj-${user_query}-${area}-${subject}`),
+    label: buildLabel(user_query, area, true, false),
+    html_label: buildLabel(user_query, area, true, true),
+    url: buildUrl({ area, materia: subject, user_query }),
+    ...buildDetail(user_query, undefined, area, subject),
   };
 };
+
+const buildId = (string: string) =>
+  string
+    .split('')
+    .map((c) => c.charCodeAt(0).toString(16))
+    .join('');
 
 const buildUrl = (params: Record<string, string>): string => {
   return `ricerca?${new URLSearchParams(params).toString()}`;
 };
 
-const buildDetail = (query: string, area?: string, subject?: string) => ({
-  user_query: query,
-  query,
+const buildDetail = (user_query: string, query?: string, area?: string, subject?: string) => ({
+  user_query,
+  ...(query ? { query } : {}),
   ...(area ? { area } : {}),
   ...(subject ? { subject } : {}),
 });
+
+const buildLabel = (user_query: string, area?: string, isSubject: boolean = false, isHtml: boolean = false) => {
+  const openStrong = isHtml ? `<strong>` : ``;
+  const closeStrong = isHtml ? `</strong>` : ``;
+
+  return `Cerca la ${isSubject ? `materia` : `parola`} ${openStrong}${user_query}${closeStrong} ${area ? `nel catalogo ${openStrong}${AREA_LABELS[area] ?? area}${closeStrong}` : `in tutto il sito`}`;
+};
 
 function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]>): string[] {
   const cleanedQuery = cleanSearch(query);

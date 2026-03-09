@@ -12,11 +12,9 @@ export type MenubarItem = Omit<MenuItem, 'group' | 'highlight'> & {
   menuItems?: MenuItem[];
 };
 
-export type SearchSuggestion = {
-  label: string;
-  url: string;
-  user_query: string;
+export type SearchEvent = {
   query?: string;
   area?: string;
   subject?: string;
+  user_query?: string;
 }
