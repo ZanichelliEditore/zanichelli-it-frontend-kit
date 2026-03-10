@@ -7,17 +7,19 @@
 
 ## Properties
 
-| Property      | Attribute      | Description          | Type     | Default     |
-| ------------- | -------------- | -------------------- | -------- | ----------- |
-| `searchQuery` | `search-query` | Initial search query | `string` | `undefined` |
+| Property      | Attribute      | Description                                             | Type                                                | Default          |
+| ------------- | -------------- | ------------------------------------------------------- | --------------------------------------------------- | ---------------- |
+| `searchArea`  | `search-area`  | Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI"). | `string`                                            | `undefined`      |
+| `searchEnv`   | `search-env`   | Environment for search suggestions                      | `SearchEnv.DEV \| SearchEnv.PROD \| SearchEnv.TEST` | `SearchEnv.PROD` |
+| `searchQuery` | `search-query` | Initial search query                                    | `string`                                            | `undefined`      |
 
 
 ## Events
 
-| Event         | Description                        | Type                              |
-| ------------- | ---------------------------------- | --------------------------------- |
-| `resetSearch` |                                    | `CustomEvent<void>`               |
-| `search`      | Emitted on search form submission. | `CustomEvent<{ query: string; }>` |
+| Event         | Description                        | Type                                                                                     |
+| ------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| `resetSearch` |                                    | `CustomEvent<void>`                                                                      |
+| `search`      | Emitted on search form submission. | `CustomEvent<{ query?: string; area?: string; subject?: string; user_query?: string; }>` |
 
 
 ## Dependencies

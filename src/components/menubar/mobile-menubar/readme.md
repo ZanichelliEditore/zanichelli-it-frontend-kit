@@ -11,12 +11,14 @@ Mobile menubar component.
 
 ## Properties
 
-| Property      | Attribute      | Description                              | Type            | Default     |
-| ------------- | -------------- | ---------------------------------------- | --------------- | ----------- |
-| `currentPath` | `current-path` | IDs path of the current item.            | `string[]`      | `[]`        |
-| `items`       | `items`        | Menubar items.                           | `MenubarItem[]` | `[]`        |
-| `loading`     | `loading`      | Whether the menubar is loading the data. | `boolean`       | `false`     |
-| `searchQuery` | `search-query` | Initial search query.                    | `string`        | `undefined` |
+| Property      | Attribute      | Description                                             | Type                                                | Default          |
+| ------------- | -------------- | ------------------------------------------------------- | --------------------------------------------------- | ---------------- |
+| `currentPath` | `current-path` | IDs path of the current item.                           | `string[]`                                          | `[]`             |
+| `items`       | `items`        | Menubar items.                                          | `MenubarItem[]`                                     | `[]`             |
+| `loading`     | `loading`      | Whether the menubar is loading the data.                | `boolean`                                           | `false`          |
+| `searchArea`  | `search-area`  | Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI"). | `string`                                            | `undefined`      |
+| `searchEnv`   | `search-env`   | Environment for search suggestions                      | `SearchEnv.DEV \| SearchEnv.PROD \| SearchEnv.TEST` | `SearchEnv.PROD` |
+| `searchQuery` | `search-query` | Initial search query.                                   | `string`                                            | `undefined`      |
 
 
 ## Dependencies

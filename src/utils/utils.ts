@@ -15,3 +15,15 @@ export const moveFocus = (current: HTMLElement, next: HTMLElement) => {
   next.tabIndex = 0;
   next.focus({ preventScroll: true });
 };
+
+/** Check if event key is ArrowUp */
+export const isArrowUpKey = (event: KeyboardEvent) => event.key === 'ArrowUp';
+
+/** Check if event key is ArrowDown */
+export const isArrowDownKey = (event: KeyboardEvent) => event.key === 'ArrowDown';
+
+/** Check if event key is Tab */
+export const isTabKey = (event: KeyboardEvent) => event.key === 'Tab';
+
+/** Check if event key is Escape */
+export const isEscKey = (event: KeyboardEvent) => event.key === 'Escape';
