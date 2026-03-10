@@ -28,6 +28,7 @@ button {
   right: 0;
   display: flex;
   width: var(--closed-searchbar-width);
+  height: 3rem;
   justify-content: flex-end;
   transition: width 0.4s ease-in-out;
 }
@@ -118,7 +119,7 @@ button {
   width: 100vw;
   margin-left: -50vw;
   left: 50%;
-  top: 48px;
+  top: 3rem;
   background: #fff;
   box-shadow: var(--shadow-1);
   border-top: 1px solid var(--gray200);
