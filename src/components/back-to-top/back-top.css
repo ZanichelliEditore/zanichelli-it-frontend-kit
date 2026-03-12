@@ -1,0 +1,4 @@
+:host .z-fab {
+  --color-primary01: var(--gray950);
+  outline: 1px solid var(--color-white);
+}
