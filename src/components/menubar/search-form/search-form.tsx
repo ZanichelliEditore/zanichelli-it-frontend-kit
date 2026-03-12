@@ -135,7 +135,6 @@ export class ZanitSearchForm {
             type="search"
             disabled={!this.showSearchbar}
             placeholder="Cerca per parola chiave o ISBN"
-            aria-label="Cerca per parola chiave o ISBN"
             onInput={(event) => this.handleInputChange(event)}
             value={this.searchQuery}
             required
