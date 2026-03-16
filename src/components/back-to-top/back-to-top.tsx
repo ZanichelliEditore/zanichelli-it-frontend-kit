@@ -34,18 +34,21 @@ export class ZanitBackTop {
   scrollMinHeight: number = 800;
 
   @Listen('scroll', { target: 'window', passive: true })
-  handleButtonVisibility() {
+  handleScroll() {
     this.updateFabVisibility();
   }
 
-  @Listen('resize', { target: 'window', passive: true })
-  handleResize() {
-    this.currentPageHeight = document.body.scrollHeight;
-    this.updateFabVisibility();
-  }
+  /** Observer to track page height. */
+  observer = new ResizeObserver(() => {
+    const newHeight = document.documentElement.scrollHeight;
+    if (newHeight !== this.currentPageHeight) this.currentPageHeight = newHeight;
+  });
 
   connectedCallback() {
     this.currentPageHeight = document.body.scrollHeight;
+    this.observer.observe(document.documentElement);
+
+    this.updateFabVisibility();
 
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
     this.isMobile = mobileMediaQuery.matches;
@@ -54,11 +57,15 @@ export class ZanitBackTop {
     };
   }
 
+  disconnectedCallback() {
+    this.observer.disconnect();
+  }
+
   private updateFabVisibility() {
     this.showFab = this.currentPageHeight > this.pageMinHeight && window.scrollY > this.scrollMinHeight;
   }
 
-  private handleScroll() {
+  private scroll() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
@@ -69,7 +76,7 @@ export class ZanitBackTop {
       <Host>
         <button
           class={'z-fab' + (this.isMobile ? '' : ' z-fab-extended')}
-          onClick={() => this.handleScroll()}
+          onClick={() => this.scroll()}
         >
           <z-icon name="back-top" />
           <span>Torna su</span>
