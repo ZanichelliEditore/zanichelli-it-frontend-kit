@@ -70,13 +70,8 @@ export class ZanitBackTop {
         <button
           class={'z-fab' + (this.isMobile ? '' : ' z-fab-extended')}
           onClick={() => this.handleScroll()}
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              this.handleScroll();
-            }
-          }}
         >
-          <z-icon name="back-to-top" />
+          <z-icon name="back-top" />
           <span>Torna su</span>
         </button>
       </Host>
