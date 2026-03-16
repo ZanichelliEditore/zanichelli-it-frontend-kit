@@ -17,7 +17,7 @@ export class ZanitBackTop {
   @State()
   showFab: boolean = false;
 
-  /** Indicates whether the back-to-top button is visible and usable. */
+  /** Indicates the current height of the page. */
   @State()
   currentPageHeight: number;
 
