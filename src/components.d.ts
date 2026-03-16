@@ -11,7 +11,6 @@ export namespace Components {
     /**
      * Back to top floating action button component.
      * Appear on scroll, givern a min height for both scroll height and page height.
-     * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitBackToTop {
         /**
@@ -87,7 +86,6 @@ declare global {
     /**
      * Back to top floating action button component.
      * Appear on scroll, givern a min height for both scroll height and page height.
-     * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface HTMLZanitBackToTopElement extends Components.ZanitBackToTop, HTMLStencilElement {
     }
@@ -144,7 +142,6 @@ declare namespace LocalJSX {
     /**
      * Back to top floating action button component.
      * Appear on scroll, givern a min height for both scroll height and page height.
-     * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
      */
     interface ZanitBackToTop {
         /**
@@ -230,7 +227,6 @@ declare module "@stencil/core" {
             /**
              * Back to top floating action button component.
              * Appear on scroll, givern a min height for both scroll height and page height.
-             * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
              */
             "zanit-back-to-top": LocalJSX.ZanitBackToTop & JSXBase.HTMLAttributes<HTMLZanitBackToTopElement>;
             /**

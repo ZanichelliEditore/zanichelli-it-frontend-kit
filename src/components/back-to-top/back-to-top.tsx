@@ -3,7 +3,6 @@ import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core'
 /**
  * Back to top floating action button component.
  * Appear on scroll, givern a min height for both scroll height and page height.
- * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
  */
 @Component({
   tag: 'zanit-back-to-top',
