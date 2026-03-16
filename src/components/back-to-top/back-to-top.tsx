@@ -72,12 +72,13 @@ export class ZanitBackTop {
   }
 
   render() {
-    if (!this.showFab) return null;
-
     return (
-      <Host>
+      <Host
+        class={{ hidden: !this.showFab }}
+        aria-hidden={this.showFab ? 'false' : 'true'}
+      >
         <button
-          class={'z-fab' + (this.isMobile ? '' : ' z-fab-extended')}
+          class={{ 'z-fab': true, 'z-fab-extended': !this.isMobile }}
           onClick={() => this.scroll()}
         >
           <z-icon name="back-top" />
