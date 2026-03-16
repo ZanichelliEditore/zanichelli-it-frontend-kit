@@ -2,22 +2,22 @@ import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core'
 
 /**
  * Back to top floating action button component.
- * Appear on scroll, givern a min height for both scroll height and page height.
+ * Appears on scroll, given a min height for both scroll height and page height.
  */
 @Component({
   tag: 'zanit-back-to-top',
-  styleUrls: ['back-top.css'],
+  styleUrls: ['back-to-top.css'],
   shadow: false,
   scoped: true,
 })
 export class ZanitBackTop {
   @Element() host: HTMLZanitBackToTopElement;
 
-  /** Indicates whether the back-top button is visible and usable. */
+  /** Indicates whether the back-to-top button is visible and usable. */
   @State()
   showFab: boolean = false;
 
-  /** Indicates whether the back-top button is visible and usable. */
+  /** Indicates whether the back-to-top button is visible and usable. */
   @State()
   currentPageHeight: number;
 
@@ -25,11 +25,11 @@ export class ZanitBackTop {
   @State()
   isMobile: boolean = false;
 
-  /** Min page height from which the back-top button must appear. */
+  /** Min page height from which the back-to-top button must appear. */
   @Prop()
   pageMinHeight: number = 1600;
 
-  /** Min scroll height from which the back-top button must appear. */
+  /** Min scroll height from which the back-to-top button must appear. */
   @Prop()
   scrollMinHeight: number = 800;
 
@@ -76,7 +76,7 @@ export class ZanitBackTop {
             }
           }}
         >
-          <z-icon name="back-top" />
+          <z-icon name="back-to-top" />
           <span>Torna su</span>
         </button>
       </Host>

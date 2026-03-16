@@ -10,16 +10,16 @@ export { MenubarItem } from "./utils";
 export namespace Components {
     /**
      * Back to top floating action button component.
-     * Appear on scroll, givern a min height for both scroll height and page height.
+     * Appears on scroll, given a min height for both scroll height and page height.
      */
     interface ZanitBackToTop {
         /**
-          * Min page height from which the back-top button must appear.
+          * Min page height from which the back-to-top button must appear.
           * @default 1600
          */
         "pageMinHeight": number;
         /**
-          * Min scroll height from which the back-top button must appear.
+          * Min scroll height from which the back-to-top button must appear.
           * @default 800
          */
         "scrollMinHeight": number;
@@ -85,7 +85,7 @@ export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
 declare global {
     /**
      * Back to top floating action button component.
-     * Appear on scroll, givern a min height for both scroll height and page height.
+     * Appears on scroll, given a min height for both scroll height and page height.
      */
     interface HTMLZanitBackToTopElement extends Components.ZanitBackToTop, HTMLStencilElement {
     }
@@ -141,16 +141,16 @@ declare global {
 declare namespace LocalJSX {
     /**
      * Back to top floating action button component.
-     * Appear on scroll, givern a min height for both scroll height and page height.
+     * Appears on scroll, given a min height for both scroll height and page height.
      */
     interface ZanitBackToTop {
         /**
-          * Min page height from which the back-top button must appear.
+          * Min page height from which the back-to-top button must appear.
           * @default 1600
          */
         "pageMinHeight"?: number;
         /**
-          * Min scroll height from which the back-top button must appear.
+          * Min scroll height from which the back-to-top button must appear.
           * @default 800
          */
         "scrollMinHeight"?: number;
@@ -226,7 +226,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             /**
              * Back to top floating action button component.
-             * Appear on scroll, givern a min height for both scroll height and page height.
+             * Appears on scroll, given a min height for both scroll height and page height.
              */
             "zanit-back-to-top": LocalJSX.ZanitBackToTop & JSXBase.HTMLAttributes<HTMLZanitBackToTopElement>;
             /**
