@@ -11,6 +11,8 @@ import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core'
   scoped: true,
 })
 export class ZanitBackTop {
+  private resizeObserver: ResizeObserver;
+
   @Element() host: HTMLZanitBackToTopElement;
 
   /** Indicates whether the back-to-top button is visible and usable. */
@@ -38,15 +40,15 @@ export class ZanitBackTop {
     this.updateFabVisibility();
   }
 
-  /** Observer to track page height. */
-  observer = new ResizeObserver(() => {
+  private handleResize = () => {
     const newHeight = document.documentElement.scrollHeight;
     if (newHeight !== this.currentPageHeight) this.currentPageHeight = newHeight;
-  });
+  };
 
   connectedCallback() {
     this.currentPageHeight = document.body.scrollHeight;
-    this.observer.observe(document.documentElement);
+    this.resizeObserver = new ResizeObserver(this.handleResize);
+    this.resizeObserver.observe(document.documentElement);
 
     this.updateFabVisibility();
 
@@ -58,7 +60,7 @@ export class ZanitBackTop {
   }
 
   disconnectedCallback() {
-    this.observer.disconnect();
+    this.resizeObserver.disconnect();
   }
 
   private updateFabVisibility() {
