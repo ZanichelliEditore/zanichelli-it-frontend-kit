@@ -116,13 +116,13 @@ button {
 .suggestions-wrapper {
   position: absolute;
   z-index: 4;
-  width: 100vw;
-  margin-left: -50vw;
-  left: 50%;
   top: 3rem;
+  left: 50%;
+  width: 100vw;
+  border-top: 1px solid var(--gray200);
+  margin-left: -50vw;
   background: #fff;
   box-shadow: var(--shadow-1);
-  border-top: 1px solid var(--gray200);
 }
 
 .suggestions-wrapper.hidden {
@@ -131,16 +131,16 @@ button {
 
 .suggestions {
   display: flex;
-  padding: var(--space-unit);
+  width: 100%;
   flex-direction: column;
   align-items: stretch;
-  width: 100%;
+  padding: var(--space-unit);
   margin: 0 auto;
 }
 
 .suggestion {
-  cursor: pointer;
   padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  cursor: pointer;
   font-size: 1rem;
   line-height: 1.5rem;
 }
@@ -201,7 +201,7 @@ button {
   }
 
   .suggestions {
-    padding: var(--space-unit) calc(var(--space-unit) * 3);
     max-width: 1366px;
+    padding: var(--space-unit) calc(var(--space-unit) * 3);
   }
 }
