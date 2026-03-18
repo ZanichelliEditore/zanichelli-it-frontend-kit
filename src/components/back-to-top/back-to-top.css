@@ -1,0 +1,15 @@
+:host {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.2s linear;
+}
+
+:host.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+:host .z-fab {
+  --color-primary01: var(--gray950);
+  outline: 1px solid var(--color-white);
+}
