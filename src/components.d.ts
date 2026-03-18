@@ -11,6 +11,22 @@ export { MenubarItem, SearchEvent } from "./utils";
 export { SearchEnv } from "./utils/subjects.api";
 export namespace Components {
     /**
+     * Back to top floating action button component.
+     * Appears on scroll, given a min height for both scroll height and page height.
+     */
+    interface ZanitBackToTop {
+        /**
+          * Min page height from which the back-to-top button must appear.
+          * @default 1600
+         */
+        "pageMinHeight": number;
+        /**
+          * Min scroll height from which the back-to-top button must appear.
+          * @default 800
+         */
+        "scrollMinHeight": number;
+    }
+    /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
@@ -97,6 +113,16 @@ export interface ZanitSearchFormCustomEvent<T> extends CustomEvent<T> {
 }
 declare global {
     /**
+     * Back to top floating action button component.
+     * Appears on scroll, given a min height for both scroll height and page height.
+     */
+    interface HTMLZanitBackToTopElement extends Components.ZanitBackToTop, HTMLStencilElement {
+    }
+    var HTMLZanitBackToTopElement: {
+        prototype: HTMLZanitBackToTopElement;
+        new (): HTMLZanitBackToTopElement;
+    };
+    /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
      * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
@@ -135,12 +161,29 @@ declare global {
         new (): HTMLZanitSearchFormElement;
     };
     interface HTMLElementTagNameMap {
+        "zanit-back-to-top": HTMLZanitBackToTopElement;
         "zanit-menubar": HTMLZanitMenubarElement;
         "zanit-mobile-menubar": HTMLZanitMobileMenubarElement;
         "zanit-search-form": HTMLZanitSearchFormElement;
     }
 }
 declare namespace LocalJSX {
+    /**
+     * Back to top floating action button component.
+     * Appears on scroll, given a min height for both scroll height and page height.
+     */
+    interface ZanitBackToTop {
+        /**
+          * Min page height from which the back-to-top button must appear.
+          * @default 1600
+         */
+        "pageMinHeight"?: number;
+        /**
+          * Min scroll height from which the back-to-top button must appear.
+          * @default 800
+         */
+        "scrollMinHeight"?: number;
+    }
     /**
      * Main menubar component. Each item can have a menu with subitems
      * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
@@ -227,6 +270,7 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
     }
     interface IntrinsicElements {
+        "zanit-back-to-top": ZanitBackToTop;
         "zanit-menubar": ZanitMenubar;
         "zanit-mobile-menubar": ZanitMobileMenubar;
         "zanit-search-form": ZanitSearchForm;
@@ -236,6 +280,11 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * Back to top floating action button component.
+             * Appears on scroll, given a min height for both scroll height and page height.
+             */
+            "zanit-back-to-top": LocalJSX.ZanitBackToTop & JSXBase.HTMLAttributes<HTMLZanitBackToTopElement>;
             /**
              * Main menubar component. Each item can have a menu with subitems
              * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
