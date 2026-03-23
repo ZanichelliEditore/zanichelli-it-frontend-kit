@@ -12,6 +12,7 @@ import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core'
 })
 export class ZanitBackTop {
   private resizeObserver: ResizeObserver;
+  private mutationObserver: MutationObserver;
 
   @Element() host: HTMLZanitBackToTopElement;
 
@@ -41,15 +42,19 @@ export class ZanitBackTop {
   }
 
   private handleResize = () => {
-    const newHeight = document.documentElement.scrollHeight;
-    if (newHeight !== this.currentPageHeight) this.currentPageHeight = newHeight;
+    const newHeight = document.body.scrollHeight;
+    if (newHeight !== this.currentPageHeight) {
+      this.currentPageHeight = newHeight;
+      this.updateFabVisibility();
+    }
   };
 
   connectedCallback() {
     this.currentPageHeight = document.body.scrollHeight;
     this.resizeObserver = new ResizeObserver(this.handleResize);
-    this.resizeObserver.observe(document.documentElement);
-
+    this.resizeObserver.observe(document.body);
+    this.mutationObserver = new MutationObserver(this.handleResize);
+    this.mutationObserver.observe(document.body, { childList: true, subtree: true });
     this.updateFabVisibility();
 
     const mobileMediaQuery = window.matchMedia('(width < 768px)');
@@ -61,6 +66,7 @@ export class ZanitBackTop {
 
   disconnectedCallback() {
     this.resizeObserver.disconnect();
+    this.mutationObserver.disconnect();
   }
 
   private updateFabVisibility() {
