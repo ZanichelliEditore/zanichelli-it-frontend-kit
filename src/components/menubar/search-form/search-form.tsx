@@ -248,18 +248,50 @@ export class ZanitSearchForm {
           aria-label="Seleziona tra i suggerimenti"
         >
           {this.suggestions.map((suggestion, k) => {
-            return (
+            const items = [];
+
+            if (k === 0) {
+              items.push(
+                <span
+                  key="word-head"
+                  class="suggestion-head"
+                  aria-hidden="true"
+                >
+                  Cerca la parola
+                </span>
+              );
+            } else if (suggestion.subject && !this.suggestions[k - 1].subject) {
+              items.push(<z-divider aria-hidden="true" />);
+              items.push(
+                <span
+                  key="subj-head"
+                  class="suggestion-head"
+                  aria-hidden="true"
+                >
+                  Cerca la materia
+                </span>
+              );
+            }
+
+            items.push(
               <span
                 key={k}
-                innerHTML={suggestion.html_label}
                 id={suggestion.id}
                 class="suggestion"
                 role="option"
-                aria-label={suggestion.label}
+                aria-label={suggestion.aria_label}
                 aria-selected={this.activeSuggestion === suggestion.id ? 'true' : undefined}
                 onClick={() => this.submitSuggestionSearch(suggestion)}
-              />
+              >
+                <z-icon name="left-magnifying-glass" />
+                <span
+                  aria-hidden="true"
+                  innerHTML={suggestion.label}
+                />
+              </span>
             );
+
+            return items;
           })}
         </div>
       </div>

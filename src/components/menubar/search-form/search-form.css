@@ -138,20 +138,45 @@ button {
   margin: 0 auto;
 }
 
-.suggestion {
+.suggestion-head {
   padding: calc(var(--space-unit) * 0.75) var(--space-unit);
-  cursor: pointer;
-  font-size: 1rem;
-  line-height: 1.5rem;
+  color: var(--gray700);
+  font-size: 0.875rem;
+  font-weight: var(--font-md);
+  line-height: 1.125rem;
 }
 
-.suggestion strong {
-  font-size: 1.125rem;
+.suggestion {
+  display: flex;
+  padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  color: var(--gray900);
+  cursor: pointer;
+  font-size: 1rem;
+  gap: var(--space-unit);
+  line-height: 1.5rem;
 }
 
 .suggestion:hover,
 .suggestion[aria-selected='true'] {
   background: var(--gray100);
+}
+
+.suggestion strong {
+  font-weight: var(--font-bd);
+}
+
+.suggestion mark {
+  background-color: var(--red50);
+}
+
+.suggestion z-icon {
+  --z-icon-height: 1.125rem;
+
+  margin-top: 0.125rem;
+}
+
+.suggestions z-divider {
+  margin: var(--space-unit) 0;
 }
 
 @media (width < 1152px) {
