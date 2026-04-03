@@ -11,7 +11,7 @@ const AREA_ORDER = Object.keys(AREA_LABELS);
 export type SearchSuggestion = {
   id: string;
   label: string;
-  html_label: string;
+  aria_label: string;
   url: string;
   user_query: string;
   query?: string;
@@ -56,8 +56,8 @@ export function buildSuggestions(
 const buildWordSuggestion = (user_query: string, area?: string): SearchSuggestion => {
   return {
     id: buildId(`word-${user_query}-${area}`),
-    label: buildLabel(user_query, area, false, false),
-    html_label: buildLabel(user_query, area, false, true),
+    label: buildLabel(user_query, area),
+    aria_label: buildAriaLabel(user_query, area, false),
     url: buildUrl({ q: user_query, ...(area ? { area } : {}), user_query }),
     ...buildDetail(user_query, user_query, area),
   };
@@ -66,8 +66,8 @@ const buildWordSuggestion = (user_query: string, area?: string): SearchSuggestio
 const buildSubjectSuggestion = (user_query: string, area: string, subject: string): SearchSuggestion => {
   return {
     id: buildId(`subj-${user_query}-${area}-${subject}`),
-    label: buildLabel(user_query, area, true, false),
-    html_label: buildLabel(user_query, area, true, true),
+    label: buildLabel(user_query, area),
+    aria_label: buildAriaLabel(user_query, area, true),
     url: buildUrl({ area, materia: subject, user_query }),
     ...buildDetail(user_query, undefined, area, subject),
   };
@@ -90,11 +90,12 @@ const buildDetail = (user_query: string, query?: string, area?: string, subject?
   ...(subject ? { subject } : {}),
 });
 
-const buildLabel = (user_query: string, area?: string, isSubject: boolean = false, isHtml: boolean = false) => {
-  const openStrong = isHtml ? `<strong>` : ``;
-  const closeStrong = isHtml ? `</strong>` : ``;
+const buildLabel = (user_query: string, area?: string) => {
+  return `<mark>${user_query}</mark> in <strong>${area ? `${AREA_LABELS[area] ?? area}` : `tutto il sito`}</strong>`;
+};
 
-  return `Cerca la ${isSubject ? `materia` : `parola`} ${openStrong}${user_query}${closeStrong} ${area ? `nel catalogo ${openStrong}${AREA_LABELS[area] ?? area}${closeStrong}` : `in tutto il sito`}`;
+const buildAriaLabel = (user_query: string, area?: string, isSubject: boolean = false) => {
+  return `Cerca la ${isSubject ? `materia` : `parola`} ${user_query} ${area ? `nel catalogo ${AREA_LABELS[area] ?? area}` : `in tutto il sito`}`;
 };
 
 function findSubjectAreas(query: string, subjectsByArea: Record<string, string[]>): string[] {

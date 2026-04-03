@@ -236,6 +236,16 @@ export class ZanitSearchForm {
   }
 
   private renderSuggestions() {
+    const renderHeading = (label: string, key: string) => (
+      <span
+        key={key}
+        class="suggestion-head"
+        aria-hidden="true"
+      >
+        {label}
+      </span>
+    );
+
     return (
       <div
         class={{ 'suggestions-wrapper': true, 'hidden': !this.showSuggestions || !this.suggestions.length }}
@@ -248,18 +258,34 @@ export class ZanitSearchForm {
           aria-label="Seleziona tra i suggerimenti"
         >
           {this.suggestions.map((suggestion, k) => {
-            return (
+            const items = [];
+
+            if (k === 0) {
+              items.push(renderHeading('Cerca la parola', 'word-head'));
+            } else if (suggestion.subject && !this.suggestions[k - 1].subject) {
+              items.push(<z-divider aria-hidden="true" />);
+              items.push(renderHeading('Cerca la materia', 'subj-head'));
+            }
+
+            items.push(
               <span
                 key={k}
-                innerHTML={suggestion.html_label}
                 id={suggestion.id}
                 class="suggestion"
                 role="option"
-                aria-label={suggestion.label}
+                aria-label={suggestion.aria_label}
                 aria-selected={this.activeSuggestion === suggestion.id ? 'true' : undefined}
                 onClick={() => this.submitSuggestionSearch(suggestion)}
-              />
+              >
+                <z-icon name="left-magnifying-glass" />
+                <span
+                  aria-hidden="true"
+                  innerHTML={suggestion.label}
+                />
+              </span>
             );
+
+            return items;
           })}
         </div>
       </div>
