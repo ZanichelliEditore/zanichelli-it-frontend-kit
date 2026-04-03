@@ -236,6 +236,16 @@ export class ZanitSearchForm {
   }
 
   private renderSuggestions() {
+    const renderHeading = (label: string, key: string) => (
+      <span
+        key={key}
+        class="suggestion-head"
+        aria-hidden="true"
+      >
+        {label}
+      </span>
+    );
+
     return (
       <div
         class={{ 'suggestions-wrapper': true, 'hidden': !this.showSuggestions || !this.suggestions.length }}
@@ -251,26 +261,10 @@ export class ZanitSearchForm {
             const items = [];
 
             if (k === 0) {
-              items.push(
-                <span
-                  key="word-head"
-                  class="suggestion-head"
-                  aria-hidden="true"
-                >
-                  Cerca la parola
-                </span>
-              );
+              items.push(renderHeading('Cerca la parola', 'word-head'));
             } else if (suggestion.subject && !this.suggestions[k - 1].subject) {
               items.push(<z-divider aria-hidden="true" />);
-              items.push(
-                <span
-                  key="subj-head"
-                  class="suggestion-head"
-                  aria-hidden="true"
-                >
-                  Cerca la materia
-                </span>
-              );
+              items.push(renderHeading('Cerca la materia', 'subj-head'));
             }
 
             items.push(
