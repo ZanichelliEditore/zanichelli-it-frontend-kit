@@ -23,10 +23,12 @@ button {
   --closed-searchbar-width: calc((var(--searchbar-button-x-padding) * 2) + var(--searchbar-button-icon-width) + 1px);
 
   position: absolute;
+  z-index: 5;
   top: 0;
   right: 0;
   display: flex;
   width: var(--closed-searchbar-width);
+  height: 3rem;
   justify-content: flex-end;
   transition: width 0.4s ease-in-out;
 }
@@ -111,6 +113,72 @@ button {
   --z-icon-height: var(--searchbar-button-icon-width);
 }
 
+.suggestions-wrapper {
+  position: absolute;
+  z-index: 4;
+  top: 3rem;
+  left: 50%;
+  width: 100vw;
+  border-top: 1px solid var(--gray200);
+  margin-left: -50vw;
+  background: #fff;
+  box-shadow: var(--shadow-1);
+}
+
+.suggestions-wrapper.hidden {
+  display: none;
+}
+
+.suggestions {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--space-unit);
+  margin: 0 auto;
+}
+
+.suggestion-head {
+  padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  color: var(--gray700);
+  font-size: 0.875rem;
+  font-weight: var(--font-md);
+  line-height: 1.125rem;
+}
+
+.suggestion {
+  display: flex;
+  padding: calc(var(--space-unit) * 0.75) var(--space-unit);
+  color: var(--gray900);
+  cursor: pointer;
+  font-size: 1rem;
+  gap: var(--space-unit);
+  line-height: 1.5rem;
+}
+
+.suggestion:hover,
+.suggestion[aria-selected='true'] {
+  background: var(--gray100);
+}
+
+.suggestion strong {
+  font-weight: var(--font-bd);
+}
+
+.suggestion mark {
+  background-color: var(--red50);
+}
+
+.suggestion z-icon {
+  --z-icon-height: 1.125rem;
+
+  margin-top: 0.125rem;
+}
+
+.suggestions z-divider {
+  margin: var(--space-unit) 0;
+}
+
 @media (width < 1152px) {
   .searchbar .searchbar-button > .searchbar-button-label {
     display: none;
@@ -140,6 +208,10 @@ button {
   .searchbar .searchbar-button {
     padding: 8px var(--searchbar-button-x-padding);
   }
+
+  .suggestions {
+    padding: var(--space-unit) calc(var(--space-unit) * 2);
+  }
 }
 
 @media (width >= 1152px) {
@@ -151,5 +223,10 @@ button {
 @media (width >= 1366px) {
   .searchbar .searchbar-button {
     border-right: 1px solid #000;
+  }
+
+  .suggestions {
+    max-width: 1366px;
+    padding: var(--space-unit) calc(var(--space-unit) * 3);
   }
 }

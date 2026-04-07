@@ -1,6 +1,7 @@
 import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { MenubarItem, containsTarget, moveFocus } from '../../utils';
 import { Menu } from './menu/menu';
+import { SearchEnv } from '../../utils/subjects.api';
 
 /**
  * Main menubar component. Each item can have a menu with subitems
@@ -50,6 +51,12 @@ export class ZanitMenubar {
   /** Initial search query. */
   @Prop({ mutable: true })
   searchQuery: string | undefined = undefined;
+
+  /** Environment for search suggestions */
+  @Prop() searchEnv: SearchEnv = SearchEnv.PROD;
+
+  /** Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").  */
+  @Prop() searchArea?: string | undefined;
 
   private timerId: number;
 
@@ -460,6 +467,8 @@ export class ZanitMenubar {
           currentPath={this.currentPath}
           searchQuery={this.searchQuery}
           loading={this.loading}
+          searchArea={this.searchArea}
+          searchEnv={this.searchEnv}
         />
       );
     }
@@ -521,6 +530,8 @@ export class ZanitMenubar {
             </ul>
             <zanit-search-form
               searchQuery={this.searchQuery}
+              searchArea={this.searchArea}
+              searchEnv={this.searchEnv}
               onResetSearch={() => (this.searchQuery = undefined)}
             />
           </div>

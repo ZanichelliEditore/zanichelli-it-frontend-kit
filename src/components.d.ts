@@ -5,8 +5,10 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MenubarItem } from "./utils";
-export { MenubarItem } from "./utils";
+import { MenubarItem, SearchEvent } from "./utils";
+import { SearchEnv } from "./utils/subjects.api";
+export { MenubarItem, SearchEvent } from "./utils";
+export { SearchEnv } from "./utils/subjects.api";
 export namespace Components {
     /**
      * Back to top floating action button component.
@@ -40,6 +42,15 @@ export namespace Components {
          */
         "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv": SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
@@ -65,12 +76,30 @@ export namespace Components {
          */
         "loading": boolean;
         /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv": SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
         "searchQuery": string | undefined;
     }
     interface ZanitSearchForm {
+        /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv": SearchEnv;
         /**
           * Initial search query
           * @default undefined
@@ -114,7 +143,7 @@ declare global {
         new (): HTMLZanitMobileMenubarElement;
     };
     interface HTMLZanitSearchFormElementEventMap {
-        "search": { query: string };
+        "search": SearchEvent;
         "resetSearch": void;
     }
     interface HTMLZanitSearchFormElement extends Components.ZanitSearchForm, HTMLStencilElement {
@@ -171,6 +200,15 @@ declare namespace LocalJSX {
          */
         "data"?: Promise<MenubarItem[]> | MenubarItem[] | URL | string;
         /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv"?: SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
@@ -196,6 +234,15 @@ declare namespace LocalJSX {
          */
         "loading"?: boolean;
         /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv"?: SearchEnv;
+        /**
           * Initial search query.
           * @default undefined
          */
@@ -206,7 +253,16 @@ declare namespace LocalJSX {
         /**
           * Emitted on search form submission.
          */
-        "onSearch"?: (event: ZanitSearchFormCustomEvent<{ query: string }>) => void;
+        "onSearch"?: (event: ZanitSearchFormCustomEvent<SearchEvent>) => void;
+        /**
+          * Search area (e.g. "SCUOLA", "UNIVERSITÀ", "DIZIONARI").
+         */
+        "searchArea"?: string | undefined;
+        /**
+          * Environment for search suggestions
+          * @default SearchEnv.PROD
+         */
+        "searchEnv"?: SearchEnv;
         /**
           * Initial search query
           * @default undefined

@@ -11,3 +11,10 @@ export type MenubarItem = Omit<MenuItem, 'group' | 'highlight'> & {
   navbarItems?: MenubarItem[];
   menuItems?: MenuItem[];
 };
+
+export type SearchEvent = {
+  query?: string;
+  area?: string;
+  subject?: string;
+  user_query?: string;
+}
