@@ -1,4 +1,16 @@
-import { Component, ComponentInterface, Element, Event, EventEmitter, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import {
+  Component,
+  ComponentInterface,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  State,
+  Watch,
+} from '@stencil/core';
 import { containsTarget, isArrowDownKey, isArrowUpKey, isEscKey, isTabKey, SearchEvent } from '../../../utils';
 import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
 import { buildSuggestions, SearchSuggestion } from './suggestions';
@@ -81,7 +93,7 @@ export class ZanitSearchForm implements ComponentInterface {
   }
 
   /** Close open searchbar when clicking outside. */
-  @Listen('click', { target: 'document', passive: true })
+  @Listen('mousedown', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
     if (this.showSearchbar && this.host && !containsTarget(this.host, event)) {
       this.showSearchbar = false;
