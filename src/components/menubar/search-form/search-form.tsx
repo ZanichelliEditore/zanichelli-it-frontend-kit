@@ -66,6 +66,8 @@ export class ZanitSearchForm {
   @Watch('showSuggestions')
   onShowSuggestionsChange() {
     this.activeSuggestion = '';
+
+    document.body.style.overflowX = this.showSuggestions ? 'hidden' : 'initial';
   }
 
   /** Emitted on search form submission. */
