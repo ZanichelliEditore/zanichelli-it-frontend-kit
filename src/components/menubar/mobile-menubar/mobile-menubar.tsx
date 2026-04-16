@@ -1,8 +1,7 @@
-import { Component, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
-import { MenubarItem, MenuItem } from '../../../utils';
-import { Menu } from '../menu/menu';
-import { containsTarget, moveFocus } from '../../../utils';
+import { Component, ComponentInterface, Element, h, Listen, Prop, State, Watch } from '@stencil/core';
+import { containsTarget, MenubarItem, MenuItem, moveFocus } from '../../../utils';
 import { SearchEnv } from '../../../utils/subjects.api';
+import { Menu } from '../menu/menu';
 
 /** Mobile menubar component. */
 @Component({
@@ -12,7 +11,7 @@ import { SearchEnv } from '../../../utils/subjects.api';
     delegatesFocus: true,
   },
 })
-export class ZanitMobileMenubar {
+export class ZanitMobileMenubar implements ComponentInterface {
   @Element() host: HTMLZanitMobileMenubarElement;
 
   /** IDs path of the current item. */
@@ -39,7 +38,7 @@ export class ZanitMobileMenubar {
   @State() menuItems: MenubarItem[] | MenuItem[] | undefined = undefined;
   /** Whether the items to render come from a menubar or a menu. */
   @State() menuType: 'menubar' | 'menu' | undefined = undefined;
-  @State() open: boolean;
+  @State() open: boolean = false;
 
   @Watch('items')
   @Watch('currentPath')

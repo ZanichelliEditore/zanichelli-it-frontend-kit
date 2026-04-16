@@ -21,5 +21,6 @@
   "stylelint.validate": ["css"],
   "stylelint.reportDescriptionlessDisables": true,
   "stylelint.reportInvalidScopeDisables": true,
-  "stylelint.reportNeedlessDisables": true
+  "stylelint.reportNeedlessDisables": true,
+  "js/ts.tsdk.path": "node_modules/typescript/lib"
 }

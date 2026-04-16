@@ -16,10 +16,10 @@
 
 ## Events
 
-| Event         | Description                        | Type                                                                                     |
-| ------------- | ---------------------------------- | ---------------------------------------------------------------------------------------- |
-| `resetSearch` |                                    | `CustomEvent<void>`                                                                      |
-| `search`      | Emitted on search form submission. | `CustomEvent<{ query?: string; area?: string; subject?: string; user_query?: string; }>` |
+| Event         | Description                                                                             | Type                                                                                     |
+| ------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `resetSearch` | Emitted when the search query is reset by the user (e.g. by clicking the reset button). | `CustomEvent<void>`                                                                      |
+| `search`      | Emitted on search form submission.                                                      | `CustomEvent<{ query?: string; area?: string; subject?: string; user_query?: string; }>` |
 
 
 ## Dependencies

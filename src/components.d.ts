@@ -249,6 +249,9 @@ declare namespace LocalJSX {
         "searchQuery"?: string | undefined;
     }
     interface ZanitSearchForm {
+        /**
+          * Emitted when the search query is reset by the user (e.g. by clicking the reset button).
+         */
         "onResetSearch"?: (event: ZanitSearchFormCustomEvent<void>) => void;
         /**
           * Emitted on search form submission.
@@ -269,11 +272,35 @@ declare namespace LocalJSX {
          */
         "searchQuery"?: string | undefined;
     }
+
+    interface ZanitBackToTopAttributes {
+        "pageMinHeight": number;
+        "scrollMinHeight": number;
+    }
+    interface ZanitMenubarAttributes {
+        "data": Promise<MenubarItem[]> | MenubarItem[] | URL | string;
+        "current": string | undefined;
+        "searchQuery": string | undefined;
+        "searchEnv": SearchEnv;
+        "searchArea": string | undefined;
+    }
+    interface ZanitMobileMenubarAttributes {
+        "searchQuery": string | undefined;
+        "loading": boolean;
+        "searchEnv": SearchEnv;
+        "searchArea": string | undefined;
+    }
+    interface ZanitSearchFormAttributes {
+        "searchQuery": string | undefined;
+        "searchEnv": SearchEnv;
+        "searchArea": string | undefined;
+    }
+
     interface IntrinsicElements {
-        "zanit-back-to-top": ZanitBackToTop;
-        "zanit-menubar": ZanitMenubar;
-        "zanit-mobile-menubar": ZanitMobileMenubar;
-        "zanit-search-form": ZanitSearchForm;
+        "zanit-back-to-top": Omit<ZanitBackToTop, keyof ZanitBackToTopAttributes> & { [K in keyof ZanitBackToTop & keyof ZanitBackToTopAttributes]?: ZanitBackToTop[K] } & { [K in keyof ZanitBackToTop & keyof ZanitBackToTopAttributes as `attr:${K}`]?: ZanitBackToTopAttributes[K] } & { [K in keyof ZanitBackToTop & keyof ZanitBackToTopAttributes as `prop:${K}`]?: ZanitBackToTop[K] };
+        "zanit-menubar": Omit<ZanitMenubar, keyof ZanitMenubarAttributes> & { [K in keyof ZanitMenubar & keyof ZanitMenubarAttributes]?: ZanitMenubar[K] } & { [K in keyof ZanitMenubar & keyof ZanitMenubarAttributes as `attr:${K}`]?: ZanitMenubarAttributes[K] } & { [K in keyof ZanitMenubar & keyof ZanitMenubarAttributes as `prop:${K}`]?: ZanitMenubar[K] };
+        "zanit-mobile-menubar": Omit<ZanitMobileMenubar, keyof ZanitMobileMenubarAttributes> & { [K in keyof ZanitMobileMenubar & keyof ZanitMobileMenubarAttributes]?: ZanitMobileMenubar[K] } & { [K in keyof ZanitMobileMenubar & keyof ZanitMobileMenubarAttributes as `attr:${K}`]?: ZanitMobileMenubarAttributes[K] } & { [K in keyof ZanitMobileMenubar & keyof ZanitMobileMenubarAttributes as `prop:${K}`]?: ZanitMobileMenubar[K] };
+        "zanit-search-form": Omit<ZanitSearchForm, keyof ZanitSearchFormAttributes> & { [K in keyof ZanitSearchForm & keyof ZanitSearchFormAttributes]?: ZanitSearchForm[K] } & { [K in keyof ZanitSearchForm & keyof ZanitSearchFormAttributes as `attr:${K}`]?: ZanitSearchFormAttributes[K] } & { [K in keyof ZanitSearchForm & keyof ZanitSearchFormAttributes as `prop:${K}`]?: ZanitSearchForm[K] };
     }
 }
 export { LocalJSX as JSX };
@@ -284,18 +311,18 @@ declare module "@stencil/core" {
              * Back to top floating action button component.
              * Appears on scroll, given a min height for both scroll height and page height.
              */
-            "zanit-back-to-top": LocalJSX.ZanitBackToTop & JSXBase.HTMLAttributes<HTMLZanitBackToTopElement>;
+            "zanit-back-to-top": LocalJSX.IntrinsicElements["zanit-back-to-top"] & JSXBase.HTMLAttributes<HTMLZanitBackToTopElement>;
             /**
              * Main menubar component. Each item can have a menu with subitems
              * When a main menubar item is the current active one, a sub-menubar is shown and each subitem can have a menu with subitems.
              * @cssprop {--zanit-menubar-max-width} Maximum width of the menubar.
              */
-            "zanit-menubar": LocalJSX.ZanitMenubar & JSXBase.HTMLAttributes<HTMLZanitMenubarElement>;
+            "zanit-menubar": LocalJSX.IntrinsicElements["zanit-menubar"] & JSXBase.HTMLAttributes<HTMLZanitMenubarElement>;
             /**
              * Mobile menubar component.
              */
-            "zanit-mobile-menubar": LocalJSX.ZanitMobileMenubar & JSXBase.HTMLAttributes<HTMLZanitMobileMenubarElement>;
-            "zanit-search-form": LocalJSX.ZanitSearchForm & JSXBase.HTMLAttributes<HTMLZanitSearchFormElement>;
+            "zanit-mobile-menubar": LocalJSX.IntrinsicElements["zanit-mobile-menubar"] & JSXBase.HTMLAttributes<HTMLZanitMobileMenubarElement>;
+            "zanit-search-form": LocalJSX.IntrinsicElements["zanit-search-form"] & JSXBase.HTMLAttributes<HTMLZanitSearchFormElement>;
         }
     }
 }

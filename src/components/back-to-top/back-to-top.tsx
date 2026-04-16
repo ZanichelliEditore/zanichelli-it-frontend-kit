@@ -1,4 +1,4 @@
-import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core';
+import { Component, ComponentInterface, Element, Host, Listen, Prop, State, h } from '@stencil/core';
 
 /**
  * Back to top floating action button component.
@@ -10,7 +10,7 @@ import { Component, Element, Host, Listen, Prop, State, h } from '@stencil/core'
   shadow: false,
   scoped: true,
 })
-export class ZanitBackTop {
+export class ZanitBackTop implements ComponentInterface {
   private resizeObserver: ResizeObserver;
   private mutationObserver: MutationObserver;
 
