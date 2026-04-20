@@ -80,7 +80,7 @@ const buildId = (string: string) =>
     .join('');
 
 const buildUrl = (params: Record<string, string>): string => {
-  return `ricerca?${new URLSearchParams(params).toString()}`;
+  return `/ricerca?${new URLSearchParams(params).toString()}`;
 };
 
 const buildDetail = (user_query: string, query?: string, area?: string, subject?: string) => ({
