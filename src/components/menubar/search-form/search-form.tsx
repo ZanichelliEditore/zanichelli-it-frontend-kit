@@ -1,4 +1,16 @@
-import { Component, Element, Event, EventEmitter, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import {
+  Component,
+  ComponentInterface,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  State,
+  Watch,
+} from '@stencil/core';
 import { containsTarget, isArrowDownKey, isArrowUpKey, isEscKey, isTabKey, SearchEvent } from '../../../utils';
 import { getSubjectsByArea, SearchEnv } from '../../../utils/subjects.api';
 import { buildSuggestions, SearchSuggestion } from './suggestions';
@@ -8,7 +20,7 @@ import { buildSuggestions, SearchSuggestion } from './suggestions';
   styleUrl: 'search-form.css',
   shadow: true,
 })
-export class ZanitSearchForm {
+export class ZanitSearchForm implements ComponentInterface {
   private formElement: HTMLFormElement;
   private subjectsByArea: Record<string, string[]> = {};
   private timer: NodeJS.Timeout;
@@ -71,6 +83,7 @@ export class ZanitSearchForm {
   /** Emitted on search form submission. */
   @Event({ cancelable: true }) search: EventEmitter<SearchEvent>;
 
+  /** Emitted when the search query is reset by the user (e.g. by clicking the reset button). */
   @Event() resetSearch: EventEmitter<void>;
 
   async connectedCallback() {
@@ -80,7 +93,7 @@ export class ZanitSearchForm {
   }
 
   /** Close open searchbar when clicking outside. */
-  @Listen('click', { target: 'document', passive: true })
+  @Listen('mousedown', { target: 'document', passive: true })
   handleOutsideClick(event: MouseEvent) {
     if (this.showSearchbar && this.host && !containsTarget(this.host, event)) {
       this.showSearchbar = false;

@@ -1,7 +1,7 @@
-import { Component, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
+import { Component, ComponentInterface, Element, Fragment, Listen, Prop, State, Watch, h } from '@stencil/core';
 import { MenubarItem, containsTarget, moveFocus } from '../../utils';
-import { Menu } from './menu/menu';
 import { SearchEnv } from '../../utils/subjects.api';
+import { Menu } from './menu/menu';
 
 /**
  * Main menubar component. Each item can have a menu with subitems
@@ -15,7 +15,7 @@ import { SearchEnv } from '../../utils/subjects.api';
     delegatesFocus: true,
   },
 })
-export class ZanitMenubar {
+export class ZanitMenubar implements ComponentInterface {
   @Element() host: HTMLZanitMenubarElement;
 
   /** Menubar items extracted from `data`. */

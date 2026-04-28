@@ -50,10 +50,11 @@
     "@zanichelli/albe-web-components": "^18.3.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.28.0",
-    "@stencil/core": "^4.33.1",
+    "@eslint/js": "^9.39.4",
+    "@stencil/core": "^4.43.4",
+    "@stencil/eslint-plugin": "^1.2.0",
     "@types/node": "^22.13.5",
-    "eslint": "^9.28.0",
+    "eslint": "^9.39.4",
     "prettier": "3.5.3",
     "stylelint": "^16.19.1",
     "stylelint-config-idiomatic-order": "^10.0.0",
