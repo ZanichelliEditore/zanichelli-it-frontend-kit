@@ -330,17 +330,16 @@ export class ZanitSearchForm implements ComponentInterface {
             class="input-wrapper"
             role="none"
           >
-            {this.searchQuery && (
-              <button
-                type="reset"
-                aria-label="Svuota campo di ricerca"
-                disabled={!this.showSearchbar}
-                aria-hidden={!this.showSearchbar ? 'true' : undefined}
-                tabIndex={!this.showSearchbar ? -1 : 0}
-              >
-                <z-icon name="multiply-circled" />
-              </button>
-            )}
+            <button
+              type="reset"
+              class={{ 'reset-button-hidden': !this.searchQuery }}
+              aria-label="Svuota campo di ricerca"
+              disabled={!this.showSearchbar}
+              aria-hidden={!this.showSearchbar ? 'true' : undefined}
+              tabIndex={!this.showSearchbar ? -1 : 0}
+            >
+              <z-icon name="multiply-circled" />
+            </button>
             <input
               id="searchbar-input"
               name="q"
