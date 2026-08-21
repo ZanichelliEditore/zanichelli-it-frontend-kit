@@ -96,6 +96,7 @@ button {
   align-items: center;
   justify-content: center;
   padding: 10px var(--searchbar-button-x-padding);
+  border-bottom: 1px solid #000;
   border-left: 1px solid #000;
   background: var(--zanit-accent-color);
   font-family: inherit;
